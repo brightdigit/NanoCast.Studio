@@ -30,8 +30,10 @@ public class RecordingSessionObject: NSObject, ObservableObject, AVAudioRecorder
   @Published var recoderResult : Result<AVAudioRecorder, Error>?
   @Published var playerResult : Result<AVAudioPlayer, Error>?
   
-  var cancellables = [AnyCancellable]()
+  @Published var currentTime = 0.0
   
+  var cancellables = [AnyCancellable]()
+  var observer : NSObjectProtocol?
   var tempFileURL : URL
   
   static func nextAudioURL () -> URL {
@@ -47,6 +49,11 @@ public class RecordingSessionObject: NSObject, ObservableObject, AVAudioRecorder
     super.init()
     let categoryPublisher = session.publisher(for: \.category)
     let permissionPublisher = session.publisher(for: \.recordPermission)
+    
+    
+    self.$recoderResult.map{ try? $0?.get().currentTime }.replaceNil(with: 0.0).receive(on: DispatchQueue.main).sink {
+      self.currentTime = $0
+    }.store(in: &cancellables)
     
     let permissionPublisherMain = permissionPublisher.receive(on: DispatchQueue.main)
     
@@ -110,6 +117,7 @@ public class RecordingSessionObject: NSObject, ObservableObject, AVAudioRecorder
       }
     case .success(let recorder):
       recorder.stop()
+      
       self.recoderResult = nil
     default:
       return
@@ -121,6 +129,10 @@ public class RecordingSessionObject: NSObject, ObservableObject, AVAudioRecorder
     if self.playerResult  == nil {
     let playerResult = Result{ () -> AVAudioPlayer in
       let player = try AVAudioPlayer(contentsOf: self.tempFileURL)
+      self.observer = self.session.observe(\.outputVolume) { (session, _) in
+        player.volume = session.outputVolume
+        print("Output volume: \(session.outputVolume)")
+      }
       player.delegate = self
       player.play()
       return player
