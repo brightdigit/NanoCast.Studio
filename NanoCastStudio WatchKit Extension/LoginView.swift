@@ -7,9 +7,40 @@
 
 import SwiftUI
 
+struct UserAttributes : Codable {
+  let name : String
+}
+
+struct UserData : Codable {
+  let attributes : UserAttributes
+}
+
+struct UserResponse : Codable {
+  let data : UserData
+}
+
 struct LoginView: View {
+  @EnvironmentObject var transistor : TransistorObject
+  var statusImage : some View {
+    Group {
+      self.transistor.userResult.map {
+        switch $0 {
+        case .success:
+          return "checkmark"
+        case .failure:
+          return "exclamationmark"
+        }
+      }.map(Image.init(systemName:))
+    }
+  }
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+      VStack{
+        TextField("API Key", text: $transistor.apiKey)
+        Button("Sign in") {
+          self.transistor.beginSignin()
+        }
+        self.statusImage
+      }
     }
 }
 
