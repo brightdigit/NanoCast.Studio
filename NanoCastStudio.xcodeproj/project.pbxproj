@@ -26,6 +26,9 @@
 		B365F6F824ECBFD10041DDD1 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B365F6F524ECBFD10041DDD1 /* Media.xcassets */; };
 		B36690A124ED9C3600FCFE9D /* VolumeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36690A024ED9C3600FCFE9D /* VolumeView.swift */; };
 		B36690A324ED9CB300FCFE9D /* AVAudioSession.RecordPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36690A224ED9CB300FCFE9D /* AVAudioSession.RecordPermission.swift */; };
+		B36690A524ED9E9300FCFE9D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36690A424ED9E9300FCFE9D /* ContentView.swift */; };
+		B36690A724ED9EA500FCFE9D /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36690A624ED9EA500FCFE9D /* LoginView.swift */; };
+		B36690A924EDA10700FCFE9D /* TransistorObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36690A824EDA10700FCFE9D /* TransistorObject.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -94,6 +97,9 @@
 		B365F6F524ECBFD10041DDD1 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		B36690A024ED9C3600FCFE9D /* VolumeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VolumeView.swift; sourceTree = "<group>"; };
 		B36690A224ED9CB300FCFE9D /* AVAudioSession.RecordPermission.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AVAudioSession.RecordPermission.swift; sourceTree = "<group>"; };
+		B36690A424ED9E9300FCFE9D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		B36690A624ED9EA500FCFE9D /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		B36690A824EDA10700FCFE9D /* TransistorObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransistorObject.swift; sourceTree = "<group>"; };
 		B3B7D56124ECC3DF0015D6C5 /* NanoCastStudio WatchKit App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "NanoCastStudio WatchKit App.entitlements"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -181,6 +187,9 @@
 				B3480E8A24ECB42500A51B13 /* ComplicationController.swift */,
 				B3480E9124ECB42700A51B13 /* Info.plist */,
 				B3480E8E24ECB42700A51B13 /* Preview Content */,
+				B36690A424ED9E9300FCFE9D /* ContentView.swift */,
+				B36690A624ED9EA500FCFE9D /* LoginView.swift */,
+				B36690A824EDA10700FCFE9D /* TransistorObject.swift */,
 			);
 			path = "NanoCastStudio WatchKit Extension";
 			sourceTree = "<group>";
@@ -336,7 +345,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				B3480E8724ECB42500A51B13 /* RecodingView.swift in Sources */,
+				B36690A924EDA10700FCFE9D /* TransistorObject.swift in Sources */,
 				B3480E8B24ECB42500A51B13 /* ComplicationController.swift in Sources */,
+				B36690A524ED9E9300FCFE9D /* ContentView.swift in Sources */,
+				B36690A724ED9EA500FCFE9D /* LoginView.swift in Sources */,
 				B3480E8524ECB42500A51B13 /* HostingController.swift in Sources */,
 				B3480E8924ECB42500A51B13 /* ExtensionDelegate.swift in Sources */,
 				B36690A124ED9C3600FCFE9D /* VolumeView.swift in Sources */,
