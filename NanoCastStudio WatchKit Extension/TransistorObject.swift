@@ -28,6 +28,39 @@ public class TransistorObject : ObservableObject {
   @Published var apiKey = ProcessInfo.processInfo.environment["TRANSISTORFM_API_KEY"] ?? ""
   @Published var userResult : Result<UserData, Error>?
   
+  init () {
+    let keychainAccessGroupName = "MLT7M394S7.com.brightdigit.NanoCastStudio"
+    let itemKey = "TRANSISTORFM_API_KEY"
+    let queryLoad: [String: AnyObject] = [
+      kSecClass as String: kSecClassGenericPassword,
+      kSecAttrAccount as String: itemKey as AnyObject,
+      kSecReturnData as String: kCFBooleanTrue,
+      kSecMatchLimit as String: kSecMatchLimitOne,
+      kSecAttrAccessGroup as String: keychainAccessGroupName as AnyObject
+    ]
+    
+    var result: AnyObject?
+
+    let resultCodeLoad = withUnsafeMutablePointer(to: &result) {
+      SecItemCopyMatching(queryLoad as CFDictionary, UnsafeMutablePointer($0))
+    }
+    
+    if resultCodeLoad == noErr {
+      if let result = result as? Data,
+        let keyValue = NSString(data: result,
+                                encoding: String.Encoding.utf8.rawValue) as String? {
+
+        // Found successfully
+        print(keyValue)
+      }
+    } else {
+      let errorMessage =
+        SecCopyErrorMessageString(resultCodeLoad, nil)
+      
+      
+      print("Error loading from Keychain: \(errorMessage)")
+    }
+  }
   func beginSignin () {
     let decoder = JSONDecoder()
     let url = URL(string: "https://api.transistor.fm/v1?fields[user][]=name")!
