@@ -29,6 +29,15 @@
 		B36690A524ED9E9300FCFE9D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36690A424ED9E9300FCFE9D /* ContentView.swift */; };
 		B36690A724ED9EA500FCFE9D /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36690A624ED9EA500FCFE9D /* LoginView.swift */; };
 		B36690A924EDA10700FCFE9D /* TransistorObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36690A824EDA10700FCFE9D /* TransistorObject.swift */; };
+		B36690AA24EDC7CF00FCFE9D /* TransistorObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36690A824EDA10700FCFE9D /* TransistorObject.swift */; };
+		B36690AE24EDC83C00FCFE9D /* UserAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36690AB24EDC83C00FCFE9D /* UserAttributes.swift */; };
+		B36690AF24EDC83C00FCFE9D /* UserAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36690AB24EDC83C00FCFE9D /* UserAttributes.swift */; };
+		B36690B024EDC83C00FCFE9D /* UserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36690AC24EDC83C00FCFE9D /* UserResponse.swift */; };
+		B36690B124EDC83C00FCFE9D /* UserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36690AC24EDC83C00FCFE9D /* UserResponse.swift */; };
+		B36690B224EDC83C00FCFE9D /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36690AD24EDC83C00FCFE9D /* UserData.swift */; };
+		B36690B324EDC83C00FCFE9D /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36690AD24EDC83C00FCFE9D /* UserData.swift */; };
+		B36690B524EDDE6600FCFE9D /* KeychainObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36690B424EDDE6600FCFE9D /* KeychainObject.swift */; };
+		B36690B624EDDE6600FCFE9D /* KeychainObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36690B424EDDE6600FCFE9D /* KeychainObject.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -100,6 +109,10 @@
 		B36690A424ED9E9300FCFE9D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B36690A624ED9EA500FCFE9D /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		B36690A824EDA10700FCFE9D /* TransistorObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransistorObject.swift; sourceTree = "<group>"; };
+		B36690AB24EDC83C00FCFE9D /* UserAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAttributes.swift; sourceTree = "<group>"; };
+		B36690AC24EDC83C00FCFE9D /* UserResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserResponse.swift; sourceTree = "<group>"; };
+		B36690AD24EDC83C00FCFE9D /* UserData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
+		B36690B424EDDE6600FCFE9D /* KeychainObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainObject.swift; sourceTree = "<group>"; };
 		B3B7D56124ECC3DF0015D6C5 /* NanoCastStudio WatchKit App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "NanoCastStudio WatchKit App.entitlements"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -148,6 +161,9 @@
 				B365F6ED24ECB6490041DDD1 /* NanoCastStudio.entitlements */,
 				B3480E5F24ECB42000A51B13 /* AppDelegate.swift */,
 				B3480E6124ECB42000A51B13 /* SceneDelegate.swift */,
+				B36690AB24EDC83C00FCFE9D /* UserAttributes.swift */,
+				B36690AD24EDC83C00FCFE9D /* UserData.swift */,
+				B36690AC24EDC83C00FCFE9D /* UserResponse.swift */,
 				B3480E6324ECB42000A51B13 /* ContentView.swift */,
 				B3480E6A24ECB42300A51B13 /* LaunchScreen.storyboard */,
 				B3480E6D24ECB42300A51B13 /* Info.plist */,
@@ -190,6 +206,7 @@
 				B36690A424ED9E9300FCFE9D /* ContentView.swift */,
 				B36690A624ED9EA500FCFE9D /* LoginView.swift */,
 				B36690A824EDA10700FCFE9D /* TransistorObject.swift */,
+				B36690B424EDDE6600FCFE9D /* KeychainObject.swift */,
 			);
 			path = "NanoCastStudio WatchKit Extension";
 			sourceTree = "<group>";
@@ -335,8 +352,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				B3480E6024ECB42000A51B13 /* AppDelegate.swift in Sources */,
+				B36690AA24EDC7CF00FCFE9D /* TransistorObject.swift in Sources */,
+				B36690B524EDDE6600FCFE9D /* KeychainObject.swift in Sources */,
+				B36690B224EDC83C00FCFE9D /* UserData.swift in Sources */,
+				B36690AE24EDC83C00FCFE9D /* UserAttributes.swift in Sources */,
 				B3480E6224ECB42000A51B13 /* SceneDelegate.swift in Sources */,
 				B3480E6424ECB42000A51B13 /* ContentView.swift in Sources */,
+				B36690B024EDC83C00FCFE9D /* UserResponse.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -344,16 +366,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B36690B324EDC83C00FCFE9D /* UserData.swift in Sources */,
 				B3480E8724ECB42500A51B13 /* RecodingView.swift in Sources */,
+				B36690B624EDDE6600FCFE9D /* KeychainObject.swift in Sources */,
 				B36690A924EDA10700FCFE9D /* TransistorObject.swift in Sources */,
 				B3480E8B24ECB42500A51B13 /* ComplicationController.swift in Sources */,
 				B36690A524ED9E9300FCFE9D /* ContentView.swift in Sources */,
 				B36690A724ED9EA500FCFE9D /* LoginView.swift in Sources */,
 				B3480E8524ECB42500A51B13 /* HostingController.swift in Sources */,
 				B3480E8924ECB42500A51B13 /* ExtensionDelegate.swift in Sources */,
+				B36690AF24EDC83C00FCFE9D /* UserAttributes.swift in Sources */,
 				B36690A124ED9C3600FCFE9D /* VolumeView.swift in Sources */,
 				B36690A324ED9CB300FCFE9D /* AVAudioSession.RecordPermission.swift in Sources */,
 				B365F6F424ECB9490041DDD1 /* RecordingSessionObject.swift in Sources */,
+				B36690B124EDC83C00FCFE9D /* UserResponse.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

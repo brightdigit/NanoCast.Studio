@@ -8,9 +8,17 @@
 import SwiftUI
 
 struct ContentView: View {
+  @EnvironmentObject var transistor: TransistorObject
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+      NavigationView(content: {
+        VStack{
+          TextField("API Key", text: $transistor.apiKey)
+        NavigationLink(destination: Text("Destination"))
+        {
+          Text("Navigate")
+        }
+        }
+      })
     }
 }
 

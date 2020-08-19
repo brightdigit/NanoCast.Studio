@@ -7,17 +7,6 @@
 
 import SwiftUI
 
-struct UserAttributes : Codable {
-  let name : String
-}
-
-struct UserData : Codable {
-  let attributes : UserAttributes
-}
-
-struct UserResponse : Codable {
-  let data : UserData
-}
 
 struct LoginView: View {
   @EnvironmentObject var transistor : TransistorObject
