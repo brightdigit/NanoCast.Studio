@@ -1,0 +1,667 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B3480E6024ECB42000A51B13 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3480E5F24ECB42000A51B13 /* AppDelegate.swift */; };
+		B3480E6224ECB42000A51B13 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3480E6124ECB42000A51B13 /* SceneDelegate.swift */; };
+		B3480E6424ECB42000A51B13 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3480E6324ECB42000A51B13 /* ContentView.swift */; };
+		B3480E6924ECB42300A51B13 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B3480E6824ECB42300A51B13 /* Preview Assets.xcassets */; };
+		B3480E6C24ECB42300A51B13 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B3480E6A24ECB42300A51B13 /* LaunchScreen.storyboard */; };
+		B3480E7124ECB42300A51B13 /* NanoCastStudio WatchKit App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = B3480E7024ECB42300A51B13 /* NanoCastStudio WatchKit App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		B3480E7724ECB42300A51B13 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B3480E7524ECB42300A51B13 /* Interface.storyboard */; };
+		B3480E8024ECB42500A51B13 /* NanoCastStudio WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = B3480E7F24ECB42500A51B13 /* NanoCastStudio WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		B3480E8524ECB42500A51B13 /* HostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3480E8424ECB42500A51B13 /* HostingController.swift */; };
+		B3480E8724ECB42500A51B13 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3480E8624ECB42500A51B13 /* ContentView.swift */; };
+		B3480E8924ECB42500A51B13 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3480E8824ECB42500A51B13 /* ExtensionDelegate.swift */; };
+		B3480E8B24ECB42500A51B13 /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3480E8A24ECB42500A51B13 /* ComplicationController.swift */; };
+		B3480E9024ECB42700A51B13 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B3480E8F24ECB42700A51B13 /* Preview Assets.xcassets */; };
+		B365F6F424ECB9490041DDD1 /* RecordingSessionObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = B365F6F324ECB9490041DDD1 /* RecordingSessionObject.swift */; };
+		B365F6F624ECBFD10041DDD1 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B365F6F524ECBFD10041DDD1 /* Media.xcassets */; };
+		B365F6F724ECBFD10041DDD1 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B365F6F524ECBFD10041DDD1 /* Media.xcassets */; };
+		B365F6F824ECBFD10041DDD1 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B365F6F524ECBFD10041DDD1 /* Media.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		B3480E7224ECB42300A51B13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B3480E5424ECB42000A51B13 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B3480E6F24ECB42300A51B13;
+			remoteInfo = "NanoCastStudio WatchKit App";
+		};
+		B3480E8124ECB42500A51B13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B3480E5424ECB42000A51B13 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B3480E7E24ECB42500A51B13;
+			remoteInfo = "NanoCastStudio WatchKit Extension";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		B3480E9724ECB42700A51B13 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				B3480E8024ECB42500A51B13 /* NanoCastStudio WatchKit Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B3480E9B24ECB42700A51B13 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				B3480E7124ECB42300A51B13 /* NanoCastStudio WatchKit App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		B3480E5C24ECB42000A51B13 /* NanoCastStudio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NanoCastStudio.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B3480E5F24ECB42000A51B13 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		B3480E6124ECB42000A51B13 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		B3480E6324ECB42000A51B13 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		B3480E6824ECB42300A51B13 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		B3480E6B24ECB42300A51B13 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		B3480E6D24ECB42300A51B13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B3480E7024ECB42300A51B13 /* NanoCastStudio WatchKit App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "NanoCastStudio WatchKit App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B3480E7624ECB42300A51B13 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
+		B3480E7A24ECB42500A51B13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B3480E7F24ECB42500A51B13 /* NanoCastStudio WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "NanoCastStudio WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B3480E8424ECB42500A51B13 /* HostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostingController.swift; sourceTree = "<group>"; };
+		B3480E8624ECB42500A51B13 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		B3480E8824ECB42500A51B13 /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
+		B3480E8A24ECB42500A51B13 /* ComplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
+		B3480E8F24ECB42700A51B13 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		B3480E9124ECB42700A51B13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B365F6ED24ECB6490041DDD1 /* NanoCastStudio.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NanoCastStudio.entitlements; sourceTree = "<group>"; };
+		B365F6EE24ECB6770041DDD1 /* NanoCastStudio WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "NanoCastStudio WatchKit Extension.entitlements"; sourceTree = "<group>"; };
+		B365F6F324ECB9490041DDD1 /* RecordingSessionObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordingSessionObject.swift; sourceTree = "<group>"; };
+		B365F6F524ECBFD10041DDD1 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		B3480E5924ECB42000A51B13 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B3480E7C24ECB42500A51B13 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		B3480E5324ECB42000A51B13 = {
+			isa = PBXGroup;
+			children = (
+				B365F6F524ECBFD10041DDD1 /* Media.xcassets */,
+				B3480E5E24ECB42000A51B13 /* NanoCastStudio */,
+				B3480E7424ECB42300A51B13 /* NanoCastStudio WatchKit App */,
+				B3480E8324ECB42500A51B13 /* NanoCastStudio WatchKit Extension */,
+				B3480E5D24ECB42000A51B13 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		B3480E5D24ECB42000A51B13 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B3480E5C24ECB42000A51B13 /* NanoCastStudio.app */,
+				B3480E7024ECB42300A51B13 /* NanoCastStudio WatchKit App.app */,
+				B3480E7F24ECB42500A51B13 /* NanoCastStudio WatchKit Extension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B3480E5E24ECB42000A51B13 /* NanoCastStudio */ = {
+			isa = PBXGroup;
+			children = (
+				B365F6ED24ECB6490041DDD1 /* NanoCastStudio.entitlements */,
+				B3480E5F24ECB42000A51B13 /* AppDelegate.swift */,
+				B3480E6124ECB42000A51B13 /* SceneDelegate.swift */,
+				B3480E6324ECB42000A51B13 /* ContentView.swift */,
+				B3480E6A24ECB42300A51B13 /* LaunchScreen.storyboard */,
+				B3480E6D24ECB42300A51B13 /* Info.plist */,
+				B3480E6724ECB42300A51B13 /* Preview Content */,
+			);
+			path = NanoCastStudio;
+			sourceTree = "<group>";
+		};
+		B3480E6724ECB42300A51B13 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				B3480E6824ECB42300A51B13 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		B3480E7424ECB42300A51B13 /* NanoCastStudio WatchKit App */ = {
+			isa = PBXGroup;
+			children = (
+				B3480E7524ECB42300A51B13 /* Interface.storyboard */,
+				B3480E7A24ECB42500A51B13 /* Info.plist */,
+			);
+			path = "NanoCastStudio WatchKit App";
+			sourceTree = "<group>";
+		};
+		B3480E8324ECB42500A51B13 /* NanoCastStudio WatchKit Extension */ = {
+			isa = PBXGroup;
+			children = (
+				B365F6EE24ECB6770041DDD1 /* NanoCastStudio WatchKit Extension.entitlements */,
+				B365F6F324ECB9490041DDD1 /* RecordingSessionObject.swift */,
+				B3480E8424ECB42500A51B13 /* HostingController.swift */,
+				B3480E8624ECB42500A51B13 /* ContentView.swift */,
+				B3480E8824ECB42500A51B13 /* ExtensionDelegate.swift */,
+				B3480E8A24ECB42500A51B13 /* ComplicationController.swift */,
+				B3480E9124ECB42700A51B13 /* Info.plist */,
+				B3480E8E24ECB42700A51B13 /* Preview Content */,
+			);
+			path = "NanoCastStudio WatchKit Extension";
+			sourceTree = "<group>";
+		};
+		B3480E8E24ECB42700A51B13 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				B3480E8F24ECB42700A51B13 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		B3480E5B24ECB42000A51B13 /* NanoCastStudio */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B3480E9C24ECB42700A51B13 /* Build configuration list for PBXNativeTarget "NanoCastStudio" */;
+			buildPhases = (
+				B3480E5824ECB42000A51B13 /* Sources */,
+				B3480E5924ECB42000A51B13 /* Frameworks */,
+				B3480E5A24ECB42000A51B13 /* Resources */,
+				B3480E9B24ECB42700A51B13 /* Embed Watch Content */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B3480E7324ECB42300A51B13 /* PBXTargetDependency */,
+			);
+			name = NanoCastStudio;
+			productName = NanoCastStudio;
+			productReference = B3480E5C24ECB42000A51B13 /* NanoCastStudio.app */;
+			productType = "com.apple.product-type.application";
+		};
+		B3480E6F24ECB42300A51B13 /* NanoCastStudio WatchKit App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B3480E9824ECB42700A51B13 /* Build configuration list for PBXNativeTarget "NanoCastStudio WatchKit App" */;
+			buildPhases = (
+				B3480E6E24ECB42300A51B13 /* Resources */,
+				B3480E9724ECB42700A51B13 /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B3480E8224ECB42500A51B13 /* PBXTargetDependency */,
+			);
+			name = "NanoCastStudio WatchKit App";
+			productName = "NanoCastStudio WatchKit App";
+			productReference = B3480E7024ECB42300A51B13 /* NanoCastStudio WatchKit App.app */;
+			productType = "com.apple.product-type.application.watchapp2";
+		};
+		B3480E7E24ECB42500A51B13 /* NanoCastStudio WatchKit Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B3480E9424ECB42700A51B13 /* Build configuration list for PBXNativeTarget "NanoCastStudio WatchKit Extension" */;
+			buildPhases = (
+				B3480E7B24ECB42500A51B13 /* Sources */,
+				B3480E7C24ECB42500A51B13 /* Frameworks */,
+				B3480E7D24ECB42500A51B13 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "NanoCastStudio WatchKit Extension";
+			productName = "NanoCastStudio WatchKit Extension";
+			productReference = B3480E7F24ECB42500A51B13 /* NanoCastStudio WatchKit Extension.appex */;
+			productType = "com.apple.product-type.watchkit2-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		B3480E5424ECB42000A51B13 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1200;
+				LastUpgradeCheck = 1200;
+				TargetAttributes = {
+					B3480E5B24ECB42000A51B13 = {
+						CreatedOnToolsVersion = 12.0;
+					};
+					B3480E6F24ECB42300A51B13 = {
+						CreatedOnToolsVersion = 12.0;
+					};
+					B3480E7E24ECB42500A51B13 = {
+						CreatedOnToolsVersion = 12.0;
+					};
+				};
+			};
+			buildConfigurationList = B3480E5724ECB42000A51B13 /* Build configuration list for PBXProject "NanoCastStudio" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = B3480E5324ECB42000A51B13;
+			productRefGroup = B3480E5D24ECB42000A51B13 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B3480E5B24ECB42000A51B13 /* NanoCastStudio */,
+				B3480E6F24ECB42300A51B13 /* NanoCastStudio WatchKit App */,
+				B3480E7E24ECB42500A51B13 /* NanoCastStudio WatchKit Extension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B3480E5A24ECB42000A51B13 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B3480E6C24ECB42300A51B13 /* LaunchScreen.storyboard in Resources */,
+				B3480E6924ECB42300A51B13 /* Preview Assets.xcassets in Resources */,
+				B365F6F624ECBFD10041DDD1 /* Media.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B3480E6E24ECB42300A51B13 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B365F6F724ECBFD10041DDD1 /* Media.xcassets in Resources */,
+				B3480E7724ECB42300A51B13 /* Interface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B3480E7D24ECB42500A51B13 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B3480E9024ECB42700A51B13 /* Preview Assets.xcassets in Resources */,
+				B365F6F824ECBFD10041DDD1 /* Media.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B3480E5824ECB42000A51B13 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B3480E6024ECB42000A51B13 /* AppDelegate.swift in Sources */,
+				B3480E6224ECB42000A51B13 /* SceneDelegate.swift in Sources */,
+				B3480E6424ECB42000A51B13 /* ContentView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B3480E7B24ECB42500A51B13 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B3480E8724ECB42500A51B13 /* ContentView.swift in Sources */,
+				B3480E8B24ECB42500A51B13 /* ComplicationController.swift in Sources */,
+				B3480E8524ECB42500A51B13 /* HostingController.swift in Sources */,
+				B3480E8924ECB42500A51B13 /* ExtensionDelegate.swift in Sources */,
+				B365F6F424ECB9490041DDD1 /* RecordingSessionObject.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B3480E7324ECB42300A51B13 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B3480E6F24ECB42300A51B13 /* NanoCastStudio WatchKit App */;
+			targetProxy = B3480E7224ECB42300A51B13 /* PBXContainerItemProxy */;
+		};
+		B3480E8224ECB42500A51B13 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B3480E7E24ECB42500A51B13 /* NanoCastStudio WatchKit Extension */;
+			targetProxy = B3480E8124ECB42500A51B13 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		B3480E6A24ECB42300A51B13 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B3480E6B24ECB42300A51B13 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		B3480E7524ECB42300A51B13 /* Interface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B3480E7624ECB42300A51B13 /* Base */,
+			);
+			name = Interface.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		B3480E9224ECB42700A51B13 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		B3480E9324ECB42700A51B13 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		B3480E9524ECB42700A51B13 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_ENTITLEMENTS = "NanoCastStudio WatchKit Extension/NanoCastStudio WatchKit Extension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"NanoCastStudio WatchKit Extension/Preview Content\"";
+				DEVELOPMENT_TEAM = MLT7M394S7;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = "NanoCastStudio WatchKit Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.brightdigit.NanoCastStudio.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 6.2;
+			};
+			name = Debug;
+		};
+		B3480E9624ECB42700A51B13 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_ENTITLEMENTS = "NanoCastStudio WatchKit Extension/NanoCastStudio WatchKit Extension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"NanoCastStudio WatchKit Extension/Preview Content\"";
+				DEVELOPMENT_TEAM = MLT7M394S7;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = "NanoCastStudio WatchKit Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.brightdigit.NanoCastStudio.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 6.2;
+			};
+			name = Release;
+		};
+		B3480E9924ECB42700A51B13 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = MLT7M394S7;
+				IBSC_MODULE = NanoCastStudio_WatchKit_Extension;
+				INFOPLIST_FILE = "NanoCastStudio WatchKit App/Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = com.brightdigit.NanoCastStudio.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 6.2;
+			};
+			name = Debug;
+		};
+		B3480E9A24ECB42700A51B13 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = MLT7M394S7;
+				IBSC_MODULE = NanoCastStudio_WatchKit_Extension;
+				INFOPLIST_FILE = "NanoCastStudio WatchKit App/Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = com.brightdigit.NanoCastStudio.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 6.2;
+			};
+			name = Release;
+		};
+		B3480E9D24ECB42700A51B13 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = NanoCastStudio/NanoCastStudio.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"NanoCastStudio/Preview Content\"";
+				DEVELOPMENT_TEAM = MLT7M394S7;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = NanoCastStudio/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.brightdigit.NanoCastStudio;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		B3480E9E24ECB42700A51B13 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = NanoCastStudio/NanoCastStudio.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"NanoCastStudio/Preview Content\"";
+				DEVELOPMENT_TEAM = MLT7M394S7;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = NanoCastStudio/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.brightdigit.NanoCastStudio;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		B3480E5724ECB42000A51B13 /* Build configuration list for PBXProject "NanoCastStudio" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B3480E9224ECB42700A51B13 /* Debug */,
+				B3480E9324ECB42700A51B13 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B3480E9424ECB42700A51B13 /* Build configuration list for PBXNativeTarget "NanoCastStudio WatchKit Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B3480E9524ECB42700A51B13 /* Debug */,
+				B3480E9624ECB42700A51B13 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B3480E9824ECB42700A51B13 /* Build configuration list for PBXNativeTarget "NanoCastStudio WatchKit App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B3480E9924ECB42700A51B13 /* Debug */,
+				B3480E9A24ECB42700A51B13 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B3480E9C24ECB42700A51B13 /* Build configuration list for PBXNativeTarget "NanoCastStudio" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B3480E9D24ECB42700A51B13 /* Debug */,
+				B3480E9E24ECB42700A51B13 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = B3480E5424ECB42000A51B13 /* Project object */;
+}

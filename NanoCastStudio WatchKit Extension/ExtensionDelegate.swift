@@ -1,6 +1,6 @@
 //
 //  ExtensionDelegate.swift
-//  NanoCast.Studio WatchKit Extension
+//  NanoCastStudio WatchKit Extension
 //
 //  Created by Leo Dion on 8/18/20.
 //

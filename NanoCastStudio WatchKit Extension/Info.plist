@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>NanoCast.Studio WatchKit Extension</string>
+	<string>NanoCastStudio WatchKit Extension</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -27,16 +27,14 @@
 		<key>NSExtensionAttributes</key>
 		<dict>
 			<key>WKAppBundleIdentifier</key>
-			<string>com.brightdigit.NanoCast-Studio.watchkitapp</string>
+			<string>com.brightdigit.NanoCastStudio.watchkitapp</string>
 		</dict>
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.watchkit</string>
 	</dict>
 	<key>WKExtensionDelegateClassName</key>
 	<string>$(PRODUCT_MODULE_NAME).ExtensionDelegate</string>
-	<key>WKWatchOnly</key>
+	<key>WKRunsIndependentlyOfCompanionApp</key>
 	<true/>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>The application needs access to your microphone to record.</string>
 </dict>
 </plist>
