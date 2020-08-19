@@ -1,0 +1,6 @@
+{
+  "set" : "Media.xcassets/AppIcon.appiconset",
+  "source" : "AppIcon.svg",
+  "background" : "#FFFFFFFF",
+  "remove-alpha" : true
+}
