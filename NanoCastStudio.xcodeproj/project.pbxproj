@@ -489,7 +489,7 @@
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_ENTITLEMENTS = "NanoCastStudio WatchKit Extension/NanoCastStudio WatchKit Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "\"NanoCastStudio WatchKit Extension/Preview Content\"";
 				DEVELOPMENT_TEAM = MLT7M394S7;
 				ENABLE_PREVIEWS = YES;
@@ -515,7 +515,7 @@
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_ENTITLEMENTS = "NanoCastStudio WatchKit Extension/NanoCastStudio WatchKit Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "\"NanoCastStudio WatchKit Extension/Preview Content\"";
 				DEVELOPMENT_TEAM = MLT7M394S7;
 				ENABLE_PREVIEWS = YES;
@@ -543,7 +543,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "NanoCastStudio WatchKit App/NanoCastStudio WatchKit App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = MLT7M394S7;
 				IBSC_MODULE = NanoCastStudio_WatchKit_Extension;
 				INFOPLIST_FILE = "NanoCastStudio WatchKit App/Info.plist";
@@ -564,7 +564,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "NanoCastStudio WatchKit App/NanoCastStudio WatchKit App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = MLT7M394S7;
 				IBSC_MODULE = NanoCastStudio_WatchKit_Extension;
 				INFOPLIST_FILE = "NanoCastStudio WatchKit App/Info.plist";
@@ -585,7 +585,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = NanoCastStudio/NanoCastStudio.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "\"NanoCastStudio/Preview Content\"";
 				DEVELOPMENT_TEAM = MLT7M394S7;
 				ENABLE_PREVIEWS = YES;
@@ -609,7 +609,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = NanoCastStudio/NanoCastStudio.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "\"NanoCastStudio/Preview Content\"";
 				DEVELOPMENT_TEAM = MLT7M394S7;
 				ENABLE_PREVIEWS = YES;

@@ -36,5 +36,7 @@
 	<string>$(PRODUCT_MODULE_NAME).ExtensionDelegate</string>
 	<key>WKRunsIndependentlyOfCompanionApp</key>
 	<true/>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>In order to record your episode, the app needs access to the microphone.</string>
 </dict>
 </plist>
