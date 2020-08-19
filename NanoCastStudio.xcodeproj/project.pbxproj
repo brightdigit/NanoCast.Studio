@@ -16,7 +16,7 @@
 		B3480E7724ECB42300A51B13 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B3480E7524ECB42300A51B13 /* Interface.storyboard */; };
 		B3480E8024ECB42500A51B13 /* NanoCastStudio WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = B3480E7F24ECB42500A51B13 /* NanoCastStudio WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		B3480E8524ECB42500A51B13 /* HostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3480E8424ECB42500A51B13 /* HostingController.swift */; };
-		B3480E8724ECB42500A51B13 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3480E8624ECB42500A51B13 /* ContentView.swift */; };
+		B3480E8724ECB42500A51B13 /* RecodingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3480E8624ECB42500A51B13 /* RecodingView.swift */; };
 		B3480E8924ECB42500A51B13 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3480E8824ECB42500A51B13 /* ExtensionDelegate.swift */; };
 		B3480E8B24ECB42500A51B13 /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3480E8A24ECB42500A51B13 /* ComplicationController.swift */; };
 		B3480E9024ECB42700A51B13 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B3480E8F24ECB42700A51B13 /* Preview Assets.xcassets */; };
@@ -24,6 +24,8 @@
 		B365F6F624ECBFD10041DDD1 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B365F6F524ECBFD10041DDD1 /* Media.xcassets */; };
 		B365F6F724ECBFD10041DDD1 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B365F6F524ECBFD10041DDD1 /* Media.xcassets */; };
 		B365F6F824ECBFD10041DDD1 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B365F6F524ECBFD10041DDD1 /* Media.xcassets */; };
+		B36690A124ED9C3600FCFE9D /* VolumeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36690A024ED9C3600FCFE9D /* VolumeView.swift */; };
+		B36690A324ED9CB300FCFE9D /* AVAudioSession.RecordPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36690A224ED9CB300FCFE9D /* AVAudioSession.RecordPermission.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,7 +83,7 @@
 		B3480E7A24ECB42500A51B13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B3480E7F24ECB42500A51B13 /* NanoCastStudio WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "NanoCastStudio WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3480E8424ECB42500A51B13 /* HostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostingController.swift; sourceTree = "<group>"; };
-		B3480E8624ECB42500A51B13 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		B3480E8624ECB42500A51B13 /* RecodingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecodingView.swift; sourceTree = "<group>"; };
 		B3480E8824ECB42500A51B13 /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
 		B3480E8A24ECB42500A51B13 /* ComplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
 		B3480E8F24ECB42700A51B13 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -90,6 +92,8 @@
 		B365F6EE24ECB6770041DDD1 /* NanoCastStudio WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "NanoCastStudio WatchKit Extension.entitlements"; sourceTree = "<group>"; };
 		B365F6F324ECB9490041DDD1 /* RecordingSessionObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordingSessionObject.swift; sourceTree = "<group>"; };
 		B365F6F524ECBFD10041DDD1 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
+		B36690A024ED9C3600FCFE9D /* VolumeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VolumeView.swift; sourceTree = "<group>"; };
+		B36690A224ED9CB300FCFE9D /* AVAudioSession.RecordPermission.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AVAudioSession.RecordPermission.swift; sourceTree = "<group>"; };
 		B3B7D56124ECC3DF0015D6C5 /* NanoCastStudio WatchKit App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "NanoCastStudio WatchKit App.entitlements"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -167,10 +171,12 @@
 		B3480E8324ECB42500A51B13 /* NanoCastStudio WatchKit Extension */ = {
 			isa = PBXGroup;
 			children = (
+				B36690A224ED9CB300FCFE9D /* AVAudioSession.RecordPermission.swift */,
+				B36690A024ED9C3600FCFE9D /* VolumeView.swift */,
 				B365F6EE24ECB6770041DDD1 /* NanoCastStudio WatchKit Extension.entitlements */,
 				B365F6F324ECB9490041DDD1 /* RecordingSessionObject.swift */,
 				B3480E8424ECB42500A51B13 /* HostingController.swift */,
-				B3480E8624ECB42500A51B13 /* ContentView.swift */,
+				B3480E8624ECB42500A51B13 /* RecodingView.swift */,
 				B3480E8824ECB42500A51B13 /* ExtensionDelegate.swift */,
 				B3480E8A24ECB42500A51B13 /* ComplicationController.swift */,
 				B3480E9124ECB42700A51B13 /* Info.plist */,
@@ -329,10 +335,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B3480E8724ECB42500A51B13 /* ContentView.swift in Sources */,
+				B3480E8724ECB42500A51B13 /* RecodingView.swift in Sources */,
 				B3480E8B24ECB42500A51B13 /* ComplicationController.swift in Sources */,
 				B3480E8524ECB42500A51B13 /* HostingController.swift in Sources */,
 				B3480E8924ECB42500A51B13 /* ExtensionDelegate.swift in Sources */,
+				B36690A124ED9C3600FCFE9D /* VolumeView.swift in Sources */,
+				B36690A324ED9CB300FCFE9D /* AVAudioSession.RecordPermission.swift in Sources */,
 				B365F6F424ECB9490041DDD1 /* RecordingSessionObject.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -9,19 +9,6 @@ import Foundation
 import AVFoundation
 import Combine
 
-extension AVAudioSession.RecordPermission : CustomStringConvertible {
-  public var description: String {
-    switch self {
-    case .denied:
-      return "denied"
-    case .granted:
-      return "granted"
-    default:
-      return "IDK"
-    }
-  }
-}
-
 public class RecordingSessionObject: NSObject, ObservableObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
   @Published var error : Error?
   @Published var permission : AVAudioSession.RecordPermission

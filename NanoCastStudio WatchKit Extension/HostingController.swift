@@ -12,6 +12,6 @@ import SwiftUI
 class HostingController: WKHostingController<AnyView> {
     override var body: AnyView {
       return
-        AnyView(ContentView().environmentObject(RecordingSessionObject(session: .sharedInstance())))
+        AnyView(RecodingView().environmentObject(RecordingSessionObject(session: .sharedInstance())))
     }
 }
