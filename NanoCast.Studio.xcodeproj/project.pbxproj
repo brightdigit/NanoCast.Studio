@@ -77,6 +77,13 @@
 		B39F5D7324EC2EBF007D37E8 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B39F5D7524EC2EBF007D37E8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B39F5D8324EC3041007D37E8 /* RecordingSessionObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingSessionObject.swift; sourceTree = "<group>"; };
+		B3B7D54724EC9D900015D6C5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		B3B7D54924EC9D900015D6C5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		B3B7D54B24EC9D900015D6C5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		B3B7D54D24EC9D910015D6C5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B3B7D55024EC9D910015D6C5 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		B3B7D55324EC9D910015D6C5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		B3B7D55524EC9D910015D6C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,7 +102,9 @@
 			children = (
 				B39F5D5824EC2EBB007D37E8 /* NanoCast.Studio WatchKit App */,
 				B39F5D6724EC2EBE007D37E8 /* NanoCast.Studio WatchKit Extension */,
+				B3B7D54624EC9D900015D6C5 /* NanoCastStudio */,
 				B39F5D5124EC2EBB007D37E8 /* Products */,
+				B3B7D55924EC9D9B0015D6C5 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -140,6 +149,35 @@
 				B39F5D7324EC2EBF007D37E8 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		B3B7D54624EC9D900015D6C5 /* NanoCastStudio */ = {
+			isa = PBXGroup;
+			children = (
+				B3B7D54724EC9D900015D6C5 /* AppDelegate.swift */,
+				B3B7D54924EC9D900015D6C5 /* SceneDelegate.swift */,
+				B3B7D54B24EC9D900015D6C5 /* ContentView.swift */,
+				B3B7D54D24EC9D910015D6C5 /* Assets.xcassets */,
+				B3B7D55224EC9D910015D6C5 /* LaunchScreen.storyboard */,
+				B3B7D55524EC9D910015D6C5 /* Info.plist */,
+				B3B7D54F24EC9D910015D6C5 /* Preview Content */,
+			);
+			path = NanoCastStudio;
+			sourceTree = "<group>";
+		};
+		B3B7D54F24EC9D910015D6C5 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				B3B7D55024EC9D910015D6C5 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		B3B7D55924EC9D9B0015D6C5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -301,6 +339,14 @@
 			name = Interface.storyboard;
 			sourceTree = "<group>";
 		};
+		B3B7D55224EC9D910015D6C5 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B3B7D55324EC9D910015D6C5 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -427,12 +473,13 @@
 				DEVELOPMENT_TEAM = MLT7M394S7;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "NanoCast.Studio WatchKit Extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.brightdigit.NanoCast-Studio.watchkitapp.watchkitextension";
+				PRODUCT_BUNDLE_IDENTIFIER = com.brightdigit.NanoCastStudio.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -451,12 +498,13 @@
 				DEVELOPMENT_TEAM = MLT7M394S7;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "NanoCast.Studio WatchKit Extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.brightdigit.NanoCast-Studio.watchkitapp.watchkitextension";
+				PRODUCT_BUNDLE_IDENTIFIER = com.brightdigit.NanoCastStudio.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -476,7 +524,8 @@
 				DEVELOPMENT_TEAM = MLT7M394S7;
 				IBSC_MODULE = NanoCast_Studio_WatchKit_Extension;
 				INFOPLIST_FILE = "NanoCast.Studio WatchKit App/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.brightdigit.NanoCast-Studio.watchkitapp";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
+				PRODUCT_BUNDLE_IDENTIFIER = com.brightdigit.NanoCastStudio.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -496,7 +545,8 @@
 				DEVELOPMENT_TEAM = MLT7M394S7;
 				IBSC_MODULE = NanoCast_Studio_WatchKit_Extension;
 				INFOPLIST_FILE = "NanoCast.Studio WatchKit App/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.brightdigit.NanoCast-Studio.watchkitapp";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
+				PRODUCT_BUNDLE_IDENTIFIER = com.brightdigit.NanoCastStudio.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -513,7 +563,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = MLT7M394S7;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.brightdigit.NanoCast-Studio";
+				PRODUCT_BUNDLE_IDENTIFIER = com.brightdigit.NanoCastStudio;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};
@@ -526,7 +576,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = MLT7M394S7;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.brightdigit.NanoCast-Studio";
+				PRODUCT_BUNDLE_IDENTIFIER = com.brightdigit.NanoCastStudio;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};
