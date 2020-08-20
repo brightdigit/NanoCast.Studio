@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-struct KeychainService {
+public struct KeychainService {
   let groupName = "MLT7M394S7.com.brightdigit.NanoCastStudio"
   func fetchKey(_ key: String) throws -> String? {
     let queryLoad: [String: AnyObject] = [
@@ -68,21 +68,21 @@ struct KeychainService {
  */
 
 
-struct QueryDataItem<AttributesType : Codable> : Codable {
-  let id : Int
-  let type : String
-  let attributes : AttributesType
+public struct QueryDataItem<AttributesType : Codable> : Codable {
+  public let id : Int
+  public let type : String
+  public let attributes : AttributesType
 }
 
-struct QueryResponseMetadata : Codable {
-  let currentPage : Int
-  let totalPages : Int
-  let totalCount : Int
+public struct QueryResponseMetadata : Codable {
+  public let currentPage : Int
+  public let totalPages : Int
+  public let totalCount : Int
 }
 
-struct QueryResponse<AttributesType : Codable> : Codable {
-  let data : QueryDataItem<AttributesType>
-  let meta : QueryResponseMetadata?
+public struct QueryResponse<AttributesType : Codable> : Codable {
+  public let data : QueryDataItem<AttributesType>
+  public let meta : QueryResponseMetadata?
 }
 
 
@@ -136,7 +136,7 @@ public class NCObject : ObservableObject {
   
   
   
-  @Published var apiKey = ""
+  @Published public var apiKey = ""
   
   @Published private(set) var userResult : Result<QueryResponse<UserAttributes>, Error>?
   @Published private(set) var keyChainError : Error?

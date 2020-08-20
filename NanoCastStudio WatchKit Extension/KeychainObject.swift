@@ -7,14 +7,7 @@
 
 import Foundation
 import Combine
-
-struct SecError : Error, LocalizedError {
-  let code : OSStatus
-  
-  var errorDescription: String? {
-    return SecCopyErrorMessageString(self.code, nil) as String?
-  }
-}
+import NCSKit
 
 @available(*, deprecated)
 class KeychainObject : ObservableObject {

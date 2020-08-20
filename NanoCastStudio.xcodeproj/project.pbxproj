@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -30,12 +30,10 @@
 		B36690A724ED9EA500FCFE9D /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36690A624ED9EA500FCFE9D /* LoginView.swift */; };
 		B36690A924EDA10700FCFE9D /* TransistorObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36690A824EDA10700FCFE9D /* TransistorObject.swift */; };
 		B36690AA24EDC7CF00FCFE9D /* TransistorObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36690A824EDA10700FCFE9D /* TransistorObject.swift */; };
-		B36690AE24EDC83C00FCFE9D /* UserAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36690AB24EDC83C00FCFE9D /* UserAttributes.swift */; };
-		B36690AF24EDC83C00FCFE9D /* UserAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36690AB24EDC83C00FCFE9D /* UserAttributes.swift */; };
 		B36690B524EDDE6600FCFE9D /* KeychainObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36690B424EDDE6600FCFE9D /* KeychainObject.swift */; };
 		B36690B624EDDE6600FCFE9D /* KeychainObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36690B424EDDE6600FCFE9D /* KeychainObject.swift */; };
-		B3C519FF24EEF67B00AE4660 /* NCObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E841D124EDF4390035F9D1 /* NCObject.swift */; };
-		B3E841D224EDF4390035F9D1 /* NCObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E841D124EDF4390035F9D1 /* NCObject.swift */; };
+		B374229E24EF282E00D02258 /* NCSKit in Frameworks */ = {isa = PBXBuildFile; productRef = B374229D24EF282E00D02258 /* NCSKit */; };
+		B37422A024EF283400D02258 /* NCSKit in Frameworks */ = {isa = PBXBuildFile; productRef = B374229F24EF283400D02258 /* NCSKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -107,10 +105,9 @@
 		B36690A424ED9E9300FCFE9D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B36690A624ED9EA500FCFE9D /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		B36690A824EDA10700FCFE9D /* TransistorObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransistorObject.swift; sourceTree = "<group>"; };
-		B36690AB24EDC83C00FCFE9D /* UserAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAttributes.swift; sourceTree = "<group>"; };
 		B36690B424EDDE6600FCFE9D /* KeychainObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainObject.swift; sourceTree = "<group>"; };
+		B374229B24EF268E00D02258 /* NCSKit */ = {isa = PBXFileReference; lastKnownFileType = folder; path = NCSKit; sourceTree = "<group>"; };
 		B3B7D56124ECC3DF0015D6C5 /* NanoCastStudio WatchKit App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "NanoCastStudio WatchKit App.entitlements"; sourceTree = "<group>"; };
-		B3E841D124EDF4390035F9D1 /* NCObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NCObject.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +115,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B374229E24EF282E00D02258 /* NCSKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,6 +123,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B37422A024EF283400D02258 /* NCSKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -135,10 +134,12 @@
 			isa = PBXGroup;
 			children = (
 				B365F6F524ECBFD10041DDD1 /* Media.xcassets */,
+				B374229B24EF268E00D02258 /* NCSKit */,
 				B3480E5E24ECB42000A51B13 /* NanoCastStudio */,
 				B3480E7424ECB42300A51B13 /* NanoCastStudio WatchKit App */,
 				B3480E8324ECB42500A51B13 /* NanoCastStudio WatchKit Extension */,
 				B3480E5D24ECB42000A51B13 /* Products */,
+				B374229C24EF282E00D02258 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -158,12 +159,10 @@
 				B365F6ED24ECB6490041DDD1 /* NanoCastStudio.entitlements */,
 				B3480E5F24ECB42000A51B13 /* AppDelegate.swift */,
 				B3480E6124ECB42000A51B13 /* SceneDelegate.swift */,
-				B36690AB24EDC83C00FCFE9D /* UserAttributes.swift */,
 				B3480E6324ECB42000A51B13 /* ContentView.swift */,
 				B3480E6A24ECB42300A51B13 /* LaunchScreen.storyboard */,
 				B3480E6D24ECB42300A51B13 /* Info.plist */,
 				B3480E6724ECB42300A51B13 /* Preview Content */,
-				B3E841D124EDF4390035F9D1 /* NCObject.swift */,
 			);
 			path = NanoCastStudio;
 			sourceTree = "<group>";
@@ -215,6 +214,13 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		B374229C24EF282E00D02258 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -233,6 +239,9 @@
 				B3480E7324ECB42300A51B13 /* PBXTargetDependency */,
 			);
 			name = NanoCastStudio;
+			packageProductDependencies = (
+				B374229D24EF282E00D02258 /* NCSKit */,
+			);
 			productName = NanoCastStudio;
 			productReference = B3480E5C24ECB42000A51B13 /* NanoCastStudio.app */;
 			productType = "com.apple.product-type.application";
@@ -267,6 +276,9 @@
 			dependencies = (
 			);
 			name = "NanoCastStudio WatchKit Extension";
+			packageProductDependencies = (
+				B374229F24EF283400D02258 /* NCSKit */,
+			);
 			productName = "NanoCastStudio WatchKit Extension";
 			productReference = B3480E7F24ECB42500A51B13 /* NanoCastStudio WatchKit Extension.appex */;
 			productType = "com.apple.product-type.watchkit2-extension";
@@ -350,8 +362,6 @@
 				B3480E6024ECB42000A51B13 /* AppDelegate.swift in Sources */,
 				B36690AA24EDC7CF00FCFE9D /* TransistorObject.swift in Sources */,
 				B36690B524EDDE6600FCFE9D /* KeychainObject.swift in Sources */,
-				B3E841D224EDF4390035F9D1 /* NCObject.swift in Sources */,
-				B36690AE24EDC83C00FCFE9D /* UserAttributes.swift in Sources */,
 				B3480E6224ECB42000A51B13 /* SceneDelegate.swift in Sources */,
 				B3480E6424ECB42000A51B13 /* ContentView.swift in Sources */,
 			);
@@ -369,11 +379,9 @@
 				B36690A724ED9EA500FCFE9D /* LoginView.swift in Sources */,
 				B3480E8524ECB42500A51B13 /* HostingController.swift in Sources */,
 				B3480E8924ECB42500A51B13 /* ExtensionDelegate.swift in Sources */,
-				B36690AF24EDC83C00FCFE9D /* UserAttributes.swift in Sources */,
 				B36690A124ED9C3600FCFE9D /* VolumeView.swift in Sources */,
 				B36690A324ED9CB300FCFE9D /* AVAudioSession.RecordPermission.swift in Sources */,
 				B365F6F424ECB9490041DDD1 /* RecordingSessionObject.swift in Sources */,
-				B3C519FF24EEF67B00AE4660 /* NCObject.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -708,6 +716,17 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B374229D24EF282E00D02258 /* NCSKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = NCSKit;
+		};
+		B374229F24EF283400D02258 /* NCSKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = NCSKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B3480E5424ECB42000A51B13 /* Project object */;
 }

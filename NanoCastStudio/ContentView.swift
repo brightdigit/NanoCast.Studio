@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import NCSKit
 
 struct ContentView: View {
   @EnvironmentObject var object : NCObject
