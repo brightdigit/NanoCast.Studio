@@ -9,6 +9,7 @@ import Foundation
 import AVFoundation
 import Combine
 
+@available(*, deprecated)
 public class RecordingSessionObject: NSObject, ObservableObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
   @Published var error : Error?
   @Published var permission : AVAudioSession.RecordPermission

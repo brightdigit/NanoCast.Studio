@@ -16,6 +16,7 @@ struct SecError : Error, LocalizedError {
   }
 }
 
+@available(*, deprecated)
 class KeychainObject : ObservableObject {
   @Published var apiKeyFetched : String?
   @Published var apiKey : String?
