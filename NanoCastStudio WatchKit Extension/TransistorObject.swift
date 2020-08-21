@@ -10,21 +10,6 @@ import Combine
 import SwiftUI
 import NCSKit
 
-struct EmptyError : Error {
-  
-}
-
-extension Result {
-  init (failure: Failure?, success: Success?, else: () -> Failure) {
-    if let failure = failure {
-      self = .failure(failure)
-    } else if let success = success {
-      self = .success(success)
-    } else {
-      self = .failure(`else`())
-    }
-  }
-}
 
 @available(*, deprecated)
 public class TransistorObject : ObservableObject {

@@ -8,6 +8,21 @@
 import Foundation
 import Combine
 
+struct EmptyError : Error {
+  
+}
+
+extension Result {
+  init (failure: Failure?, success: Success?, else: () -> Failure) {
+    if let failure = failure {
+      self = .failure(failure)
+    } else if let success = success {
+      self = .success(success)
+    } else {
+      self = .failure(`else`())
+    }
+  }
+}
 public struct KeychainService {
   let groupName = "MLT7M394S7.com.brightdigit.NanoCastStudio"
   func fetchKey(_ key: String) throws -> String? {
@@ -81,23 +96,122 @@ public struct QueryResponseMetadata : Codable {
 }
 
 public struct QueryResponse<AttributesType : Codable> : Codable {
-  public let data : QueryDataItem<AttributesType>
+  public let data : Many<QueryDataItem<AttributesType>>
   public let meta : QueryResponseMetadata?
 }
 
+public enum Many<Element : Codable> : Collection, Codable {
+  public func encode(to encoder: Encoder) throws {
+    var container = try encoder.singleValueContainer()
+    
+    switch self {
+    case .single(let item): try container.encode(item)
+    case .plural(let items): try container.encode(items)
+    }
+  }
+  
+  public typealias Index = Array<Element>.Index
+     
+  public var startIndex: Index { return self.asArray().startIndex }
+  public var endIndex: Index { return self.asArray().endIndex }
+
+      // Required subscript, based on a dictionary index
+  public subscript(index: Index) -> Element {
+        get { return self.asArray()[index] }
+      }
+
+      // Method that returns the next index when iterating
+  public func index(after i: Index) -> Index {
+        return self.asArray().index(after: i)
+      }
+  
+  private func asArray () -> Array<Element> {
+    switch self {
+    case .single(let item): return [item]
+    case .plural(let items): return items
+    }
+  }
+  
+  case single(Element)
+  case plural([Element])
+  
+  public init(from decoder: Decoder) throws {
+    let container = try decoder.singleValueContainer()
+    
+    if let element = try? container.decode(Element.self) {
+      self = .single(element)
+    } else {
+      self = try .plural(container.decode([Element].self))
+    }
+  }
+}
+
+enum RequestMethod: String {
+  case get = "GET"
+  case delete = "DELETE"
+  case post = "POST"
+  case patch = "PATCH"
+}
 
 protocol Request {
   associatedtype AttributesType : Codable
   
+  var parameters : [String : Any] { get }
+  static var path : String { get }
+  static var method : RequestMethod { get }
 }
 
-struct TransistorService {
+struct UserRequest : Request {
+  static let path: String = ""
   
-  func fetch<RequestType : Request, AttributesType>(_ requestType: RequestType, withAPIKey apiKey : String, atPage page: Int?, _ callback : ((Result<QueryResponse<AttributesType>, Error>) -> Void)) where RequestType.AttributesType == AttributesType {
+  let parameters: [String : Any] = [String : Any]()
+  
+  typealias AttributesType = UserAttributes
+  
+  static var method  : RequestMethod = .get
+}
+
+
+public struct Pagination {
+  let page : Int
+  let per : Int
+}
+
+public struct TransistorService {
+  
+  public init () {
     
   }
+  func fetch<RequestType : Request, AttributesType>(_ requestType: RequestType, withAPIKey apiKey : String, using session: URLSession, with decoder: JSONDecoder, atPage page: Pagination?, _ callback : @escaping ((Result<QueryResponse<AttributesType>, Error>) -> Void)) where RequestType.AttributesType == AttributesType {
+    var url = URL(string: "https://api.transistor.fm/v1")!
+    url.appendPathComponent(RequestType.path)
+    var components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
+    var queryItems = [URLQueryItem]()
+    for (key, value) in requestType.parameters {
+      queryItems.append(URLQueryItem(name: key, value: "\(value)"))
+    }
+    
+    if let page = page {
+      queryItems.append(URLQueryItem(name: "per", value: "\(page.per)"))
+      queryItems.append(URLQueryItem(name: "page", value: "\(page.page)"))
+    }
+    
+    components.queryItems = queryItems
+    
+    var urlRequest = URLRequest(url: components.url!)
+    urlRequest.httpMethod = RequestType.method.rawValue
+    
+    session.dataTask(with: urlRequest) { (data, _, error) in
+      let result = Result(failure: error, success: data, else: EmptyError.init).flatMap { (data) in
+        Result {
+          try decoder.decode(QueryResponse<AttributesType>.self, from: data)
+        }
+      }
+      callback(result)
+    }
+  }
 
-  func signIn (withAPIKey apiKey: String, callback: ((Result<QueryResponse<UserAttributes>, Error>) -> Void)) {
+  func user (withAPIKey apiKey: String, callback: ((Result<QueryResponse<UserAttributes>, Error>) -> Void)) {
     
   }
   
@@ -154,7 +268,7 @@ public class NCObject : ObservableObject {
   }
   
   func signIn () {
-    self.transistorService.signIn(withAPIKey: self.apiKey) {
+    self.transistorService.user(withAPIKey: self.apiKey) {
       self.userResult = $0
     }
   }

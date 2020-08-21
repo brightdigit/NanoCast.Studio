@@ -6,3 +6,15 @@
 //
 
 import Foundation
+import NCSKit
+
+
+guard let apiKey = ProcessInfo.processInfo.environment["TRAVISFM_API_KEY"] else {
+  print("Missing API KEY")
+  exit(1)
+}
+
+let transistor = TransistorService()
+
+
+
