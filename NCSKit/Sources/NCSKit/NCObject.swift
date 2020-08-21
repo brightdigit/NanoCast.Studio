@@ -8,11 +8,11 @@
 import Foundation
 import Combine
 
-struct EmptyError : Error {
-  
+public struct EmptyError : Error {
+  public init () {}
 }
 
-extension Result {
+public extension Result {
   init (failure: Failure?, success: Success?, else: () -> Failure) {
     if let failure = failure {
       self = .failure(failure)
@@ -163,7 +163,9 @@ public protocol Request {
   var parameters : [String : Any] { get }
   static var path : String { get }
   static var method : RequestMethod { get }
+  
 }
+
 
 public struct UserRequest : Request {
   public init () {}
@@ -197,8 +199,8 @@ public struct TransistorService {
     }
     
     if let page = page {
-      queryItems.append(URLQueryItem(name: "per", value: "\(page.per)"))
-      queryItems.append(URLQueryItem(name: "page", value: "\(page.page)"))
+      queryItems.append(URLQueryItem(name: "pagination[per]", value: "\(page.per)"))
+      queryItems.append(URLQueryItem(name: "pagination[page]", value: "\(page.page)"))
     }
     
     components.queryItems = queryItems
@@ -218,17 +220,67 @@ public struct TransistorService {
     }.resume()
   }
 
+  @available(*, deprecated)
   func user (withAPIKey apiKey: String, callback: ((Result<QueryResponse<UserAttributes>, Error>) -> Void)) {
     
   }
   
+  @available(*, deprecated)
   func shows (withAPIKey apiKey: String, _ callback: ((Result<QueryResponse<ShowAttributes>, Error>) -> Void)) {
     
   }
   
+  @available(*, deprecated)
   func episodes(forShowWithId showId: Int, _ callback: ((Result<QueryResponse<EpisodeAttributes>, Error>) -> Void)) {
   }
   
+}
+
+extension TransistorService {
+  public func fetchAll<RequestType : Request, AttributesType>(_ requestType: RequestType, withAPIKey apiKey : String, using session: URLSession, with decoder: JSONDecoder, _ callback : @escaping ((Result<[QueryDataItem<AttributesType>], Error>) -> Void)) where RequestType.AttributesType == AttributesType {
+    self.fetch(requestType, withAPIKey: apiKey, using: session, with: decoder, atPage: nil) { (result) in
+      let response : QueryResponse<AttributesType>
+      switch result {
+      case .success(let success): response = success
+      case .failure(let error): return callback(.failure(error))
+      }
+      guard let metadata = response.meta else {
+        callback(.success(Array(response.data)))
+        return
+      }
+      guard metadata.totalPages > 1 else {
+        
+          callback(.success(Array(response.data)))
+          return
+      }
+      var responses = [result]
+      let queue = DispatchQueue(label: "transistor-queue", attributes: .concurrent)
+      let group = DispatchGroup()
+      for pageNumber in 2...metadata.totalPages {
+        group.enter()
+        self.fetch(requestType, withAPIKey: apiKey, using: session, with: decoder, atPage: .init(page: pageNumber, per: response.data.count)) { (result) in
+          queue.async(flags: .barrier) {
+            responses.append(result)
+            group.leave()
+          }
+        }
+      }
+      group.notify(queue: .main){
+        let responsesResult = Result {
+          try responses.map{
+            try $0.get()
+          }
+        }.map {
+          $0.sorted { (lhs, rhs) -> Bool in
+            let lhsPage = lhs.meta?.currentPage ?? -1
+            let rhsPage = rhs.meta?.currentPage ?? -1
+            return lhsPage <= rhsPage
+          }.map { Array($0.data) }.flatMap{ $0 }
+        }
+        callback(responsesResult)
+      }
+    }
+  }
 }
 
 struct TransistorDatabase {

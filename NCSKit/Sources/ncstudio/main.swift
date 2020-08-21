@@ -9,6 +9,42 @@ import Foundation
 import NCSKit
 import PromiseKit
 
+public struct Episode {
+  public let id : Int
+  public let number : Int
+  public let media_url : URL
+  public let title : String
+  public let summary : String
+}
+
+public struct Show {
+  public let id : Int
+  public let title : String
+  public let episodes : [Episode]
+  
+  
+}
+
+enum ParsingError : Error {
+  case idInvalidString(String)
+}
+extension Show {
+  public init (show: QueryDataItem<ShowAttributes>, episodes: [QueryDataItem<EpisodeAttributes>]) throws {
+    guard let id = Int(show.id) else {
+      throw ParsingError.idInvalidString(show.id)
+    }
+    
+    self.id = id
+    self.title = show.attributes.title
+    self.episodes = try episodes.map({ (item) in
+      guard let id = Int(item.id) else {
+        throw ParsingError.idInvalidString(show.id)
+      }
+      return Episode(id: id, number: item.attributes.number, media_url: item.attributes.media_url, title: item.attributes.title, summary: item.attributes.summary)
+    })
+  }
+}
+
 struct EpisodesRequest : Request {
   
   static var method: RequestMethod  = .get
@@ -66,18 +102,18 @@ let promise = Promise { (resolver) in
   Promise { (resolver) in
     transistor.fetch(ShowsRequest(), withAPIKey: apiKey, using: .shared, with: .init(), atPage: nil, resolver.resolve)
   }
-}.then(on: queue) { (showResponse) -> Promise<[QueryDataItem<EpisodeAttributes>]> in
+}.then(on: queue) { (showResponse) -> Promise<[Show]> in
   let promises = showResponse.data.map { (show) in
-    Promise<QueryResponse<EpisodeAttributes>>{ (resolver) in
-      transistor.fetch(EpisodesRequest(showId: show.id), withAPIKey: apiKey, using: .shared, with: .init(), atPage: nil, resolver.resolve)
-      }
+    Promise<[QueryDataItem<EpisodeAttributes>]>{ (resolver) in
+      transistor.fetchAll(EpisodesRequest(showId: show.id), withAPIKey: apiKey, using: .shared, with: .init(), resolver.resolve)
+    }.recover { _ in
+      return Guarantee.value([QueryDataItem<EpisodeAttributes>]())
+    }.map(on: queue) { (episodes) in
+      try Show(show: show, episodes: episodes)
     }
-
-  return when(resolved: promises).map(on: queue){ (result) in
-    result.compactMap{
-      try? $0.get().data
-    }.reduce([QueryDataItem<EpisodeAttributes>](), +)
   }
+
+  return when(fulfilled: promises)
 //    .map(on: queue) { (results) -> [QueryDataItem<EpisodeAttributes>] in
 //    print(results)
 //    return results.map{
