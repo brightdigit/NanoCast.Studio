@@ -102,7 +102,7 @@ public struct QueryResponse<AttributesType : Codable> : Codable {
 
 public enum Many<Element : Codable> : Collection, Codable {
   public func encode(to encoder: Encoder) throws {
-    var container = try encoder.singleValueContainer()
+    var container = encoder.singleValueContainer()
     
     switch self {
     case .single(let item): try container.encode(item)
@@ -143,7 +143,7 @@ public enum Many<Element : Codable> : Collection, Codable {
       self = .single(element)
       return
     } catch {
-      debugPrint(error)
+      // debugPrint(error)
     }
     self = try .plural(container.decode([Element].self))
     
@@ -213,6 +213,7 @@ public struct TransistorService {
           try decoder.decode(QueryResponse<AttributesType>.self, from: data)
         }
       }
+      debugPrint("completed", urlRequest.url, (try? result.get()) != nil)
       callback(result)
     }.resume()
   }

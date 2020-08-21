@@ -72,13 +72,23 @@ let promise = Promise { (resolver) in
       transistor.fetch(EpisodesRequest(showId: show.id), withAPIKey: apiKey, using: .shared, with: .init(), atPage: nil, resolver.resolve)
       }
     }
-  
-  return when(fulfilled: promises).map { (results) -> [QueryDataItem<EpisodeAttributes>] in
-    results.map{ [QueryDataItem<EpisodeAttributes>]($0.data) }.reduce([QueryDataItem<EpisodeAttributes>](), +)
+
+  return when(resolved: promises).map(on: queue){ (result) in
+    result.compactMap{
+      try? $0.get().data
+    }.reduce([QueryDataItem<EpisodeAttributes>](), +)
   }
+//    .map(on: queue) { (results) -> [QueryDataItem<EpisodeAttributes>] in
+//    print(results)
+//    return results.map{
+//      [QueryDataItem<EpisodeAttributes>]($0.data) }.reduce([QueryDataItem<EpisodeAttributes>](), +)
+//  }
   
 }.done { (result) in
   print(result)
+  finished = true
+}.catch { (error) in
+  print (error)
   finished = true
 }
 
