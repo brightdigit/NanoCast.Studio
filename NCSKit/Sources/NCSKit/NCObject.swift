@@ -84,7 +84,7 @@ public struct KeychainService {
 
 
 public struct QueryDataItem<AttributesType : Codable> : Codable {
-  public let id : Int
+  public let id : String
   public let type : String
   public let attributes : AttributesType
 }
@@ -138,22 +138,26 @@ public enum Many<Element : Codable> : Collection, Codable {
   public init(from decoder: Decoder) throws {
     let container = try decoder.singleValueContainer()
     
-    if let element = try? container.decode(Element.self) {
+    do {
+      let element = try container.decode(Element.self)
       self = .single(element)
-    } else {
-      self = try .plural(container.decode([Element].self))
+      return
+    } catch {
+      debugPrint(error)
     }
+    self = try .plural(container.decode([Element].self))
+    
   }
 }
 
-enum RequestMethod: String {
+public enum RequestMethod: String {
   case get = "GET"
   case delete = "DELETE"
   case post = "POST"
   case patch = "PATCH"
 }
 
-protocol Request {
+public protocol Request {
   associatedtype AttributesType : Codable
   
   var parameters : [String : Any] { get }
@@ -161,14 +165,15 @@ protocol Request {
   static var method : RequestMethod { get }
 }
 
-struct UserRequest : Request {
-  static let path: String = ""
+public struct UserRequest : Request {
+  public init () {}
+  public static let path: String = ""
   
-  let parameters: [String : Any] = [String : Any]()
+  public let parameters: [String : Any] = [String : Any]()
   
-  typealias AttributesType = UserAttributes
+  public typealias AttributesType = UserAttributes
   
-  static var method  : RequestMethod = .get
+  public static var method  : RequestMethod = .get
 }
 
 
@@ -182,7 +187,7 @@ public struct TransistorService {
   public init () {
     
   }
-  func fetch<RequestType : Request, AttributesType>(_ requestType: RequestType, withAPIKey apiKey : String, using session: URLSession, with decoder: JSONDecoder, atPage page: Pagination?, _ callback : @escaping ((Result<QueryResponse<AttributesType>, Error>) -> Void)) where RequestType.AttributesType == AttributesType {
+  public func fetch<RequestType : Request, AttributesType>(_ requestType: RequestType, withAPIKey apiKey : String, using session: URLSession, with decoder: JSONDecoder, atPage page: Pagination?, _ callback : @escaping ((Result<QueryResponse<AttributesType>, Error>) -> Void)) where RequestType.AttributesType == AttributesType {
     var url = URL(string: "https://api.transistor.fm/v1")!
     url.appendPathComponent(RequestType.path)
     var components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
@@ -199,6 +204,7 @@ public struct TransistorService {
     components.queryItems = queryItems
     
     var urlRequest = URLRequest(url: components.url!)
+    urlRequest.addValue(apiKey, forHTTPHeaderField: "x-api-key")
     urlRequest.httpMethod = RequestType.method.rawValue
     
     session.dataTask(with: urlRequest) { (data, _, error) in
@@ -208,7 +214,7 @@ public struct TransistorService {
         }
       }
       callback(result)
-    }
+    }.resume()
   }
 
   func user (withAPIKey apiKey: String, callback: ((Result<QueryResponse<UserAttributes>, Error>) -> Void)) {
