@@ -94,10 +94,11 @@ let transistor = TransistorService()
 let queue = DispatchQueue.global(qos: .userInitiated)
 var finished = false
 
+
 let promise = Promise { (resolver) in
-  
+
   transistor.fetch(UserRequest(), withAPIKey: apiKey, using: .shared, with: .init(), atPage: nil, resolver.resolve)
-  
+
 }.then(on: queue) { (_) in
   Promise { (resolver) in
     transistor.fetch(ShowsRequest(), withAPIKey: apiKey, using: .shared, with: .init(), atPage: nil, resolver.resolve)
@@ -114,12 +115,6 @@ let promise = Promise { (resolver) in
   }
 
   return when(fulfilled: promises)
-//    .map(on: queue) { (results) -> [QueryDataItem<EpisodeAttributes>] in
-//    print(results)
-//    return results.map{
-//      [QueryDataItem<EpisodeAttributes>]($0.data) }.reduce([QueryDataItem<EpisodeAttributes>](), +)
-//  }
-  
 }.done { (result) in
   print(result)
   finished = true

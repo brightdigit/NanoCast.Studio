@@ -161,6 +161,47 @@ public protocol Request {
   
 }
 
+extension Dictionary {
+  mutating func forKey(_ key : Key, compactSet value: Value?) {
+    if let value = value {
+      self[key] = value
+    }
+  }
+}
+public struct EpisodeCreate {
+  public let number : Int?
+  public let media_url : URL?
+  public let title : String?
+  public let summary : String?
+  public let show_id : Int
+  
+  var parameters : [String : Any] {
+    var parameters = [String : Any]()
+    parameters["show_id"] = self.show_id
+    
+    var episode = [String : Any]()
+    episode.forKey("number", compactSet: number)
+    episode.forKey("media_url", compactSet: media_url)
+    episode.forKey("title", compactSet: title)
+    episode.forKey("summary", compactSet: summary)
+    
+    parameters["episode"] = episode
+    return parameters
+  }
+  
+}
+
+public struct EpisodeCreateRequest : Request {
+  public typealias AttributesType = EpisodeAttributes
+  public static let path: String = "/v1/episodes"
+  public static var method: RequestMethod = .post
+  public let data : EpisodeCreate
+  
+  public var parameters: [String : Any] {
+    return data.parameters
+  }
+}
+
 public extension Request {
   static var fields : [String : [String]]? {
     return AttributesType.fieldSet.map{
@@ -186,18 +227,36 @@ public struct Pagination {
   let per : Int
 }
 
+extension Array where Element == URLQueryItem {
+  mutating func appendWithKey(_ key: String, _ value: Any) {
+    if let dictionary = value as? [String : Any] {
+      for (subKey, subValue) in dictionary {
+        self.appendWithKey("\(key)[\(subKey)]", subValue)
+      }
+    } else if let array = value as? [Any] {
+      for subValue in array {
+        self.appendWithKey("\(key)[]", subValue)
+      }
+    } else {
+      self.append(URLQueryItem(name: key, value: "\(value)"))
+    }
+  }
+}
+
 public struct TransistorService {
   
   public init () {
     
   }
+  
+  
   public func fetch<RequestType : Request, AttributesType>(_ requestType: RequestType, withAPIKey apiKey : String, using session: URLSession, with decoder: JSONDecoder, atPage page: Pagination?, _ callback : @escaping ((Result<QueryResponse<AttributesType>, Error>) -> Void)) where RequestType.AttributesType == AttributesType {
     var url = URL(string: "https://api.transistor.fm/v1")!
     url.appendPathComponent(RequestType.path)
     var components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
     var queryItems = [URLQueryItem]()
     for (key, value) in requestType.parameters {
-      queryItems.append(URLQueryItem(name: key, value: "\(value)"))
+      queryItems.appendWithKey(key, value)
     }
     
     if let page = page {
@@ -206,11 +265,7 @@ public struct TransistorService {
     }
     
     if let fieldSet = RequestType.fields {
-      for (resource, fields) in fieldSet {
-        for field in fields {
-          queryItems.append(URLQueryItem(name: "fields[\(resource)][]", value: field))
-        }
-      }
+      queryItems.appendWithKey("fields", fieldSet)
     }
     
     components.queryItems = queryItems
