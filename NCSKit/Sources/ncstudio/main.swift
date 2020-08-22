@@ -11,10 +11,10 @@ import PromiseKit
 
 public struct Episode {
   public let id : Int
-  public let number : Int
+  public let number : Int?
   public let media_url : URL
   public let title : String
-  public let summary : String
+  public let summary : String?
 }
 
 public struct Show {
@@ -53,22 +53,24 @@ struct EpisodesRequest : Request {
   public init (showId : String) {
     self.showId = showId
   }
-  var parameters: [String : Any] {
+  var parameters: [String : Any]? {
     ["show_id" : self.showId]
   }
+  let data: [String : Any]? = nil
   static var path = "episodes"
   
   typealias AttributesType = EpisodeAttributes
 }
 
 struct ShowsRequest : Request {
+  let data: [String : Any]? = nil
   
   public init (query : String? = nil) {
     self.query = query
   }
   let query : String?
   
-  var parameters: [String : Any] {
+  var parameters: [String : Any]? {
     let pairs = query.map{
       ("query", $0 as Any)
     }
@@ -94,34 +96,52 @@ let transistor = TransistorService()
 let queue = DispatchQueue.global(qos: .userInitiated)
 var finished = false
 
+func fetchAllEpisodes(withAPIKey apiKey: String, using session: URLSession, with decoder: JSONDecoder, on queue: DispatchQueue) -> Promise<[Show]> {
+  let promise = Promise { (resolver) in
 
-let promise = Promise { (resolver) in
+    transistor.fetch(UserRequest(), withAPIKey: apiKey, using: session, with: decoder, atPage: nil, resolver.resolve)
 
-  transistor.fetch(UserRequest(), withAPIKey: apiKey, using: .shared, with: .init(), atPage: nil, resolver.resolve)
-
-}.then(on: queue) { (_) in
-  Promise { (resolver) in
-    transistor.fetch(ShowsRequest(), withAPIKey: apiKey, using: .shared, with: .init(), atPage: nil, resolver.resolve)
-  }
-}.then(on: queue) { (showResponse) -> Promise<[Show]> in
-  let promises = showResponse.data.map { (show) in
-    Promise<[QueryDataItem<EpisodeAttributes>]>{ (resolver) in
-      transistor.fetchAll(EpisodesRequest(showId: show.id), withAPIKey: apiKey, using: .shared, with: .init(), resolver.resolve)
-    }.recover { _ in
-      return Guarantee.value([QueryDataItem<EpisodeAttributes>]())
-    }.map(on: queue) { (episodes) in
-      try Show(show: show, episodes: episodes)
+  }.then(on: queue) { (_) in
+    Promise { (resolver) in
+      transistor.fetch(ShowsRequest(), withAPIKey: apiKey, using: session, with: decoder, atPage: nil, resolver.resolve)
     }
-  }
+  }.then(on: queue) { (showResponse) -> Promise<[Show]> in
+    let promises = showResponse.data.map { (show) in
+      Promise<[QueryDataItem<EpisodeAttributes>]>{ (resolver) in
+        transistor.fetchAll(EpisodesRequest(showId: show.id), withAPIKey: apiKey, using: session, with: decoder, on: queue, resolver.resolve)
+      }.recover { _ in
+        return Guarantee.value([QueryDataItem<EpisodeAttributes>]())
+      }.map(on: queue) { (episodes) in
+        try Show(show: show, episodes: episodes)
+      }
+    }
 
-  return when(fulfilled: promises)
-}.done { (result) in
+    return when(fulfilled: promises)
+  }
+  
+  return promise
+}
+
+let show_id = 13364
+
+let title = names.randomElement()!
+
+let newEpisode = EpisodeCreate(show_id: show_id, title: title)
+
+
+transistor.fetch(EpisodeCreateRequest(episode: newEpisode), withAPIKey: apiKey, using: .shared, with: .init(), atPage: nil) { (result) in
   print(result)
   finished = true
-}.catch { (error) in
-  print (error)
-  finished = true
 }
+//
+//
+//fetchAllEpisodes(withAPIKey: apiKey, using: .shared, with: .init(), on: queue).done { (result) in
+//  print(result)
+//  finished = true
+//}.catch { (error) in
+//  print (error)
+//  finished = true
+//}
 
 
 while !finished {

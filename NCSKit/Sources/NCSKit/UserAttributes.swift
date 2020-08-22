@@ -19,10 +19,10 @@ public struct ShowAttributes : AttributeSet {
 }
 
 public struct EpisodeAttributes : AttributeSet {
-  public let number : Int
+  public let number : Int?
   public let media_url : URL
   public let title : String
-  public let summary : String
+  public let summary : String?
   public static let fieldSet : CustomFieldSet? = CustomFieldSet(resource: "episode", fields: [
                                                          "number",
                                                          "media_url",

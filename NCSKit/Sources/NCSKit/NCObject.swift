@@ -138,7 +138,7 @@ public enum Many<Element : Codable> : Collection, Codable {
       self = .single(element)
       return
     } catch {
-      // debugPrint(error)
+      debugPrint(error)
     }
     self = try .plural(container.decode([Element].self))
     
@@ -155,7 +155,8 @@ public enum RequestMethod: String {
 public protocol Request {
   associatedtype AttributesType : AttributeSet
   
-  var parameters : [String : Any] { get }
+  var parameters : [String : Any]? { get }
+  var data : [String : Any]? { get }
   static var path : String { get }
   static var method : RequestMethod { get }
   
@@ -169,21 +170,32 @@ extension Dictionary {
   }
 }
 public struct EpisodeCreate {
+  public init(show_id: Int, season : Int = 1, number: Int? = nil,  media_url: URL? = nil, title: String? = nil, summary: String? = nil) {
+    self.number = number
+    self.media_url = media_url
+    self.title = title
+    self.summary = summary
+    self.show_id = show_id
+    self.season = season
+  }
+  
+  public let show_id : Int
   public let number : Int?
   public let media_url : URL?
   public let title : String?
   public let summary : String?
-  public let show_id : Int
+  public let season : Int
   
   var parameters : [String : Any] {
     var parameters = [String : Any]()
-    parameters["show_id"] = self.show_id
     
     var episode = [String : Any]()
+    episode.forKey("season", compactSet: season)
     episode.forKey("number", compactSet: number)
     episode.forKey("media_url", compactSet: media_url)
     episode.forKey("title", compactSet: title)
     episode.forKey("summary", compactSet: summary)
+    episode.forKey("show_id", compactSet: show_id)
     
     parameters["episode"] = episode
     return parameters
@@ -192,13 +204,21 @@ public struct EpisodeCreate {
 }
 
 public struct EpisodeCreateRequest : Request {
-  public typealias AttributesType = EpisodeAttributes
-  public static let path: String = "/v1/episodes"
-  public static var method: RequestMethod = .post
-  public let data : EpisodeCreate
   
-  public var parameters: [String : Any] {
-    return data.parameters
+  
+  public typealias AttributesType = EpisodeAttributes
+  public static let path: String = "episodes"
+  public static var method: RequestMethod = .post
+  public let episode : EpisodeCreate
+  
+  public let parameters: [String : Any]? = nil
+  
+  public var data: [String : Any]? {
+    return self.episode.parameters
+  }
+  
+  public init (episode: EpisodeCreate) {
+    self.episode = episode
   }
 }
 
@@ -214,7 +234,8 @@ public struct UserRequest : Request {
   public init () {}
   public static let path: String = ""
   
-  public let parameters: [String : Any] = [String : Any]()
+  public let parameters: [String : Any]? = nil
+  public var data: [String : Any]? = nil
   
   public typealias AttributesType = UserAttributes
   
@@ -243,6 +264,22 @@ extension Array where Element == URLQueryItem {
   }
 }
 
+extension Dictionary where Key == String, Value == String {
+  mutating func setKey(_ key: String, withValue value: Any) {
+    if let dictionary = value as? [String : Any] {
+      for (subKey, subValue) in dictionary {
+        self.setKey("\(key)[\(subKey)]", withValue: subValue)
+      }
+    } else if let array = value as? [Any] {
+      for subValue in array {
+        self.setKey("\(key)[]", withValue: subValue)
+      }
+    } else {
+      self[key] = "\(value)"
+    }
+  }
+}
+
 public struct TransistorService {
   
   public init () {
@@ -255,8 +292,11 @@ public struct TransistorService {
     url.appendPathComponent(RequestType.path)
     var components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
     var queryItems = [URLQueryItem]()
-    for (key, value) in requestType.parameters {
+    
+    if let parameters = requestType.parameters {
+    for (key, value) in parameters {
       queryItems.appendWithKey(key, value)
+    }
     }
     
     if let page = page {
@@ -273,6 +313,16 @@ public struct TransistorService {
     var urlRequest = URLRequest(url: components.url!)
     urlRequest.addValue(apiKey, forHTTPHeaderField: "x-api-key")
     urlRequest.httpMethod = RequestType.method.rawValue
+    
+    if let data = requestType.data {
+      var dictionary = [String : String]()
+      for (key, value) in data {
+        dictionary.setKey(key, withValue: value)
+      }
+      let postString = dictionary.map{ [$0.key, $0.value].joined(separator: "=")}.joined(separator: "&")
+      print(postString)
+      urlRequest.httpBody = postString.data(using: .utf8)
+    }
     
     session.dataTask(with: urlRequest) { (data, _, error) in
       let result = Result(failure: error, success: data, else: EmptyError.init).flatMap { (data) in
@@ -302,7 +352,7 @@ public struct TransistorService {
 }
 
 extension TransistorService {
-  public func fetchAll<RequestType : Request, AttributesType>(_ requestType: RequestType, withAPIKey apiKey : String, using session: URLSession, with decoder: JSONDecoder, _ callback : @escaping ((Result<[QueryDataItem<AttributesType>], Error>) -> Void)) where RequestType.AttributesType == AttributesType {
+  public func fetchAll<RequestType : Request, AttributesType>(_ requestType: RequestType, withAPIKey apiKey : String, using session: URLSession, with decoder: JSONDecoder, on queue: DispatchQueue,  _ callback : @escaping ((Result<[QueryDataItem<AttributesType>], Error>) -> Void)) where RequestType.AttributesType == AttributesType {
     self.fetch(requestType, withAPIKey: apiKey, using: session, with: decoder, atPage: nil) { (result) in
       let response : QueryResponse<AttributesType>
       switch result {
@@ -319,18 +369,21 @@ extension TransistorService {
           return
       }
       var responses = [result]
-      let queue = DispatchQueue(label: "transistor-queue", attributes: .concurrent)
+      let barrierQueue = DispatchQueue(label: "transistor-queue", attributes: .concurrent)
       let group = DispatchGroup()
       for pageNumber in 2...metadata.totalPages {
         group.enter()
-        self.fetch(requestType, withAPIKey: apiKey, using: session, with: decoder, atPage: .init(page: pageNumber, per: response.data.count)) { (result) in
-          queue.async(flags: .barrier) {
-            responses.append(result)
-            group.leave()
+        queue.async {
+          self.fetch(requestType, withAPIKey: apiKey, using: session, with: decoder, atPage: .init(page: pageNumber, per: response.data.count)) { (result) in
+            barrierQueue.async(flags: .barrier) {
+              responses.append(result)
+              group.leave()
+            }
           }
         }
       }
-      group.notify(queue: .main){
+      
+      group.notify(queue: queue){
         let responsesResult = Result {
           try responses.map{
             try $0.get()
