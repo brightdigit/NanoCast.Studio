@@ -77,11 +77,6 @@ public struct KeychainService {
   }
 }
 
-/*
- {"data":[{"id":"122","type":"show","attributes":{"title":"Empower Apps"},"relationships":{}},{"id":"13364","type":"show","attributes":{"title":"NanoCast Studio Podcast"},"relationships":{}},{"id":"216","type":"show","attributes":{"title":"OK Productive"},"relationships":{}}],"meta":{"currentPage":1,"totalPages":1,"totalCount":3}}
- 
- */
-
 
 public struct QueryDataItem<AttributesType : Codable> : Codable {
   public let id : String
@@ -158,7 +153,7 @@ public enum RequestMethod: String {
 }
 
 public protocol Request {
-  associatedtype AttributesType : Codable
+  associatedtype AttributesType : AttributeSet
   
   var parameters : [String : Any] { get }
   static var path : String { get }
@@ -166,6 +161,13 @@ public protocol Request {
   
 }
 
+public extension Request {
+  static var fields : [String : [String]]? {
+    return AttributesType.fieldSet.map{
+      [$0.resource : $0.fields]
+    }
+  }
+}
 
 public struct UserRequest : Request {
   public init () {}
@@ -201,6 +203,14 @@ public struct TransistorService {
     if let page = page {
       queryItems.append(URLQueryItem(name: "pagination[per]", value: "\(page.per)"))
       queryItems.append(URLQueryItem(name: "pagination[page]", value: "\(page.page)"))
+    }
+    
+    if let fieldSet = RequestType.fields {
+      for (resource, fields) in fieldSet {
+        for field in fields {
+          queryItems.append(URLQueryItem(name: "fields[\(resource)][]", value: field))
+        }
+      }
     }
     
     components.queryItems = queryItems
