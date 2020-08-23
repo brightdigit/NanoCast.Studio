@@ -8,6 +8,7 @@
 import Foundation
 import NCSKit
 import PromiseKit
+import NIO
 
 public struct Episode {
   public let id : Int
@@ -126,17 +127,23 @@ let show_id = 13364
 
 let title = names.randomElement()!
 
-let newEpisode = EpisodeCreate(show_id: show_id, title: title)
 
-let url = URL(fileURLWithPath: "/Users/leo/Desktop/test.jpeg")
-let s3Service = S3Service()
+let url = URL(fileURLWithPath: "/Users/leo/Desktop/soundfile.m4a")
+let s3Service = S3Service(accessKeyId: ProcessInfo.processInfo.environment["AWS_ACCESS_KEY"], secretAccessKey: ProcessInfo.processInfo.environment["AWS_ACCESS_SECRET"], region: .uswest2, bucket: "nanocaststudio-storage01")
 let data = try! Data(contentsOf: url)
 let key = UUID().uuidString
-s3Service.uploadData(data, with: key).flatMap { (_) in
-  s3Service.delete(key: key)
-}.whenComplete { (result) in
-  print(result)
-  finished = true
+s3Service.uploadData(data, with: key).whenComplete { (result) in
+  let audio_url = try! result.get()
+  let newEpisode = EpisodeCreate(show_id: show_id, audio_url: audio_url, title: title)
+  let request = EpisodeCreateRequest(episode: newEpisode)
+  
+  transistor.fetch(request, withAPIKey: apiKey, using: .shared, with: .init(), atPage: nil) { (result) in
+      print(result)
+      
+       finished = true
+    }
+  
+ 
 }
 //transistor.fetch(EpisodeCreateRequest(episode: newEpisode), withAPIKey: apiKey, using: .shared, with: .init(), atPage: nil) { (result) in
 //  print(result)

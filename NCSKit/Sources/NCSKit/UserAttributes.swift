@@ -23,7 +23,8 @@ public struct EpisodeAttributes : AttributeSet {
   public let media_url : URL
   public let title : String
   public let summary : String?
-  public static let fieldSet : CustomFieldSet? = CustomFieldSet(resource: "episode", fields: [
+  public let audio_processing: Bool
+  public static let fieldSet : CustomFieldSet? = CustomFieldSet(resource: "episode", fields: ["audio_processing",
                                                          "number",
                                                          "media_url",
                                                          "title",

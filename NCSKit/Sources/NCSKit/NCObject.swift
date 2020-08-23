@@ -14,9 +14,9 @@ public struct S3Service {
   let bucket: String
   let s3 : S3
   
-  public init () {
-    s3 = S3(accessKeyId: "__", secretAccessKey: "__", region: .uswest2)
-    bucket = "nanocaststudio-storage01"
+  public init (accessKeyId: String?, secretAccessKey: String?, region: Region?, bucket: String) {
+    s3 = S3(accessKeyId: accessKeyId, secretAccessKey: secretAccessKey, region: region)
+    self.bucket = bucket
   }
   
   public func uploadData(_ data : Data, with key: String) -> EventLoopFuture<URL> {
@@ -198,9 +198,9 @@ extension Dictionary {
   }
 }
 public struct EpisodeCreate {
-  public init(show_id: Int, season : Int = 1, number: Int? = nil,  media_url: URL? = nil, title: String? = nil, summary: String? = nil) {
+  public init(show_id: Int, season : Int = 1, number: Int? = nil,  audio_url: URL? = nil, title: String? = nil, summary: String? = nil) {
     self.number = number
-    self.media_url = media_url
+    self.audio_url = audio_url
     self.title = title
     self.summary = summary
     self.show_id = show_id
@@ -209,7 +209,7 @@ public struct EpisodeCreate {
   
   public let show_id : Int
   public let number : Int?
-  public let media_url : URL?
+  public let audio_url : URL?
   public let title : String?
   public let summary : String?
   public let season : Int
@@ -220,7 +220,7 @@ public struct EpisodeCreate {
     var episode = [String : Any]()
     episode.forKey("season", compactSet: season)
     episode.forKey("number", compactSet: number)
-    episode.forKey("media_url", compactSet: media_url)
+    episode.forKey("audio_url", compactSet: audio_url)
     episode.forKey("title", compactSet: title)
     episode.forKey("summary", compactSet: summary)
     episode.forKey("show_id", compactSet: show_id)
@@ -353,6 +353,7 @@ public struct TransistorService {
     }
     
     session.dataTask(with: urlRequest) { (data, _, error) in
+      print(String(data: data!, encoding: .utf8))
       let result = Result(failure: error, success: data, else: EmptyError.init).flatMap { (data) in
         Result {
           try decoder.decode(QueryResponse<AttributesType>.self, from: data)
