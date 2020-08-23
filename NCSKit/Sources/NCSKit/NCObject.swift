@@ -7,6 +7,18 @@
 
 import Foundation
 import Combine
+import S3
+
+public struct S3Service {
+  let s3 : S3
+  
+  func uploadData(_ data : Data, with key: String) {
+    let putObjectRequest = S3.PutObjectRequest(acl: .publicRead, body: data, bucket: "nanocaststudio-storage01", contentLength: Int64(data.count), key: "hello.txt")
+    s3.putObject(putObjectRequest)
+
+  }
+  
+}
 
 public struct EmptyError : Error {
   public init () {}
