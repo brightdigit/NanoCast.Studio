@@ -128,11 +128,20 @@ let title = names.randomElement()!
 
 let newEpisode = EpisodeCreate(show_id: show_id, title: title)
 
-
-transistor.fetch(EpisodeCreateRequest(episode: newEpisode), withAPIKey: apiKey, using: .shared, with: .init(), atPage: nil) { (result) in
+let url = URL(fileURLWithPath: "/Users/leo/Desktop/test.jpeg")
+let s3Service = S3Service()
+let data = try! Data(contentsOf: url)
+let key = UUID().uuidString
+s3Service.uploadData(data, with: key).flatMap { (_) in
+  s3Service.delete(key: key)
+}.whenComplete { (result) in
   print(result)
   finished = true
 }
+//transistor.fetch(EpisodeCreateRequest(episode: newEpisode), withAPIKey: apiKey, using: .shared, with: .init(), atPage: nil) { (result) in
+//  print(result)
+//  finished = true
+//}
 //
 //
 //fetchAllEpisodes(withAPIKey: apiKey, using: .shared, with: .init(), on: queue).done { (result) in
