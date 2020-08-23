@@ -8,83 +8,72 @@
 import Foundation
 import NCSKit
 import PromiseKit
+import NIO
 
-public struct Episode {
-  public let id : Int
-  public let number : Int?
-  public let media_url : URL
-  public let title : String
-  public let summary : String?
-}
 
-public struct Show {
-  public let id : Int
-  public let title : String
-  public let episodes : [Episode]
-  
-  
-}
+//
 
-enum ParsingError : Error {
-  case idInvalidString(String)
-}
-extension Show {
-  public init (show: QueryDataItem<ShowAttributes>, episodes: [QueryDataItem<EpisodeAttributes>]) throws {
-    guard let id = Int(show.id) else {
-      throw ParsingError.idInvalidString(show.id)
-    }
-    
-    self.id = id
-    self.title = show.attributes.title
-    self.episodes = try episodes.map({ (item) in
-      guard let id = Int(item.id) else {
-        throw ParsingError.idInvalidString(show.id)
-      }
-      return Episode(id: id, number: item.attributes.number, media_url: item.attributes.media_url, title: item.attributes.title, summary: item.attributes.summary)
-    })
-  }
-}
-
-struct EpisodesRequest : Request {
-  
-  static var method: RequestMethod  = .get
-  
-  let showId : String
-  public init (showId : String) {
-    self.showId = showId
-  }
-  var parameters: [String : Any]? {
-    ["show_id" : self.showId]
-  }
-  let data: [String : Any]? = nil
-  static var path = "episodes"
-  
-  typealias AttributesType = EpisodeAttributes
-}
-
-struct ShowsRequest : Request {
-  let data: [String : Any]? = nil
-  
-  public init (query : String? = nil) {
-    self.query = query
-  }
-  let query : String?
-  
-  var parameters: [String : Any]? {
-    let pairs = query.map{
-      ("query", $0 as Any)
-    }
-    return Dictionary(uniqueKeysWithValues: [pairs].compactMap{$0})
-  }
-  
-  static var path: String = "shows"
-  
-  static var method: RequestMethod = .get
-  
-  typealias AttributesType = ShowAttributes
-  
-  
-}
+//
+//enum ParsingError : Error {
+//  case idInvalidString(String)
+//}
+//extension Show {
+//  public init (show: QueryDataItem<ShowAttributes>, episodes: [QueryDataItem<EpisodeAttributes>]) throws {
+//    guard let id = Int(show.id) else {
+//      throw ParsingError.idInvalidString(show.id)
+//    }
+//    
+//    self.id = id
+//    self.title = show.attributes.title
+//    self.episodes = try episodes.map({ (item) in
+//      guard let id = Int(item.id) else {
+//        throw ParsingError.idInvalidString(show.id)
+//      }
+//      return Episode(id: id, number: item.attributes.number, media_url: item.attributes.media_url, title: item.attributes.title, summary: item.attributes.summary, status: item.attributes.status)
+//    })
+//  }
+//}
+//
+//struct EpisodesRequest : Request {
+//  
+//  static var method: RequestMethod  = .get
+//  
+//  let showId : String
+//  public init (showId : String) {
+//    self.showId = showId
+//  }
+//  var parameters: [String : Any]? {
+//    ["show_id" : self.showId]
+//  }
+//  let data: [String : Any]? = nil
+//  static var path = "episodes"
+//  
+//  typealias AttributesType = EpisodeAttributes
+//}
+//
+//struct ShowsRequest : Request {
+//  let data: [String : Any]? = nil
+//  
+//  public init (query : String? = nil) {
+//    self.query = query
+//  }
+//  let query : String?
+//  
+//  var parameters: [String : Any]? {
+//    let pairs = query.map{
+//      ("query", $0 as Any)
+//    }
+//    return Dictionary(uniqueKeysWithValues: [pairs].compactMap{$0})
+//  }
+//  
+//  static var path: String = "shows"
+//  
+//  static var method: RequestMethod = .get
+//  
+//  typealias AttributesType = ShowAttributes
+//  
+//  
+//}
 
 guard let apiKey = ProcessInfo.processInfo.environment["TRANSISTORFM_API_KEY"] else {
   print("Missing API KEY")
@@ -126,13 +115,28 @@ let show_id = 13364
 
 let title = names.randomElement()!
 
-let newEpisode = EpisodeCreate(show_id: show_id, title: title)
 
-
-transistor.fetch(EpisodeCreateRequest(episode: newEpisode), withAPIKey: apiKey, using: .shared, with: .init(), atPage: nil) { (result) in
-  print(result)
-  finished = true
+let url = URL(fileURLWithPath: "/Users/leo/Desktop/soundfile.m4a")
+let s3Service = S3Service(accessKeyId: ProcessInfo.processInfo.environment["AWS_ACCESS_KEY"], secretAccessKey: ProcessInfo.processInfo.environment["AWS_ACCESS_SECRET"], region: .uswest2, bucket: "nanocaststudio-storage01")
+let data = try! Data(contentsOf: url)
+let key = UUID().uuidString
+s3Service.uploadData(data, with: key).whenComplete { (result) in
+  let audio_url = try! result.get()
+  let newEpisode = EpisodeCreate(show_id: show_id, audio_url: audio_url, title: title)
+  let request = EpisodeCreateRequest(episode: newEpisode)
+  
+  transistor.fetch(request, withAPIKey: apiKey, using: .shared, with: .init(), atPage: nil) { (result) in
+      print(result)
+      
+       finished = true
+    }
+  
+ 
 }
+//transistor.fetch(EpisodeCreateRequest(episode: newEpisode), withAPIKey: apiKey, using: .shared, with: .init(), atPage: nil) { (result) in
+//  print(result)
+//  finished = true
+//}
 //
 //
 //fetchAllEpisodes(withAPIKey: apiKey, using: .shared, with: .init(), on: queue).done { (result) in
