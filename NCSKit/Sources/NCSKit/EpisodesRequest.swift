@@ -1,5 +1,5 @@
 
-public struct EpisodesRequest : Request {
+public struct ListEpisodesRequest : Request {
   
   public static var method: RequestMethod  = .get
   
@@ -11,7 +11,7 @@ public struct EpisodesRequest : Request {
     ["show_id" : self.showId]
   }
   public let data: [String : Any]? = nil
-  public static var path = "episodes"
+  public let path = "episodes"
   
   public typealias AttributesType = EpisodeAttributes
 }

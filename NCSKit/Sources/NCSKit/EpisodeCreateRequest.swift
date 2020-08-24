@@ -5,7 +5,7 @@ public struct EpisodeCreateRequest : Request {
   
   
   public typealias AttributesType = EpisodeAttributes
-  public static let path: String = "episodes"
+  public let path: String = "episodes"
   public static var method: RequestMethod = .post
   public let episode : EpisodeCreate
   

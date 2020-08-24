@@ -9,7 +9,7 @@ public struct TransistorService {
   
   public func fetch<RequestType : Request, AttributesType>(_ requestType: RequestType, withAPIKey apiKey : String, using session: URLSession, with decoder: JSONDecoder, atPage page: Pagination?, _ callback : @escaping ((Result<QueryResponse<AttributesType>, Error>) -> Void)) where RequestType.AttributesType == AttributesType {
     var url = URL(string: "https://api.transistor.fm/v1")!
-    url.appendPathComponent(RequestType.path)
+    url.appendPathComponent(requestType.path)
     var components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
     var queryItems = [URLQueryItem]()
     

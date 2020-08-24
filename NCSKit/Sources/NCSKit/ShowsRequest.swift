@@ -14,7 +14,7 @@ public struct ShowsRequest : Request {
     return Dictionary(uniqueKeysWithValues: [pairs].compactMap{$0})
   }
   
-  public static var path: String = "shows"
+  public let path: String = "shows"
   
   public static var method: RequestMethod = .get
   
