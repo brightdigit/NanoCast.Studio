@@ -21,8 +21,8 @@ extension Publisher where Self.Failure == Never {
   
   func assign<CollectionType, Root>(to published: inout Published<Self.Output>.Publisher, or keyPathObject: KeyPathOnObject<Self.Output, Root>, storeIn collection: inout CollectionType) where Self.Failure == Never, CollectionType : RangeReplaceableCollection, CollectionType.Element == AnyCancellable {
     
-    if #available(iOS 14.0, watchOS 7.0, *) {
-      self.assign(to: &published)
+    if #available(iOS 14.0, watchOS 7.0, OSX 11.0, *) {
+        self.assign(to: &published)
     } else {
       self.assign(to: keyPathObject.1, on: keyPathObject.0).store(in: &collection)
     }
@@ -51,6 +51,13 @@ public class NCSObject : ObservableObject {
   var cancellables  = [AnyCancellable]()
   
   public init () {
+    let userResultApiKeyPublisher = self.$userResult.compactMap{ try? $0?.get() }.map{$0.apiKey}
+    
+    let keychainServiceApiKeyPublisher = self.$confirmedApiKey.compactMap{ $0 == nil ? () : nil }.flatMap { _ in
+      Timer.publish(every: 5.0, tolerance: 2.5, on: .current, in: .default, options: nil).autoconnect()
+    }.tryCompactMap { _ in
+      try self.keychainService.fetchKey("TRANSISTORFM_API_KEY")
+    }
   }
   
   public func signIn () {
