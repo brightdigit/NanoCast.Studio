@@ -135,6 +135,10 @@ extension TransistorService {
       }
     }
   }
+  
+  static func estimatedSeconds(forByteSize byteSize: Int) -> Int {
+    return byteSize / 725000 + 20
+  }
 }
 //
 //public class NCObject : ObservableObject {
