@@ -9,16 +9,17 @@ import SwiftUI
 import NCSKit
 
 struct ContentView: View {
-  @EnvironmentObject var object : NCObject
+  @EnvironmentObject var object : NCSObject
     var body: some View {
       NavigationView(content: {
-        VStack{
-          TextField("API Key", text: $object.apiKey)
-        NavigationLink(destination: Text("Destination"))
-        {
-          Text("Navigate")
-        }
-        }
+        LoginView()
+//        VStack{
+//          TextField("API Key", text: $object.apiKey)
+//        NavigationLink(destination: Text("Destination"))
+//        {
+//          Text("Navigate")
+//        }
+//        }
       })
     }
 }

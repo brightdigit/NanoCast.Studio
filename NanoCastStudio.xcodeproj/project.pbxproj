@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B33B427824F44AB7006B8BEF /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36690A624ED9EA500FCFE9D /* LoginView.swift */; };
 		B3480E6024ECB42000A51B13 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3480E5F24ECB42000A51B13 /* AppDelegate.swift */; };
 		B3480E6224ECB42000A51B13 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3480E6124ECB42000A51B13 /* SceneDelegate.swift */; };
 		B3480E6424ECB42000A51B13 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3480E6324ECB42000A51B13 /* ContentView.swift */; };
@@ -359,6 +360,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B33B427824F44AB7006B8BEF /* LoginView.swift in Sources */,
 				B3480E6024ECB42000A51B13 /* AppDelegate.swift in Sources */,
 				B36690AA24EDC7CF00FCFE9D /* TransistorObject.swift in Sources */,
 				B36690B524EDDE6600FCFE9D /* KeychainObject.swift in Sources */,

@@ -56,37 +56,24 @@ public struct TransistorService {
     }.resume()
   }
 
-  @available(*, deprecated)
-  func user (withAPIKey apiKey: String, callback: ((Result<QueryResponse<UserAttributes>, Error>) -> Void)) {
-    
-  }
-  
-  @available(*, deprecated)
-  func shows (withAPIKey apiKey: String, _ callback: ((Result<QueryResponse<ShowAttributes>, Error>) -> Void)) {
-    
-  }
-  
-  @available(*, deprecated)
-  func episodes(forShowWithId showId: Int, _ callback: ((Result<QueryResponse<EpisodeAttributes>, Error>) -> Void)) {
-  }
   
 }
 
-extension TransistorService {
-  
-  
-  
-  func refresh (withAPIKey apiKey: String, _ callback:  ((Result<TransistorDatabase, Error>) -> Void)) {
-    self.shows(withAPIKey: apiKey) { (result) in
-      switch result {
-      case .failure(let error):
-        callback(.failure(error))
-      case .success(let showResponse): break
-      }
-    }
-  }
-  
-}
+//extension TransistorService {
+//  
+//  
+//  
+//  func refresh (withAPIKey apiKey: String, _ callback:  ((Result<TransistorDatabase, Error>) -> Void)) {
+//    self.shows(withAPIKey: apiKey) { (result) in
+//      switch result {
+//      case .failure(let error):
+//        callback(.failure(error))
+//      case .success(let showResponse): break
+//      }
+//    }
+//  }
+//  
+//}
 extension TransistorService {
   public func fetchAll<RequestType : Request, AttributesType>(_ requestType: RequestType, withAPIKey apiKey : String, using session: URLSession, with decoder: JSONDecoder, on queue: DispatchQueue,  _ callback : @escaping ((Result<[QueryDataItem<AttributesType>], Error>) -> Void)) where RequestType.AttributesType == AttributesType {
     self.fetch(requestType, withAPIKey: apiKey, using: session, with: decoder, atPage: nil) { (result) in

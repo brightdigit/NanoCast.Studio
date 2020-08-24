@@ -6,13 +6,14 @@
 //
 
 import SwiftUI
-
+import NCSKit
 
 struct LoginView: View {
-  @EnvironmentObject var transistor : TransistorObject
+  @EnvironmentObject var application : NCSObject
   var statusImage : some View {
     Group {
-      self.transistor.userResult.map {
+      
+      self.application.userResult.map {
         switch $0 {
         case .success:
           return "checkmark"
@@ -24,9 +25,9 @@ struct LoginView: View {
   }
     var body: some View {
       VStack{
-        TextField("API Key", text: $transistor.apiKey)
+        TextField("API Key", text: $application.loginApiKey)
         Button("Sign in") {
-          self.transistor.beginSignin()
+          self.application.signIn()
         }
         self.statusImage
       }
