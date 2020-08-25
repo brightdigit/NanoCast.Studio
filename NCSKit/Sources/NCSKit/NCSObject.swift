@@ -54,31 +54,31 @@ public class NCSObject : ObservableObject {
     //try! self.keychainService.clear()
     let userResultApiKeyPublisher = self.$userResult.compactMap{ $0 }.compactMap{ try? $0.get().apiKey }
     
-    let keychainServiceResultPublisher = self.$confirmedApiKey.compactMap{ $0 == nil ? () : nil }.flatMap { _ in
-      Timer.publish(every: 5.0, tolerance: 2.5, on: .current, in: .default, options: nil).autoconnect()
-    }.tryMap { _ -> String? in
-      let key = try self.keychainService.fetchKey("TRANSISTORFM_API_KEY")
-      print(key)
-      return key
-    }
+//    let keychainServiceResultPublisher = self.$confirmedApiKey.compactMap{ $0 == nil ? () : nil }.flatMap { _ in
+//      Timer.publish(every: 5.0, tolerance: 2.5, on: .current, in: .default, options: nil).autoconnect()
+//    }.flatMap { _ in
+//      return Future{ (resolve) in
+//        self.ke
+//      }
+//    }
     
     let keychainSaveErrorPublisher = userResultApiKeyPublisher.tryMap { (apiKey)  in
-      try self.keychainService.saveKey("TRANSISTORFM_API_KEY", withValue: apiKey)
+      try self.keychainService.saveKey("TRANSISTORFM_API_KEY", withValue: apiKey, {_ in })
     }.map { $0 as? Error }.catch{ Just($0) }.compactMap{ $0 }
     
+//
+//    let keychainFetchErrorPublisher = keychainServiceResultPublisher.map { $0 as? Error }.catch{ Just($0) }.compactMap{ $0 }
     
-    let keychainFetchErrorPublisher = keychainServiceResultPublisher.map { $0 as? Error }.catch{ Just($0) }.compactMap{ $0 }
+//    keychainFetchErrorPublisher.merge(with: keychainSaveErrorPublisher).receive(on: DispatchQueue.main).print().sink { (error) in
+//
+//      self.keychainError = error
+//    }.store(in: &cancellables)
+//
+//    let keychainServiceApiKeyPublisher = keychainServiceResultPublisher.replaceError(with: nil).compactMap{ $0 }
     
-    keychainFetchErrorPublisher.merge(with: keychainSaveErrorPublisher).receive(on: DispatchQueue.main).print().sink { (error) in
-      
-      self.keychainError = error
-    }.store(in: &cancellables)
-    
-    let keychainServiceApiKeyPublisher = keychainServiceResultPublisher.replaceError(with: nil).compactMap{ $0 }
-    
-    keychainServiceApiKeyPublisher.merge(with: userResultApiKeyPublisher).receive(on: DispatchQueue.main).sink { (apiKey) in
-      self.confirmedApiKey = apiKey
-    }.store(in: &self.cancellables)
+//    keychainServiceApiKeyPublisher.merge(with: userResultApiKeyPublisher).receive(on: DispatchQueue.main).sink { (apiKey) in
+//      self.confirmedApiKey = apiKey
+//    }.store(in: &self.cancellables)
     
     
   }
