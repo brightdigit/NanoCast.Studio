@@ -69,10 +69,8 @@ public class NCSObject : ObservableObject {
     
     let keychainFetchErrorPublisher = keychainServiceResultPublisher.map { $0 as? Error }.catch{ Just($0) }.compactMap{ $0 }
     
-    keychainFetchErrorPublisher.merge(with: keychainSaveErrorPublisher).receive(on: DispatchQueue.main).sink { (error) in
-      if let secerror = error as? SecError {
-        print(secerror.localizedDescription)
-      }
+    keychainFetchErrorPublisher.merge(with: keychainSaveErrorPublisher).receive(on: DispatchQueue.main).print().sink { (error) in
+      
       self.keychainError = error
     }.store(in: &cancellables)
     
