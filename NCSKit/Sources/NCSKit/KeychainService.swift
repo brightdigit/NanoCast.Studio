@@ -1,10 +1,20 @@
 import Foundation
 import CryptoSwift
 import CloudKit
+import UserNotifications
 
 extension Array {
-  func flatten<Success, Failure>() where Element == Result<Success, Failure> {
-    
+  func flatten<Success, Failure>() -> Result<[Success], Failure> where Element == Result<Success, Failure> {
+    var successes = [Success]()
+    for result in self {
+      switch result {
+      case .failure(let error):
+        return .failure(error)
+      case .success(let success):
+        successes.append(success)
+      }
+    }
+    return .success(successes)
   }
 }
 public struct  KeychainService {

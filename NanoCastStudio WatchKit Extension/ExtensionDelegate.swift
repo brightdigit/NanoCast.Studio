@@ -6,9 +6,19 @@
 //
 
 import WatchKit
+import CloudKit
 
 class ExtensionDelegate: NSObject, WKExtensionDelegate {
 
+  func didReceiveRemoteNotification(_ userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (WKBackgroundFetchResult) -> Void) {
+    guard let notification = CKNotification(fromRemoteNotificationDictionary: userInfo) else {
+      return
+    }
+    
+    guard notification.subscriptionID == "accountSubscriptionIDv1" else {
+      return
+    }
+  }
     func applicationDidFinishLaunching() {
         // Perform any final initialization of your application.
     }
