@@ -45,19 +45,44 @@ public class NCSObject : ObservableObject {
   @Published private(set) var confirmedApiKey : String?
   
   
-  @Published public private(set) var keyChainError : Error?
+  @Published public private(set) var keychainError : Error?
   @Published public private(set) var apiError : Error?
   
   var cancellables  = [AnyCancellable]()
   
   public init () {
-    let userResultApiKeyPublisher = self.$userResult.compactMap{ try? $0?.get() }.map{$0.apiKey}
+    //try! self.keychainService.clear()
+    let userResultApiKeyPublisher = self.$userResult.compactMap{ $0 }.compactMap{ try? $0.get().apiKey }
     
-    let keychainServiceApiKeyPublisher = self.$confirmedApiKey.compactMap{ $0 == nil ? () : nil }.flatMap { _ in
+    let keychainServiceResultPublisher = self.$confirmedApiKey.compactMap{ $0 == nil ? () : nil }.flatMap { _ in
       Timer.publish(every: 5.0, tolerance: 2.5, on: .current, in: .default, options: nil).autoconnect()
-    }.tryCompactMap { _ in
-      try self.keychainService.fetchKey("TRANSISTORFM_API_KEY")
+    }.tryMap { _ -> String? in
+      let key = try self.keychainService.fetchKey("TRANSISTORFM_API_KEY")
+      print(key)
+      return key
     }
+    
+    let keychainSaveErrorPublisher = userResultApiKeyPublisher.tryMap { (apiKey)  in
+      try self.keychainService.saveKey("TRANSISTORFM_API_KEY", withValue: apiKey)
+    }.map { $0 as? Error }.catch{ Just($0) }.compactMap{ $0 }
+    
+    
+    let keychainFetchErrorPublisher = keychainServiceResultPublisher.map { $0 as? Error }.catch{ Just($0) }.compactMap{ $0 }
+    
+    keychainFetchErrorPublisher.merge(with: keychainSaveErrorPublisher).receive(on: DispatchQueue.main).sink { (error) in
+      if let secerror = error as? SecError {
+        print(secerror.localizedDescription)
+      }
+      self.keychainError = error
+    }.store(in: &cancellables)
+    
+    let keychainServiceApiKeyPublisher = keychainServiceResultPublisher.replaceError(with: nil).compactMap{ $0 }
+    
+    keychainServiceApiKeyPublisher.merge(with: userResultApiKeyPublisher).receive(on: DispatchQueue.main).sink { (apiKey) in
+      self.confirmedApiKey = apiKey
+    }.store(in: &self.cancellables)
+    
+    
   }
   
   public func signIn () {
@@ -72,7 +97,9 @@ public class NCSObject : ObservableObject {
         
         return .success(UserInfo(apiKey:apiKey, attributes: item.attributes))
       }
-      self.userResult = itemResult
+      DispatchQueue.main.async {
+        self.userResult = itemResult
+      }
     }
   }
 }

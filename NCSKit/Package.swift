@@ -17,7 +17,8 @@ let package = Package(
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
       .package(url: "https://github.com/mxcl/PromiseKit", from: "7.0.0-alpha3"),
-      .package(name: "AWSSDKSwift", url: "https://github.com/swift-aws/aws-sdk-swift.git", from: "4.0.0")
+      .package(name: "AWSSDKSwift", url: "https://github.com/swift-aws/aws-sdk-swift.git", from: "4.0.0"),
+      .package(url: "https://github.com/kishikawakatsumi/KeychainAccess.git", from: "3.0.0"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -25,6 +26,7 @@ let package = Package(
         .target(
             name: "NCSKit",
             dependencies: [
+              "KeychainAccess",
               .product(name: "S3", package: "AWSSDKSwift")]),
       .target(name: "ncstudio",
               dependencies: ["NCSKit","PromiseKit"]),

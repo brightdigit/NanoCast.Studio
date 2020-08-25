@@ -8,12 +8,11 @@
 import WatchKit
 import Foundation
 import SwiftUI
+import NCSKit
 
 class HostingController: WKHostingController<AnyView> {
     override var body: AnyView {
       return
-        AnyView(ContentView().environmentObject(RecordingSessionObject(session: .sharedInstance()))
-                  
-                  .environmentObject(TransistorObject()))
+        AnyView(ContentView().environmentObject(NCSObject()))
     }
 }
