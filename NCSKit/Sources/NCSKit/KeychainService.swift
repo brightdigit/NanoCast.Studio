@@ -1,24 +1,29 @@
 import Foundation
 import CryptoSwift
+import CloudKit
+public struct  KeychainService {
 
-public class KeychainService {
-
-  let key = "12345678901234561234567890123456".data(using: .utf8)!
-  var dictionary = [String:Data]()
+  let encryptionKey : Data
+  
+  
+  init (encryptionKey: Data) {
+    self.encryptionKey = encryptionKey
+    let container = CKContainer(identifier: "iCloud.com.brightdigit.NanoCastStudio")
+  }
   func clear () throws {
   }
   func fetchKey(_ key: String) throws -> String? {
     
-    if let data = dictionary[key] {
-      let actualData = data[0...(data.count-17)]
-      let iv = Data(data.suffix(16))
-      print(String(data: iv, encoding: .utf8))
-      print("Decypting \(actualData.count) bytes")
-      let aes = try AES(key: self.key.bytes, blockMode: CBC(iv: iv.bytes), padding: .pkcs7)
-      if let text = String(data: try actualData.decrypt(cipher: aes), encoding: .utf8) {
-        return text
-      }
-    }
+//    if let data = dictionary[key] {
+//      let actualData = data[0...(data.count-17)]
+//      let iv = Data(data.suffix(16))
+//      print(String(data: iv, encoding: .utf8))
+//      print("Decypting \(actualData.count) bytes")
+//      let aes = try AES(key: self.key.bytes, blockMode: CBC(iv: iv.bytes), padding: .pkcs7)
+//      if let text = String(data: try actualData.decrypt(cipher: aes), encoding: .utf8) {
+//        return text
+//      }
+//    }
     return nil
 //    let queryLoad: [String: AnyObject] = [
 //      kSecClass as String: kSecClassGenericPassword,
@@ -50,16 +55,16 @@ public class KeychainService {
   }
   
   func saveKey(_ key: String, withValue value: String) throws {
-    let actualData = value.data(using: .utf8)!
-    let ivChars = "1234567890123456".shuffled()
-    let ivString = String(ivChars)
-    let ivData = ivString.data(using: .utf8)!
-    print(ivString)
-    let data = actualData + ivData
-    let aes = try AES(key: self.key.bytes, blockMode: CBC(iv: ivData.bytes), padding: .pkcs7)
-    let encrypted = try actualData.encrypt(cipher: aes)
-    print("Encypted \(encrypted.count)")
-    self.dictionary[key] = encrypted + ivData
+//    let actualData = value.data(using: .utf8)!
+//    let ivChars = "1234567890123456".shuffled()
+//    let ivString = String(ivChars)
+//    let ivData = ivString.data(using: .utf8)!
+//    print(ivString)
+//    let data = actualData + ivData
+//    let aes = try AES(key: self.key.bytes, blockMode: CBC(iv: ivData.bytes), padding: .pkcs7)
+//    let encrypted = try actualData.encrypt(cipher: aes)
+//    print("Encypted \(encrypted.count)")
+//    self.dictionary[key] = encrypted + ivData
     //try keychain.set(value, key: key)
     //Keychain(accessGroup: "MLT7M394S7.com.brightdigit.NanoCastStudio").synchronizable(true)[key] = value
 //    guard let valueData = value.data(using: String.Encoding.utf8) else {

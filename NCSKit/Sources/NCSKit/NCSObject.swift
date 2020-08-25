@@ -34,7 +34,7 @@ public struct UserInfo {
 }
 
 public class NCSObject : ObservableObject {
-  let keychainService = KeychainService()
+  let keychainService = KeychainService(encryptionKey: Data())
   let transistorService = TransistorService()
   
   
