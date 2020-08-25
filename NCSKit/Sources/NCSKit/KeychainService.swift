@@ -3,15 +3,15 @@ import KeychainAccess
 
 public struct KeychainService {
   let groupName = "MLT7M394S7.com.brightdigit.NanoCastStudio"
-  let keychain = Keychain(service: "MLT7M394S7.com.brightdigit.NanoCastStudio").synchronizable(true)
+  let keychain = Keychain(accessGroup: "MLT7M394S7.com.brightdigit.NanoCastStudio")
   
   func clear () throws {
     try Keychain(service: "MLT7M394S7.com.brightdigit.NanoCastStudio").synchronizable(true).removeAll()
   }
   func fetchKey(_ key: String) throws -> String? {
     print("fetching key")
-    debugPrint(Keychain(service: "MLT7M394S7.com.brightdigit.NanoCastStudio").synchronizable(true).allKeys())
-    return Keychain(service: "MLT7M394S7.com.brightdigit.NanoCastStudio").synchronizable(true)[key]
+    debugPrint(keychain.allKeys())
+    return try keychain.getString(key)
 //    let queryLoad: [String: AnyObject] = [
 //      kSecClass as String: kSecClassGenericPassword,
 //      kSecAttrAccount as String: key as AnyObject,
@@ -42,7 +42,8 @@ public struct KeychainService {
   }
   
   func saveKey(_ key: String, withValue value: String) throws {
-    Keychain(service: "MLT7M394S7.com.brightdigit.NanoCastStudio").synchronizable(true)[key] = value
+    try keychain.set(value, key: key)
+    //Keychain(accessGroup: "MLT7M394S7.com.brightdigit.NanoCastStudio").synchronizable(true)[key] = value
 //    guard let valueData = value.data(using: String.Encoding.utf8) else {
 //      print("Error saving text to Keychain")
 //      return
