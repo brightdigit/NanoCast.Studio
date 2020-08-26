@@ -23,26 +23,21 @@ public struct  KeychainService {
   //var currentError : Error?
   public let defaults : UserDefaults
   let database : CKDatabase
-  public init (encryptionKey: Data) {
-    self.defaults = UserDefaults(suiteName: "group.com.brightdigit.NanoCastStudio")!
-    let container = CKContainer(identifier: "iCloud.com.brightdigit.NanoCastStudio")
-    self.encryptionKey = encryptionKey
-    self.database = container.privateCloudDatabase
-    let database = container.privateCloudDatabase
-    //    subscription.subscriptionID = "accountSubscriptionID"
+  
+  public func beginSubscription () {
+    let clearAllSubscriptions = ProcessInfo.processInfo.environment["CLEAR_ALL_SUBSCRIPTIONS"].map{ Bool($0) ?? true} ?? false
+    
+    if clearAllSubscriptions {
+      print("Clearing all subscriptions...")
+    }
     let subscriptionId = "accountSubscriptionIDv1"
-    
-    //
-    //    let accountSubscriptionID = defaults?.string(forKey: "accountSubscriptionID")
-    // TODO: Use CKModifySubscriptionsOperation
-    
     self.database.fetchAllSubscriptions { (subscriptions, error) in
       let result = Result(failure: error, success: subscriptions, else: EmptyError.init)
       let foundResult = result.map{ (subscriptions) -> (CKSubscription?, [CKSubscription.ID]) in
         var found : CKSubscription?
         var ids = [CKSubscription.ID]()
         for subscription in subscriptions {
-          if found == nil, subscription.subscriptionID == subscriptionId {
+          if found == nil, subscription.subscriptionID == subscriptionId, !clearAllSubscriptions {
             found = subscription
           } else {
             ids.append(subscription.subscriptionID)
@@ -58,40 +53,77 @@ public struct  KeychainService {
         //self.currentError = error
         return
       }
-      let group = DispatchGroup()
-      let queue = DispatchQueue(label: "cloud")
-      let resultqueue = DispatchQueue(label: "result", attributes: .concurrent)
-      var results = [Result<Void, Error>]()
-      ids.forEach { (id) in
-        group.enter()
-        queue.async {
-          container.privateCloudDatabase.delete(withSubscriptionID: id) { _ , error in
-            let result = Result(failure: error, success: (), else: EmptyError.init).map{_ in ()}
-            resultqueue.async(flags: .barrier) {
-              
-              results.append(result)
-              group.leave()
-            }
-          }
+//      let group = DispatchGroup()
+//      let queue = DispatchQueue(label: "cloud")
+//      let resultqueue = DispatchQueue(label: "result", attributes: .concurrent)
+//      var results = [Result<Void, Error>]()
+//      ids.forEach { (id) in
+////        group.enter()
+////        queue.async {
+////          container.privateCloudDatabase.delete(withSubscriptionID: id) { _ , error in
+////            let result = Result(failure: error, success: (), else: EmptyError.init).map{_ in ()}
+////            resultqueue.async(flags: .barrier) {
+////
+////              results.append(result)
+////              group.leave()
+////            }
+////          }
+////        }
+//      }
+      let subscriptionsToSave : [CKSubscription]?
+      if subscription == nil, !clearAllSubscriptions {
+        //group.enter()
+        let subscription = CKQuerySubscription(recordType: "Account", predicate: .init(value: true), subscriptionID: subscriptionId, options: [.firesOnRecordUpdate, .firesOnRecordCreation])
+        subscription.notificationInfo = .init(alertBody: "Received API Key", shouldBadge: false, shouldSendContentAvailable: true)
+        subscriptionsToSave = [subscription]
+//        database.save(subscription) { (_, error) in
+//          let result = Result(failure: error, success: (), else: EmptyError.init).map{_ in ()}
+//          resultqueue.async(flags: .barrier) {
+//
+//            results.append(result)
+//            group.leave()
+//          }
+//        }
+      } else {
+        subscriptionsToSave = nil
+        guard !ids.isEmpty else {
+          print("no subscription changes")
+          return
         }
       }
-      if subscription == nil {
-        group.enter()
-        let subscription = CKQuerySubscription(recordType: "Account", predicate: .init(value: true), subscriptionID: subscriptionId, options: [.firesOnRecordUpdate, .firesOnRecordUpdate])
-        subscription.notificationInfo = .init(shouldBadge: false, shouldSendContentAvailable: true)
-        database.save(subscription) { (_, error) in
-          let result = Result(failure: error, success: (), else: EmptyError.init).map{_ in ()}
-          resultqueue.async(flags: .barrier) {
-            
-            results.append(result)
-            group.leave()
-          }
-        }
+      
+      let modifySubscriptionsOp = CKModifySubscriptionsOperation(subscriptionsToSave: subscriptionsToSave, subscriptionIDsToDelete: ids.isEmpty ? nil : ids)
+      
+      modifySubscriptionsOp.modifySubscriptionsCompletionBlock = {
+        print("modificaiton complete", $2)
       }
-      group.notify(queue: queue){
-        print(results)
+      modifySubscriptionsOp.completionBlock = {
+        print("block complete")
       }
+      modifySubscriptionsOp.qualityOfService = .userInteractive
+      modifySubscriptionsOp.queuePriority = .veryHigh
+      
+      let container = CKContainer(identifier: "iCloud.com.brightdigit.NanoCastStudio")
+      modifySubscriptionsOp.database = container.privateCloudDatabase
+      container.privateCloudDatabase.add(modifySubscriptionsOp)
+//      group.notify(queue: queue){
+//        print(results)
+//      }
     }
+  }
+  public init (encryptionKey: Data) {
+    self.defaults = UserDefaults(suiteName: "group.com.brightdigit.NanoCastStudio")!
+    let container = CKContainer(identifier: "iCloud.com.brightdigit.NanoCastStudio")
+    self.encryptionKey = encryptionKey
+    self.database = container.privateCloudDatabase
+    let database = container.privateCloudDatabase
+    //    subscription.subscriptionID = "accountSubscriptionID"
+    
+    //
+    //    let accountSubscriptionID = defaults?.string(forKey: "accountSubscriptionID")
+    // TODO: Use CKModifySubscriptionsOperation
+    
+    
     
   }
   
@@ -115,11 +147,11 @@ public struct  KeychainService {
         guard data.count > 16 else {
           return .failure(EmptyError())
         }
-        print(data.count)
+        //print(data.count)
         let actualData = Data(data[0...(data.count-17)])
         let iv = Data(data.suffix(16))
         
-        print(String(data: iv, encoding: .utf8))
+        //print("iv", String(data: iv, encoding: .utf8))
         let aes : AES
         let descrypted : Data
         do {
@@ -194,8 +226,6 @@ public struct  KeychainService {
     let ivChars = "1234567890123456".shuffled()
     let ivString = String(ivChars)
     let ivData = ivString.data(using: .utf8)!
-    print(actualData.count)
-    print(ivData.count)
     let aes : AES
     let encrypted : Data
     do {

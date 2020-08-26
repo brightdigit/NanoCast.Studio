@@ -56,6 +56,11 @@
             value = "8y/B?E(H+MbPeShVmYq3t6w9z$C&amp;F)J@"
             isEnabled = "YES">
          </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "CLEAR_ALL_SUBSCRIPTIONS"
+            value = "true"
+            isEnabled = "NO">
+         </EnvironmentVariable>
       </EnvironmentVariables>
    </LaunchAction>
    <ProfileAction
