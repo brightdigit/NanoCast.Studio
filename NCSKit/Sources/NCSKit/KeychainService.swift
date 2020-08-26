@@ -21,7 +21,7 @@ public struct  KeychainService {
   
   let encryptionKey : Data
   //var currentError : Error?
-  let defaults : UserDefaults
+  public let defaults : UserDefaults
   let database : CKDatabase
   public init (encryptionKey: Data) {
     self.defaults = UserDefaults(suiteName: "group.com.brightdigit.NanoCastStudio")!
@@ -78,6 +78,7 @@ public struct  KeychainService {
       if subscription == nil {
         group.enter()
         let subscription = CKQuerySubscription(recordType: "Account", predicate: .init(value: true), subscriptionID: subscriptionId, options: [.firesOnRecordUpdate, .firesOnRecordUpdate])
+        subscription.notificationInfo = .init(shouldBadge: false, shouldSendContentAvailable: true)
         database.save(subscription) { (_, error) in
           let result = Result(failure: error, success: (), else: EmptyError.init).map{_ in ()}
           resultqueue.async(flags: .barrier) {
@@ -114,8 +115,11 @@ public struct  KeychainService {
         guard data.count > 16 else {
           return .failure(EmptyError())
         }
-        let actualData = data[0...(data.count-17)]
+        print(data.count)
+        let actualData = Data(data[0...(data.count-17)])
         let iv = Data(data.suffix(16))
+        
+        print(String(data: iv, encoding: .utf8))
         let aes : AES
         let descrypted : Data
         do {
@@ -130,9 +134,11 @@ public struct  KeychainService {
         guard let text = String(data: descrypted, encoding: .utf8) else {
           return .failure(EmptyError())
         }
+        defaults.setValue(text, forKey: "TRANSISTORFM_API_KEY")
         return .success(text)
       }
-      defaults.setValue(apiKeyResult, forKey: "TRANSISTORFM_API_KEY")
+      
+      
       callback(apiKeyResult)
     }
   }
@@ -182,14 +188,14 @@ public struct  KeychainService {
     //    }
   }
   
-  func saveKey(_ key: String, withValue value: String, _ callback: @escaping ((Error?) -> Void) ) {
-    defaults.setValue(value, forKey: key)
+  func saveKey(_ value: String, _ callback: @escaping ((Error?) -> Void) ) {
+    defaults.setValue(value, forKey: "TRANSISTORFM_API_KEY")
     let actualData = value.data(using: .utf8)!
     let ivChars = "1234567890123456".shuffled()
     let ivString = String(ivChars)
     let ivData = ivString.data(using: .utf8)!
-    print(ivString)
-    let data = actualData + ivData
+    print(actualData.count)
+    print(ivData.count)
     let aes : AES
     let encrypted : Data
     do {
@@ -200,7 +206,7 @@ public struct  KeychainService {
       return
     }
     let record = CKRecord(recordType: "Account")
-    record["Key"] = encrypted
+    record["Key"] = encrypted + ivData
     let query = CKQuery(recordType: "Account", predicate: .init(value: true))
     database.perform(query, inZoneWith: nil) { (records, error) in
       let result = Result(failure: error, success: records, else: EmptyError.init)

@@ -25,7 +25,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       }
     
     keychainService.refresh { (result) in
-      
+      let fetchResult : UIBackgroundFetchResult
+      switch result {
+      case .failure: fetchResult = .failed
+      case .success(.none): fetchResult = .noData
+      case .success(.some): fetchResult = .newData
+      }
+      completionHandler(fetchResult)
     }
   }
 
