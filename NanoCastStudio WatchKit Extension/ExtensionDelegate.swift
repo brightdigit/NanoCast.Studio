@@ -7,8 +7,11 @@
 
 import WatchKit
 import CloudKit
+import NCSKit
 
 class ExtensionDelegate: NSObject, WKExtensionDelegate {
+  
+  public let keychainService = KeychainService(encryptionKey: (ProcessInfo.processInfo.environment["ENCRYPTION_KEY"]?.data(using: .utf8))!)
 
   func didReceiveRemoteNotification(_ userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (WKBackgroundFetchResult) -> Void) {
     guard let notification = CKNotification(fromRemoteNotificationDictionary: userInfo) else {
@@ -18,6 +21,8 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     guard notification.subscriptionID == "accountSubscriptionIDv1" else {
       return
     }
+    
+    keychainService.refresh { (_) in }
   }
     func applicationDidFinishLaunching() {
         // Perform any final initialization of your application.

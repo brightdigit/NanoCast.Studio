@@ -34,7 +34,7 @@ public struct UserInfo {
 }
 
 public class NCSObject : ObservableObject {
-  let keychainService = KeychainService(encryptionKey: Data())
+  let keychainService : KeychainService
   let transistorService = TransistorService()
   
   
@@ -50,7 +50,9 @@ public class NCSObject : ObservableObject {
   
   var cancellables  = [AnyCancellable]()
   
-  public init () {
+  public init (keychainService : KeychainService) {
+    
+    self.keychainService = keychainService
     //try! self.keychainService.clear()
     let userResultApiKeyPublisher = self.$userResult.compactMap{ $0 }.compactMap{ try? $0.get().apiKey }
     

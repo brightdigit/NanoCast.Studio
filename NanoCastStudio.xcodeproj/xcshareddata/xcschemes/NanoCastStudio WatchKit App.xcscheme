@@ -64,6 +64,13 @@
             ReferencedContainer = "container:NanoCastStudio.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "ENCRYPTION_KEY"
+            value = "8y/B?E(H+MbPeShVmYq3t6w9z$C&amp;F)J@"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"

@@ -6,11 +6,28 @@
 //
 
 import UIKit
+import NCSKit
+import CloudKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
+  
+  public let keychainService = KeychainService(encryptionKey: (ProcessInfo.processInfo.environment["ENCRYPTION_KEY"]?.data(using: .utf8))!)
 
-
+  func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+    
+      guard let notification = CKNotification(fromRemoteNotificationDictionary: userInfo) else {
+        return
+      }
+      
+      guard notification.subscriptionID == "accountSubscriptionIDv1" else {
+        return
+      }
+    
+    keychainService.refresh { (result) in
+      
+    }
+  }
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     // Override point for customization after application launch.
