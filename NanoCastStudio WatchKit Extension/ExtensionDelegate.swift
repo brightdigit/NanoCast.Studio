@@ -6,11 +6,62 @@
 //
 
 import WatchKit
+import CloudKit
+import NCSKit
+import UserNotifications
 
-class ExtensionDelegate: NSObject, WKExtensionDelegate {
+extension Result  {
+  func backgroundFetchResult<ActualSuccess>() -> WKBackgroundFetchResult where Success == Optional<ActualSuccess>  {
+    switch self {
+    case .failure: return .failed
+    case .success(.none): return .noData
+    case .success(.some): return .newData
+    }
+    
+  }
+}
+class ExtensionDelegate: NSObject, WKExtensionDelegate, UNUserNotificationCenterDelegate {
+  
+  public let keychainService = KeychainService(encryptionKey: (ProcessInfo.processInfo.environment["ENCRYPTION_KEY"]?.data(using: .utf8))!)
 
+  func didReceiveRemoteNotification(_ userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (WKBackgroundFetchResult) -> Void) {
+    print("received ntoification")
+    dump(userInfo)
+    guard let notification = CKNotification(fromRemoteNotificationDictionary: userInfo) else {
+      return
+    }
+    
+    guard notification.subscriptionID == "accountSubscriptionIDv1" else {
+      return
+    }
+    dump(notification)
+    keychainService.refresh{
+      dump($0)
+      completionHandler($0.backgroundFetchResult())
+    }
+  }
+  func didFailToRegisterForRemoteNotificationsWithError(_ error: Error) {
+    print(error)
+  }
+  
+  func didRegisterForRemoteNotifications(withDeviceToken deviceToken: Data) {
+    print("deviceToken", deviceToken.base64EncodedString())
+  }
+  
+  func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+    dump(notification)
+    
+  }
     func applicationDidFinishLaunching() {
         // Perform any final initialization of your application.
+      UNUserNotificationCenter.current().delegate = self
+      UNUserNotificationCenter.current().requestAuthorization(options: [.badge, .alert, .sound]) { (granted, error) in
+        debugPrint(granted)
+        dump(error)
+      }
+      WKExtension.shared().registerForRemoteNotifications()
+      self.keychainService.beginSubscription()
+      print("finishing launch")
     }
 
     func applicationDidBecomeActive() {

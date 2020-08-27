@@ -64,6 +64,27 @@
             ReferencedContainer = "container:NanoCastStudio.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "B3480E5B24ECB42000A51B13"
+            BuildableName = "NanoCastStudio.app"
+            BlueprintName = "NanoCastStudio"
+            ReferencedContainer = "container:NanoCastStudio.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "ENCRYPTION_KEY"
+            value = "8y/B?E(H+MbPeShVmYq3t6w9z$C&amp;F)J@"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "CLEAR_ALL_SUBSCRIPTIONS"
+            value = "true"
+            isEnabled = "NO">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"

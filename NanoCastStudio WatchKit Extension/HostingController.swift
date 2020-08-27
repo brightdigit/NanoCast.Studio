@@ -12,7 +12,8 @@ import NCSKit
 
 class HostingController: WKHostingController<AnyView> {
     override var body: AnyView {
+      let keychainService = (WKExtension.shared().delegate as! ExtensionDelegate).keychainService
       return
-        AnyView(ContentView().environmentObject(NCSObject()))
+        AnyView(ContentView().environmentObject(NCSObject(keychainService: keychainService)))
     }
 }

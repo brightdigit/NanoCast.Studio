@@ -35,6 +35,8 @@
 		B36690B624EDDE6600FCFE9D /* KeychainObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36690B424EDDE6600FCFE9D /* KeychainObject.swift */; };
 		B374229E24EF282E00D02258 /* NCSKit in Frameworks */ = {isa = PBXBuildFile; productRef = B374229D24EF282E00D02258 /* NCSKit */; };
 		B37422A024EF283400D02258 /* NCSKit in Frameworks */ = {isa = PBXBuildFile; productRef = B374229F24EF283400D02258 /* NCSKit */; };
+		B38C34F724F52A140043B815 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B38C34F624F52A140043B815 /* CloudKit.framework */; };
+		B38C34F924F52A350043B815 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B38C34F824F52A350043B815 /* CloudKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -108,6 +110,8 @@
 		B36690A824EDA10700FCFE9D /* TransistorObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransistorObject.swift; sourceTree = "<group>"; };
 		B36690B424EDDE6600FCFE9D /* KeychainObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainObject.swift; sourceTree = "<group>"; };
 		B374229B24EF268E00D02258 /* NCSKit */ = {isa = PBXFileReference; lastKnownFileType = folder; path = NCSKit; sourceTree = "<group>"; };
+		B38C34F624F52A140043B815 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS7.0.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
+		B38C34F824F52A350043B815 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
 		B3B7D56124ECC3DF0015D6C5 /* NanoCastStudio WatchKit App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "NanoCastStudio WatchKit App.entitlements"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -117,6 +121,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B374229E24EF282E00D02258 /* NCSKit in Frameworks */,
+				B38C34F924F52A350043B815 /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,6 +130,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B37422A024EF283400D02258 /* NCSKit in Frameworks */,
+				B38C34F724F52A140043B815 /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -218,6 +224,8 @@
 		B374229C24EF282E00D02258 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B38C34F824F52A350043B815 /* CloudKit.framework */,
+				B38C34F624F52A140043B815 /* CloudKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

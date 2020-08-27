@@ -32,11 +32,15 @@
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.watchkit</string>
 	</dict>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>In order to record your episode, the app needs access to the microphone.</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
 	<key>WKExtensionDelegateClassName</key>
 	<string>$(PRODUCT_MODULE_NAME).ExtensionDelegate</string>
 	<key>WKRunsIndependentlyOfCompanionApp</key>
 	<true/>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>In order to record your episode, the app needs access to the microphone.</string>
 </dict>
 </plist>
