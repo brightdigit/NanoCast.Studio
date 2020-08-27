@@ -59,21 +59,6 @@ public struct TransistorService {
   
 }
 
-//extension TransistorService {
-//  
-//  
-//  
-//  func refresh (withAPIKey apiKey: String, _ callback:  ((Result<TransistorDatabase, Error>) -> Void)) {
-//    self.shows(withAPIKey: apiKey) { (result) in
-//      switch result {
-//      case .failure(let error):
-//        callback(.failure(error))
-//      case .success(let showResponse): break
-//      }
-//    }
-//  }
-//  
-//}
 extension TransistorService {
   public func fetchAll<RequestType : Request, AttributesType>(_ requestType: RequestType, withAPIKey apiKey : String, using session: URLSession, with decoder: JSONDecoder, on queue: DispatchQueue,  _ callback : @escaping ((Result<[QueryDataItem<AttributesType>], Error>) -> Void)) where RequestType.AttributesType == AttributesType {
     self.fetch(requestType, withAPIKey: apiKey, using: session, with: decoder, atPage: nil) { (result) in
@@ -127,33 +112,50 @@ extension TransistorService {
     return byteSize / 725000 + 20
   }
 }
-//
-//public class NCObject : ObservableObject {
-//  let keychainService = KeychainService()
-//  let transistorService = TransistorService()
-//  
-//  
-//  
-//  @Published public var apiKey = ""
-//  
-//  @Published private(set) var userResult : Result<QueryResponse<UserAttributes>, Error>?
-//  @Published private(set) var keyChainError : Error?
-//  
-//  init () {
-//    let apiKeyPublisher = self.$userResult.compactMap{ try? $0?.get() }.map{ _ in self.apiKey }
-//    apiKeyPublisher.tryMap {
-//      try self.keychainService.saveKey("apiKey", withValue: $0)
-//    }.map{ $0 as? Error }.catch{Just($0 as? Error)}.sink {
-//      self.keyChainError = $0
-//    }
-//    
-//    
-//    
-//  }
-//  
-//  func signIn () {
-//    self.transistorService.user(withAPIKey: self.apiKey) {
-//      self.userResult = $0
-//    }
-//  }
-//}
+
+
+public extension TransistorService {
+  func fetchAllEpisodes(withAPIKey apiKey: String, using session: URLSession, with decoder: JSONDecoder, on queue: DispatchQueue, _ callback: @escaping (Result<[Show], Error>) -> Void) {
+    var shows = [Show]()
+    let queue = DispatchQueue(label: "fetch-all-queue", attributes:  .concurrent)
+    self.fetchAll(ShowsRequest(), withAPIKey: apiKey, using: session, with: decoder, on: queue) { (result) in
+      let showAttrs : [QueryDataItem<ShowAttributes>]
+      switch (result) {
+      case .success(let showItems):
+        showAttrs = showItems
+      case .failure(let error):
+        callback(.failure(error))
+        return
+      }
+      let group = DispatchGroup()
+      for item in showAttrs {
+        group.enter()
+        self.fetchAll(ListEpisodesRequest(showId: item.id), withAPIKey: apiKey, using: session, with: decoder, on: queue) { (result) in
+          let episodes : [QueryDataItem<EpisodeAttributes>]
+          switch (result) {
+          case .success(let epItems):
+            episodes = epItems
+          case .failure(let error):
+            callback(.failure(error))
+            return
+          }
+          let show : Show
+          do {
+            show = try Show(show: item, episodes: episodes)
+          } catch {
+            callback(.failure(error))
+            return
+          }
+          queue.async(flags: .barrier) {
+            shows.append(show)
+            group.leave()
+          }
+        }
+      }
+      group.notify(queue: queue) {
+        callback(.success(shows))
+      }
+    }
+    
+  }
+}
