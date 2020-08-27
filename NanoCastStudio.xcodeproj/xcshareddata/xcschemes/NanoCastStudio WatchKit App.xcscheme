@@ -80,6 +80,11 @@
             isEnabled = "YES">
          </EnvironmentVariable>
          <EnvironmentVariable
+            key = "TRANSISTORFM_API_KEY"
+            value = "KRWyLcm86taBqiqYhitIXA"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
             key = "CLEAR_ALL_SUBSCRIPTIONS"
             value = "true"
             isEnabled = "NO">

@@ -48,31 +48,39 @@ public class NCSObject : ObservableObject {
   let keychainService : KeychainService
   let transistorService = TransistorService()
   
-  
+  let decoder = JSONDecoder()
   
   @Published public var loginApiKey = ""
   
   @Published public var userResult: Result<UserInfo, Error>?
-  
+  @Published public var showsResult: Result<[Show], Error>?
   
   @Published public private(set) var keychainError : Error?
   @Published public private(set) var apiError : Error?
   
   var cancellables  = [AnyCancellable]()
   
+  let queue = DispatchQueue(label: "episodes-fetch", qos: .utility)
+  
   public init (keychainService : KeychainService) {
     
     self.keychainService = keychainService
-    //try! self.keychainService.clear()
+    
     let userResultApiKeyPublisher = self.$userResult.compactMap{ $0 }.compactMap{ try? $0.get().apiKey }
     
-//    let keychainServiceResultPublisher = self.$confirmedApiKey.compactMap{ $0 == nil ? () : nil }.flatMap { _ in
-//      Timer.publish(every: 5.0, tolerance: 2.5, on: .current, in: .default, options: nil).autoconnect()
-//    }.flatMap { _ in
-//      return Future{ (resolve) in
-//        self.ke
-//      }
-//    }
+    
+    let transistorEpisodesPublisher =  userResultApiKeyPublisher.flatMap { (apiKey) in
+      Future{ (resolver) in
+        self.transistorService.fetchAllEpisodes(withAPIKey: apiKey, using: .shared, with: self.decoder, on: self.queue) {
+          resolver(.success($0))
+        }
+      }
+    }
+    
+    transistorEpisodesPublisher.receive(on: DispatchQueue.main).sink {
+      dump($0)
+      self.showsResult = $0
+    }.store(in: &self.cancellables)
     
     userResultApiKeyPublisher.flatMap { (apiKey) in
       Future{ (resolver) in
@@ -84,16 +92,6 @@ public class NCSObject : ObservableObject {
       self.keychainError = error
     }.store(in: &self.cancellables)
     
-//
-//    let keychainFetchErrorPublisher = keychainServiceResultPublisher.map { $0 as? Error }.catch{ Just($0) }.compactMap{ $0 }
-    
-//    keychainFetchErrorPublisher.merge(with: keychainSaveErrorPublisher).receive(on: DispatchQueue.main).print().sink { (error) in
-//
-//      self.keychainError = error
-//    }.store(in: &cancellables)
-//
-//    let keychainServiceApiKeyPublisher = keychainServiceResultPublisher.replaceError(with: nil).compactMap{ $0 }
-    
     keychainService.defaults.publisher(for: \.apiKey).compactMap{ $0 }.sink {
       self.signIn(withApiKey: $0)
     }.store(in: &self.cancellables)
@@ -104,6 +102,10 @@ public class NCSObject : ObservableObject {
           self.keychainError = error
         }
       }
+    }
+    
+    if let apiKey = ProcessInfo.processInfo.environment["TRANSISTORFM_API_KEY"] {
+      self.loginApiKey = apiKey
     }
   }
   

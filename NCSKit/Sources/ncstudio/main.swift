@@ -85,31 +85,7 @@ let transistor = TransistorService()
 let queue = DispatchQueue.global(qos: .userInitiated)
 var finished = false
 
-func fetchAllEpisodes(withAPIKey apiKey: String, using session: URLSession, with decoder: JSONDecoder, on queue: DispatchQueue) -> Promise<[Show]> {
-  let promise = Promise { (resolver) in
 
-    transistor.fetch(UserRequest(), withAPIKey: apiKey, using: session, with: decoder, atPage: nil, resolver.resolve)
-
-  }.then(on: queue) { (_) in
-    Promise { (resolver) in
-      transistor.fetch(ShowsRequest(), withAPIKey: apiKey, using: session, with: decoder, atPage: nil, resolver.resolve)
-    }
-  }.then(on: queue) { (showResponse) -> Promise<[Show]> in
-    let promises = showResponse.data.map { (show) in
-      Promise<[QueryDataItem<EpisodeAttributes>]>{ (resolver) in
-        transistor.fetchAll(ListEpisodesRequest(showId: show.id), withAPIKey: apiKey, using: session, with: decoder, on: queue, resolver.resolve)
-      }.recover { _ in
-        return Guarantee.value([QueryDataItem<EpisodeAttributes>]())
-      }.map(on: queue) { (episodes) in
-        try Show(show: show, episodes: episodes)
-      }
-    }
-
-    return when(fulfilled: promises)
-  }
-  
-  return promise
-}
 
 let show_id = 13364
 

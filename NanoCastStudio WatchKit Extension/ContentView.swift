@@ -6,11 +6,29 @@
 //
 
 import SwiftUI
+import NCSKit
 
 struct ContentView: View {
+  @EnvironmentObject var application : NCSObject
+  
+  var requiresLogin : Bool {
+    switch application.userResult {
+    case .some(.success):
+      return false
+    default:
+      return true
+    }
+  }
     var body: some View {
       ZStack{
-        LoginView()
+        Group{
+          if self.requiresLogin {
+            LoginView()
+          } else {
+            ShowListView()
+          }
+        }
+        EmptyView()
       }
     }
 }
