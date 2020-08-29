@@ -35,6 +35,14 @@
 		B36690B624EDDE6600FCFE9D /* KeychainObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36690B424EDDE6600FCFE9D /* KeychainObject.swift */; };
 		B374229E24EF282E00D02258 /* NCSKit in Frameworks */ = {isa = PBXBuildFile; productRef = B374229D24EF282E00D02258 /* NCSKit */; };
 		B37422A024EF283400D02258 /* NCSKit in Frameworks */ = {isa = PBXBuildFile; productRef = B374229F24EF283400D02258 /* NCSKit */; };
+		B38A2D9F24F9D7E3009F6F79 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38A2D9B24F9D7E2009F6F79 /* ImageCache.swift */; };
+		B38A2DA024F9D7E3009F6F79 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38A2D9C24F9D7E2009F6F79 /* ImageLoader.swift */; };
+		B38A2DA124F9D7E3009F6F79 /* AsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38A2D9D24F9D7E3009F6F79 /* AsyncImage.swift */; };
+		B38A2DA224F9D7E3009F6F79 /* EnvironmentValues+ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38A2D9E24F9D7E3009F6F79 /* EnvironmentValues+ImageCache.swift */; };
+		B38A2DA324F9D86A009F6F79 /* EnvironmentValues+ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38A2D9E24F9D7E3009F6F79 /* EnvironmentValues+ImageCache.swift */; };
+		B38A2DA424F9D86A009F6F79 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38A2D9C24F9D7E2009F6F79 /* ImageLoader.swift */; };
+		B38A2DA524F9D86A009F6F79 /* AsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38A2D9D24F9D7E3009F6F79 /* AsyncImage.swift */; };
+		B38A2DA624F9D86A009F6F79 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38A2D9B24F9D7E2009F6F79 /* ImageCache.swift */; };
 		B38C34F724F52A140043B815 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B38C34F624F52A140043B815 /* CloudKit.framework */; };
 		B38C34F924F52A350043B815 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B38C34F824F52A350043B815 /* CloudKit.framework */; };
 		B3FE0D7124F73DEE00DE86F7 /* ShowListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FE0D7024F73DEE00DE86F7 /* ShowListView.swift */; };
@@ -112,6 +120,10 @@
 		B36690A824EDA10700FCFE9D /* TransistorObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransistorObject.swift; sourceTree = "<group>"; };
 		B36690B424EDDE6600FCFE9D /* KeychainObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainObject.swift; sourceTree = "<group>"; };
 		B374229B24EF268E00D02258 /* NCSKit */ = {isa = PBXFileReference; lastKnownFileType = folder; path = NCSKit; sourceTree = "<group>"; };
+		B38A2D9B24F9D7E2009F6F79 /* ImageCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
+		B38A2D9C24F9D7E2009F6F79 /* ImageLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
+		B38A2D9D24F9D7E3009F6F79 /* AsyncImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncImage.swift; sourceTree = "<group>"; };
+		B38A2D9E24F9D7E3009F6F79 /* EnvironmentValues+ImageCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "EnvironmentValues+ImageCache.swift"; sourceTree = "<group>"; };
 		B38C34F624F52A140043B815 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS7.0.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
 		B38C34F824F52A350043B815 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
 		B3B7D56124ECC3DF0015D6C5 /* NanoCastStudio WatchKit App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "NanoCastStudio WatchKit App.entitlements"; sourceTree = "<group>"; };
@@ -206,6 +218,10 @@
 				B3480E8624ECB42500A51B13 /* RecodingView.swift */,
 				B3480E8824ECB42500A51B13 /* ExtensionDelegate.swift */,
 				B3480E8A24ECB42500A51B13 /* ComplicationController.swift */,
+				B38A2D9D24F9D7E3009F6F79 /* AsyncImage.swift */,
+				B38A2D9E24F9D7E3009F6F79 /* EnvironmentValues+ImageCache.swift */,
+				B38A2D9B24F9D7E2009F6F79 /* ImageCache.swift */,
+				B38A2D9C24F9D7E2009F6F79 /* ImageLoader.swift */,
 				B3480E9124ECB42700A51B13 /* Info.plist */,
 				B3480E8E24ECB42700A51B13 /* Preview Content */,
 				B36690A424ED9E9300FCFE9D /* ContentView.swift */,
@@ -372,10 +388,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B38A2DA624F9D86A009F6F79 /* ImageCache.swift in Sources */,
+				B38A2DA524F9D86A009F6F79 /* AsyncImage.swift in Sources */,
 				B33B427824F44AB7006B8BEF /* LoginView.swift in Sources */,
 				B3480E6024ECB42000A51B13 /* AppDelegate.swift in Sources */,
 				B3FE0D7124F73DEE00DE86F7 /* ShowListView.swift in Sources */,
 				B36690AA24EDC7CF00FCFE9D /* TransistorObject.swift in Sources */,
+				B38A2DA324F9D86A009F6F79 /* EnvironmentValues+ImageCache.swift in Sources */,
+				B38A2DA424F9D86A009F6F79 /* ImageLoader.swift in Sources */,
 				B36690B524EDDE6600FCFE9D /* KeychainObject.swift in Sources */,
 				B3480E6224ECB42000A51B13 /* SceneDelegate.swift in Sources */,
 				B3480E6424ECB42000A51B13 /* ContentView.swift in Sources */,
@@ -386,14 +406,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B38A2DA024F9D7E3009F6F79 /* ImageLoader.swift in Sources */,
 				B3480E8724ECB42500A51B13 /* RecodingView.swift in Sources */,
+				B38A2D9F24F9D7E3009F6F79 /* ImageCache.swift in Sources */,
 				B36690B624EDDE6600FCFE9D /* KeychainObject.swift in Sources */,
+				B38A2DA224F9D7E3009F6F79 /* EnvironmentValues+ImageCache.swift in Sources */,
 				B36690A924EDA10700FCFE9D /* TransistorObject.swift in Sources */,
 				B3480E8B24ECB42500A51B13 /* ComplicationController.swift in Sources */,
 				B36690A524ED9E9300FCFE9D /* ContentView.swift in Sources */,
 				B36690A724ED9EA500FCFE9D /* LoginView.swift in Sources */,
 				B3480E8524ECB42500A51B13 /* HostingController.swift in Sources */,
 				B3480E8924ECB42500A51B13 /* ExtensionDelegate.swift in Sources */,
+				B38A2DA124F9D7E3009F6F79 /* AsyncImage.swift in Sources */,
 				B36690A124ED9C3600FCFE9D /* VolumeView.swift in Sources */,
 				B3FE0D7224F73DEE00DE86F7 /* ShowListView.swift in Sources */,
 				B36690A324ED9CB300FCFE9D /* AVAudioSession.RecordPermission.swift in Sources */,

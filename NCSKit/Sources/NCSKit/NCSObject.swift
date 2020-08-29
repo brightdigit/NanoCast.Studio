@@ -50,7 +50,7 @@ public class NCSObject : ObservableObject {
   
   let decoder = JSONDecoder()
   
-  @Published public var loginApiKey = ""
+  @Published public var loginApiKey = ProcessInfo.processInfo.environment["TRANSISTORFM_API_KEY"] ?? ""
   
   @Published public var userResult: Result<UserInfo, Error>?
   @Published public var showsResult: Result<[Show], Error>?

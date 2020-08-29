@@ -1,6 +1,6 @@
 import Foundation
 
-public struct Episode {
+public struct Episode : Identifiable {
   public let id : Int
   public let number : Int?
   public let media_url : URL
