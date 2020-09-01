@@ -53,37 +53,12 @@ public struct  KeychainService {
         //self.currentError = error
         return
       }
-//      let group = DispatchGroup()
-//      let queue = DispatchQueue(label: "cloud")
-//      let resultqueue = DispatchQueue(label: "result", attributes: .concurrent)
-//      var results = [Result<Void, Error>]()
-//      ids.forEach { (id) in
-////        group.enter()
-////        queue.async {
-////          container.privateCloudDatabase.delete(withSubscriptionID: id) { _ , error in
-////            let result = Result(failure: error, success: (), else: EmptyError.init).map{_ in ()}
-////            resultqueue.async(flags: .barrier) {
-////
-////              results.append(result)
-////              group.leave()
-////            }
-////          }
-////        }
-//      }
       let subscriptionsToSave : [CKSubscription]?
       if subscription == nil, !clearAllSubscriptions {
         //group.enter()
         let subscription = CKQuerySubscription(recordType: "Account", predicate: .init(value: true), subscriptionID: subscriptionId, options: [.firesOnRecordUpdate, .firesOnRecordCreation])
         subscription.notificationInfo = .init(alertBody: "Received API Key", shouldBadge: false, shouldSendContentAvailable: true)
         subscriptionsToSave = [subscription]
-//        database.save(subscription) { (_, error) in
-//          let result = Result(failure: error, success: (), else: EmptyError.init).map{_ in ()}
-//          resultqueue.async(flags: .barrier) {
-//
-//            results.append(result)
-//            group.leave()
-//          }
-//        }
       } else {
         subscriptionsToSave = nil
         guard !ids.isEmpty else {
@@ -106,25 +81,15 @@ public struct  KeychainService {
       let container = CKContainer(identifier: "iCloud.com.brightdigit.NanoCastStudio")
       modifySubscriptionsOp.database = container.privateCloudDatabase
       container.privateCloudDatabase.add(modifySubscriptionsOp)
-//      group.notify(queue: queue){
-//        print(results)
-//      }
     }
   }
+  
   public init (encryptionKey: Data) {
     self.defaults = UserDefaults(suiteName: "group.com.brightdigit.NanoCastStudio")!
     let container = CKContainer(identifier: "iCloud.com.brightdigit.NanoCastStudio")
     self.encryptionKey = encryptionKey
     self.database = container.privateCloudDatabase
     let database = container.privateCloudDatabase
-    //    subscription.subscriptionID = "accountSubscriptionID"
-    
-    //
-    //    let accountSubscriptionID = defaults?.string(forKey: "accountSubscriptionID")
-    // TODO: Use CKModifySubscriptionsOperation
-    
-    
-    
   }
   
   public func refresh(_ callback: @escaping ((Result<String?, Error>) -> Void)) {
@@ -180,44 +145,6 @@ public struct  KeychainService {
       callback(.success(key))
     }
     refresh(callback)
-    //    if let data = dictionary[key] {
-    //      let actualData = data[0...(data.count-17)]
-    //      let iv = Data(data.suffix(16))
-    //      print(String(data: iv, encoding: .utf8))
-    //      print("Decypting \(actualData.count) bytes")
-    //      let aes = try AES(key: self.key.bytes, blockMode: CBC(iv: iv.bytes), padding: .pkcs7)
-    //      if let text = String(data: try actualData.decrypt(cipher: aes), encoding: .utf8) {
-    //        return text
-    //      }
-    //    }
-    //    return nil
-    //    let queryLoad: [String: AnyObject] = [
-    //      kSecClass as String: kSecClassGenericPassword,
-    //      kSecAttrAccount as String: key as AnyObject,
-    //      kSecReturnData as String: kCFBooleanTrue,
-    //      kSecMatchLimit as String: kSecMatchLimitOne,
-    //      kSecAttrAccessGroup as String: self.groupName as AnyObject,
-    //      kSecAttrSynchronizable as String: kCFBooleanTrue
-    //    ]
-    //
-    //    var result: AnyObject?
-    //
-    //    let resultCodeLoad = withUnsafeMutablePointer(to: &result) {
-    //      SecItemCopyMatching(queryLoad as CFDictionary, UnsafeMutablePointer($0))
-    //    }
-    //
-    //
-    //
-    //    if resultCodeLoad == noErr {
-    //      if let result = result as? Data {
-    //        return String(data: result, encoding: .utf8)
-    //      }
-    //      preconditionFailure()
-    //    } else if resultCodeLoad == errSecItemNotFound {
-    //      return nil
-    //    } else {
-    //      throw SecError(code: resultCodeLoad)
-    //    }
   }
   
   func saveKey(_ value: String, _ callback: @escaping ((Error?) -> Void) ) {
@@ -254,35 +181,5 @@ public struct  KeychainService {
       }
       self.database.add(operation)
     }
-    //    let actualData = value.data(using: .utf8)!
-    //    let ivChars = "1234567890123456".shuffled()
-    //    let ivString = String(ivChars)
-    //    let ivData = ivString.data(using: .utf8)!
-    //    print(ivString)
-    //    let data = actualData + ivData
-    //    let aes = try AES(key: self.key.bytes, blockMode: CBC(iv: ivData.bytes), padding: .pkcs7)
-    //    let encrypted = try actualData.encrypt(cipher: aes)
-    //    print("Encypted \(encrypted.count)")
-    //    self.dictionary[key] = encrypted + ivData
-    //try keychain.set(value, key: key)
-    //Keychain(accessGroup: "MLT7M394S7.com.brightdigit.NanoCastStudio").synchronizable(true)[key] = value
-    //    guard let valueData = value.data(using: String.Encoding.utf8) else {
-    //      print("Error saving text to Keychain")
-    //      return
-    //    }
-    //
-    //    let queryAdd: [String: AnyObject] = [
-    //      kSecClass as String: kSecClassGenericPassword,
-    //      kSecAttrAccount as String: key as AnyObject,
-    //      kSecValueData as String: valueData as AnyObject,
-    //      kSecAttrAccessible as String: kSecAttrAccessibleWhenUnlocked,
-    //      kSecAttrAccessGroup as String: self.groupName as AnyObject
-    //    ]
-    //
-    //    let resultCode = SecItemAdd(queryAdd as CFDictionary, nil)
-    //
-    //    if resultCode != noErr {
-    //      throw SecError(code: resultCode)
-    //    }
   }
 }

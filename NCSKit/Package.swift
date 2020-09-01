@@ -18,7 +18,8 @@ let package = Package(
         // .package(url: /* package url */, from: "1.0.0"),
       .package(url: "https://github.com/mxcl/PromiseKit", from: "7.0.0-alpha3"),
       .package(name: "AWSSDKSwift", url: "https://github.com/swift-aws/aws-sdk-swift.git", from: "4.0.0"),
-      .package(url: "https://github.com/krzyzanowskim/CryptoSwift.git", .upToNextMinor(from: "1.3.1"))
+      .package(url: "https://github.com/krzyzanowskim/CryptoSwift.git", .upToNextMinor(from: "1.3.1")),
+      .package(url: "https://github.com/JohnEstropia/CoreStore.git", .branch("newDemo"))
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -27,6 +28,7 @@ let package = Package(
             name: "NCSKit",
             dependencies: [
               "CryptoSwift",
+              "CoreStore",
               .product(name: "S3", package: "AWSSDKSwift")]),
       .target(name: "ncstudio",
               dependencies: ["NCSKit","PromiseKit"]),

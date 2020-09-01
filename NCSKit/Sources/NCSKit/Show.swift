@@ -21,7 +21,7 @@ extension Show {
       guard let id = Int(item.id) else {
         throw ParsingError.idInvalidString(show.id)
       }
-      return Episode(id: id, number: item.attributes.number, media_url: item.attributes.media_url, title: item.attributes.title, summary: item.attributes.summary, status: item.attributes.status)
+      return Episode(id: id, number: item.attributes.number, mediaURL: item.attributes.media_url, title: item.attributes.title, summary: item.attributes.summary, status: item.attributes.status)
     })
   }
 }
