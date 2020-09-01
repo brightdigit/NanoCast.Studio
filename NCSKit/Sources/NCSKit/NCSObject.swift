@@ -46,6 +46,10 @@ extension UserDefaults {
 }
 
 public class Database {
+  
+  let dataStack : DataStack
+  let storage : StorageInterface
+  
   init () {
     let schema = CoreStoreSchema(modelVersion: "1", entities: [
       Entity<ServiceEntity>(),
@@ -54,17 +58,33 @@ public class Database {
     ])
     
     let stack = DataStack(schema)
+    
 //    stack.perform { (transaction) in
 //      transaction.importObject(<#T##into: Into<ImportableObject>##Into<ImportableObject>#>, source: <#T##ImportableObject.ImportSource#>)
 //    } completion: { (result) in
 //
 //    }
 
-//    stack.addStorage(SQLiteStore(fileName: "NCSStore.sqlite")) { (<#Result<StorageInterface, CoreStoreError>#>) in
+//    stack.addStorage() { (<#Result<StorageInterface, CoreStoreError>#>) in
 //      <#code#>
 //    }
+    self.storage = SQLiteStore(fileName: "NCS.sqlite")
+    self.dataStack = stack
     //let stack = DataStack()
     //stack.addStorage(<#T##storage: StorageInterface##StorageInterface#>, completion: <#T##(Result<StorageInterface, CoreStoreError>) -> Void#>)
+    //stack.addStorage(<#T##storage: StorageInterface##StorageInterface#>, completion: <#T##(Result<StorageInterface, CoreStoreError>) -> Void#>)
+  }
+  
+  func syncronize() {
+    let shows = [Show]()
+    let showsImport = [ShowEntity.ImportSource]()
+    
+    self.dataStack.perform { (transaction) in
+      try transaction.importUniqueObjects(Into<ShowEntity>(), sourceArray: showsImport)
+    } completion: { (result) in
+      dump(result)
+    }
+
   }
 }
 
