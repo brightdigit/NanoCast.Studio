@@ -8,11 +8,27 @@
 import Foundation
 import CoreStore
 
-class ServiceEntity : CoreStoreObject {
-  
+extension Entity where O : NamedObject {
+  convenience init() {
+    self.init(O.self.entityName)
+  }
 }
 
-class ShowEntity : CoreStoreObject {
+public protocol NamedObject : CoreStoreObject {
+  static var entityName : String { get }
+}
+
+public class ServiceEntity : CoreStoreObject, NamedObject {
+  public static let entityName = "Service"
+  
+  @Field.Relationship("shows", inverse: \.$service)
+  public var shows : Set<ShowEntity>
+}
+
+public class ShowEntity : CoreStoreObject, NamedObject {
+  public static let entityName = "Show"
+  
+  @objc
   @Field.Stored("id")
   public var id : Int = -1
   
@@ -21,14 +37,12 @@ class ShowEntity : CoreStoreObject {
   
   @Field.Stored("imageURL")
   public var imageURL : URL?
-//
-//  init(id: Int, title: String, imageURL : URL? = nil){
-//    self.id = id
-//    self.title = title
-//    self.imageURL = imageURL
-//  }
-//  @Field.Relationship(
-//  public var episodes : [Episode]
+  
+  @Field.Relationship("service")
+  public var service : ServiceEntity?
+  
+  @Field.Relationship("episodes", inverse: \.$show)
+  public var episodes : Set<EpisodeEntity>
 }
 
 extension EpisodeStatus : FieldStorableType {
@@ -44,7 +58,8 @@ extension EpisodeStatus : FieldStorableType {
   
   
 }
-public class EpisodeEntity : CoreStoreObject {
+public class EpisodeEntity : CoreStoreObject, NamedObject {
+  public static let entityName = "Episode"
   
   @Field.Stored("id")
   public var id : Int = -1
@@ -58,4 +73,6 @@ public class EpisodeEntity : CoreStoreObject {
   public var summary : String?
   @Field.Stored("status")
   public var status: EpisodeStatus = .draft
+  @Field.Relationship("show")
+  public var show : ShowEntity?
 }

@@ -1,12 +1,12 @@
 import Foundation
-
+import CoreStore
 public struct Show : Identifiable {
   public let id : Int
   public let title : String
   public let episodes : [Episode]
   public let imageURL : URL?
-
 }
+
 
 extension Show {
   public init (show: QueryDataItem<ShowAttributes>, episodes: [QueryDataItem<EpisodeAttributes>]) throws {
@@ -25,3 +25,4 @@ extension Show {
     })
   }
 }
+

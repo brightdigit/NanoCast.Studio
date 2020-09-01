@@ -9,6 +9,7 @@ import Foundation
 import Combine
 import S3
 import NIO
+import CoreStore
 
 typealias KeyPathOnObject<Output, Root> = (Root, ReferenceWritableKeyPath<Root, Output>)
 
@@ -44,16 +45,40 @@ extension UserDefaults {
   }
 }
 
+public class Database {
+  init () {
+    let schema = CoreStoreSchema(modelVersion: "1", entities: [
+      Entity<ServiceEntity>(),
+      Entity<ShowEntity>(),
+      Entity<EpisodeEntity>()
+    ])
+    
+    let stack = DataStack(schema)
+//    stack.perform { (transaction) in
+//      transaction.importObject(<#T##into: Into<ImportableObject>##Into<ImportableObject>#>, source: <#T##ImportableObject.ImportSource#>)
+//    } completion: { (result) in
+//
+//    }
+
+//    stack.addStorage(SQLiteStore(fileName: "NCSStore.sqlite")) { (<#Result<StorageInterface, CoreStoreError>#>) in
+//      <#code#>
+//    }
+    //let stack = DataStack()
+    //stack.addStorage(<#T##storage: StorageInterface##StorageInterface#>, completion: <#T##(Result<StorageInterface, CoreStoreError>) -> Void#>)
+  }
+}
+
 public class NCSObject : ObservableObject {
   let keychainService : KeychainService
   let transistorService = TransistorService()
+  let localDB = Database()
   
   let decoder = JSONDecoder()
   
   @Published public var loginApiKey = ProcessInfo.processInfo.environment["TRANSISTORFM_API_KEY"] ?? ""
   
   @Published public var userResult: Result<UserInfo, Error>?
-  @Published public var showsResult: Result<[Show], Error>?
+  //@Published public var showsResult: Result<[Show], Error>?
   
   @Published public private(set) var keychainError : Error?
   @Published public private(set) var apiError : Error?
@@ -78,7 +103,7 @@ public class NCSObject : ObservableObject {
     
     transistorEpisodesPublisher.receive(on: DispatchQueue.main).sink {
       dump($0)
-      self.showsResult = $0
+      
     }.store(in: &self.cancellables)
     
     userResultApiKeyPublisher.flatMap { (apiKey) in
