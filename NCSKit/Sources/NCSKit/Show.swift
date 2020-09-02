@@ -1,10 +1,26 @@
 import Foundation
 import CoreStore
-public struct Show : Identifiable {
+
+protocol Exportable {
+  associatedtype EntityType : ImportableObject
+  func asImportable () -> EntityType.ImportSource
+}
+public struct Show : Identifiable, Exportable {
+  typealias EntityType = ShowEntity
+  
   public let id : Int
   public let title : String
   public let episodes : [Episode]
   public let imageURL : URL?
+  
+  func asImportable () -> ShowEntity.ImportSource {
+    var importable = ShowEntity.ImportSource()
+    importable["id"] = self.id
+    importable["title"] = self.title
+    importable["imageURL"] = self.imageURL
+    importable["episodes"] = self.episodes.map{ $0.asImportable() }
+    return importable
+  }
 }
 
 

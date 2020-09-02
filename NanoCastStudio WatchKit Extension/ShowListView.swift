@@ -34,13 +34,12 @@ struct ShowListView: View {
   }
   
   @ViewBuilder func mainView () -> some View {
-    switch self.application.showsResult {
-    case .failure(let error): viewForError(error)
-    case .success(let shows): viewForList(shows)
-    case .none: busyView;
-    }
-  
-    
+    return EmptyView()
+//    switch self.application.showsResult {
+//    case .failure(let error): return  viewForError(error)
+//    case .success(let shows): return viewForList(shows)
+//    case .none: return busyView;
+//    }
   }
 
     var body: some View {

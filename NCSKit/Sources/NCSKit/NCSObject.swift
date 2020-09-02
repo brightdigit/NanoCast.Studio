@@ -11,6 +11,15 @@ import S3
 import NIO
 import CoreStore
 
+extension Result {
+  var error : Error? {
+    switch self {
+    case .failure(let error): return error
+    default: return nil
+    }
+  }
+}
+
 typealias KeyPathOnObject<Output, Root> = (Root, ReferenceWritableKeyPath<Root, Output>)
 
 extension Publisher where Self.Failure == Never {
@@ -45,7 +54,20 @@ extension UserDefaults {
   }
 }
 
-public class Database {
+public class Observer : ListObserver {
+  public func listMonitorDidRefetch(_ monitor: ListMonitor<ShowEntity>) {
+    
+  }
+  
+  
+  public typealias ListEntityType = ShowEntity
+  
+  public func listMonitorDidChange(_ monitor: ListMonitor<ShowEntity>) {
+    
+  }
+}
+
+public class Database  {
   
   let dataStack : DataStack
   let storage : StorageInterface
@@ -70,22 +92,33 @@ public class Database {
 //    }
     self.storage = SQLiteStore(fileName: "NCS.sqlite")
     self.dataStack = stack
+    
+    let monitor = dataStack.monitorList(From<ShowEntity>())
+    //monitor.addObserver(self)
     //let stack = DataStack()
     //stack.addStorage(<#T##storage: StorageInterface##StorageInterface#>, completion: <#T##(Result<StorageInterface, CoreStoreError>) -> Void#>)
     //stack.addStorage(<#T##storage: StorageInterface##StorageInterface#>, completion: <#T##(Result<StorageInterface, CoreStoreError>) -> Void#>)
   }
   
-  func syncronize() {
-    let shows = [Show]()
-    let showsImport = [ShowEntity.ImportSource]()
+  func syncronize(shows : [Show], _ completion: @escaping (Error?) -> Void) {
+    let showsImport = shows.map{  $0.asImportable() }
     
     self.dataStack.perform { (transaction) in
       try transaction.importUniqueObjects(Into<ShowEntity>(), sourceArray: showsImport)
     } completion: { (result) in
-      dump(result)
+      completion(result.error)
     }
 
   }
+  
+  public func listMonitorDidChange(_ monitor: ListMonitor<ShowEntity>) {
+    
+  }
+  
+  public func listMonitorDidChange(_ monitor: ListMonitor<EpisodeEntity>) {
+    
+  }
+  
 }
 
 public class NCSObject : ObservableObject {
@@ -102,6 +135,7 @@ public class NCSObject : ObservableObject {
   
   @Published public private(set) var keychainError : Error?
   @Published public private(set) var apiError : Error?
+  @Published public private(set) var dataError : Error?
   
   var cancellables  = [AnyCancellable]()
   let queue = DispatchQueue(label: "episodes-fetch", qos: .utility)
@@ -121,9 +155,18 @@ public class NCSObject : ObservableObject {
       }
     }
     
-    transistorEpisodesPublisher.receive(on: DispatchQueue.main).sink {
-      dump($0)
-      
+    transistorEpisodesPublisher.compactMap{ $0.error }.receive(on: DispatchQueue.main).sink {
+      self.apiError = $0
+    }.store(in: &self.cancellables)
+    
+    transistorEpisodesPublisher.compactMap{ try? $0.get() }.flatMap { (shows) in
+      Future{ (resolver) in
+        self.localDB.syncronize(shows: shows) { (error) in
+          resolver(.success(error))
+        }
+      }
+    }.sink {
+      self.dataError = $0
     }.store(in: &self.cancellables)
     
     userResultApiKeyPublisher.flatMap { (apiKey) in
