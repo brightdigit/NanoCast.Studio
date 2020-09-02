@@ -9,6 +9,19 @@ import UIKit
 import NCSKit
 import CloudKit
 
+extension UserDefaults : Configuration {
+  public var encryptionKey: Data {
+    guard let encryptionKeyString = self.string(forKey: "encryptionKeyString") else {
+      fatalError("No encryptionKeyString set.")
+    }
+    
+    guard let encryptionKey = encryptionKeyString.data(using: .utf8) else {
+      fatalError("Could not get data from encryptionKeyString")
+    }
+    
+    return encryptionKey
+  }
+}
 extension Result  {
   func backgroundFetchResult<ActualSuccess>() -> UIBackgroundFetchResult where Success == Optional<ActualSuccess>  {
     switch self {
@@ -22,7 +35,8 @@ extension Result  {
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
   
-  public let keychainService = KeychainService(encryptionKey: (ProcessInfo.processInfo.environment["ENCRYPTION_KEY"]?.data(using: .utf8))!)
+  public var object : NCSObject!
+  //public let keychainService = KeychainService(encryptionKey: (ProcessInfo.processInfo.environment["ENCRYPTION_KEY"]?.data(using: .utf8))!)
 
   func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
     
@@ -34,7 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return
       }
     
-    keychainService.refresh { (result) in
+    object.refresh { (result) in
 //      let fetchResult : UIBackgroundFetchResult
 //      switch result {
 //      case .failure: fetchResult = .failed
@@ -63,7 +77,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //    }
     application.registerForRemoteNotifications()
     print("finishing launch")
-    self.keychainService.beginSubscription()
+    self.object = NCSObject(configuration: UserDefaults.standard)
+    self.object.beginSubscription()
     return true
   }
 

@@ -121,6 +121,11 @@ public class Database  {
   
 }
 
+
+public protocol Configuration {
+  var encryptionKey : Data { get }
+}
+
 public class NCSObject : ObservableObject {
   let keychainService : KeychainService
   let transistorService = TransistorService()
@@ -140,9 +145,8 @@ public class NCSObject : ObservableObject {
   var cancellables  = [AnyCancellable]()
   let queue = DispatchQueue(label: "episodes-fetch", qos: .utility)
   
-  public init (keychainService : KeychainService) {
-    
-    self.keychainService = keychainService
+  public init (configuration: Configuration) {
+    self.keychainService  = KeychainService(encryptionKey:  configuration.encryptionKey)
     let userResultApiKeyPublisher = self.$userResult.compactMap{ $0 }.compactMap{ try? $0.get().apiKey }
     
     
@@ -213,5 +217,15 @@ public class NCSObject : ObservableObject {
         self.userResult = itemResult
       }
     }
+  }
+  
+  public func beginSubscription () {
+    self.keychainService.beginSubscription()
+  }
+  
+  public func refresh (_ completion: @escaping ((Result<String?, Error>) -> Void)) {
+    self.keychainService.refresh(
+      completion
+    )
   }
 }

@@ -20,8 +20,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
 
     // Create the SwiftUI view that provides the window contents.
-    let keychainService = (UIApplication.shared.delegate as! AppDelegate).keychainService
-    let contentView = ContentView().environmentObject(NCSObject(keychainService: keychainService))
+    let object = (UIApplication.shared.delegate as! AppDelegate).object
+    let contentView = ContentView().environmentObject(object!)
 
     // Use a UIHostingController as window root view controller.
     if let windowScene = scene as? UIWindowScene {

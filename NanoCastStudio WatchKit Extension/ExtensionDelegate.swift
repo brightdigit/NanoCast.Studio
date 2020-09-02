@@ -10,6 +10,20 @@ import CloudKit
 import NCSKit
 import UserNotifications
 
+extension UserDefaults : Configuration {
+  public var encryptionKey: Data {
+    guard let encryptionKeyString = self.string(forKey: "encryptionKeyString") else {
+      
+      fatalError("No encryptionKeyString set.")
+    }
+    
+    guard let encryptionKey = encryptionKeyString.data(using: .utf8) else {
+      fatalError("Could not get data from encryptionKeyString")
+    }
+    
+    return encryptionKey
+  }
+}
 extension Result  {
   func backgroundFetchResult<ActualSuccess>() -> WKBackgroundFetchResult where Success == Optional<ActualSuccess>  {
     switch self {
@@ -22,7 +36,8 @@ extension Result  {
 }
 class ExtensionDelegate: NSObject, WKExtensionDelegate, UNUserNotificationCenterDelegate {
   
-  public let keychainService = KeychainService(encryptionKey: (ProcessInfo.processInfo.environment["ENCRYPTION_KEY"]?.data(using: .utf8))!)
+  public var object : NCSObject!
+//  public let keychainService = KeychainService(encryptionKey: (ProcessInfo.processInfo.environment["ENCRYPTION_KEY"]?.data(using: .utf8))!)
 
   func didReceiveRemoteNotification(_ userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (WKBackgroundFetchResult) -> Void) {
     print("received ntoification")
@@ -35,7 +50,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate, UNUserNotificationCenter
       return
     }
     dump(notification)
-    keychainService.refresh{
+    object.refresh{
       dump($0)
       completionHandler($0.backgroundFetchResult())
     }
@@ -59,8 +74,9 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate, UNUserNotificationCenter
         debugPrint(granted)
         dump(error)
       }
+      self.object = NCSObject(configuration: UserDefaults.standard)
       WKExtension.shared().registerForRemoteNotifications()
-      self.keychainService.beginSubscription()
+      self.object.beginSubscription()
       print("finishing launch")
     }
 
