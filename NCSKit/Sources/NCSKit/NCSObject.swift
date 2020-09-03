@@ -127,7 +127,7 @@ public protocol Configuration {
 }
 
 public class NCSObject : ObservableObject {
-  let keychainService : KeychainService
+  let keychainService : AccountService
   let transistorService = TransistorService()
   let localDB = Database()
   
@@ -146,7 +146,7 @@ public class NCSObject : ObservableObject {
   let queue = DispatchQueue(label: "episodes-fetch", qos: .utility)
   
   public init (configuration: Configuration) {
-    self.keychainService  = KeychainService(encryptionKey:  configuration.encryptionKey)
+    self.keychainService  = AccountService(encryptionKey:  configuration.encryptionKey)
     let userResultApiKeyPublisher = self.$userResult.compactMap{ $0 }.compactMap{ try? $0.get().apiKey }
     
     
@@ -175,7 +175,7 @@ public class NCSObject : ObservableObject {
     
     userResultApiKeyPublisher.flatMap { (apiKey) in
       Future{ (resolver) in
-        self.keychainService.saveKey(apiKey) {
+        self.keychainService.save(.transistorApiKey(apiKey)) {
           resolver(.success($0))
         }
       }
@@ -223,7 +223,7 @@ public class NCSObject : ObservableObject {
     self.keychainService.beginSubscription()
   }
   
-  public func refresh (_ completion: @escaping ((Result<String?, Error>) -> Void)) {
+  public func refresh (_ completion: @escaping ((Result<AccountCollection, Error>) -> Void)) {
     self.keychainService.refresh(
       completion
     )

@@ -25,11 +25,11 @@ extension UserDefaults : Configuration {
   }
 }
 extension Result  {
-  func backgroundFetchResult<ActualSuccess>() -> WKBackgroundFetchResult where Success == Optional<ActualSuccess>  {
-    switch self {
-    case .failure: return .failed
-    case .success(.none): return .noData
-    case .success(.some): return .newData
+  func backgroundFetchResult<Key, Value>() -> WKBackgroundFetchResult where Success == Dictionary<Key,Value>   {
+    switch (self, try? self.get().isEmpty) {
+    case (.failure, _): return .failed
+    case (.success, false): return .newData
+    default: return .noData
     }
     
   }
@@ -51,7 +51,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate, UNUserNotificationCenter
     }
     dump(notification)
     object.refresh{
-      dump($0)
+      
       completionHandler($0.backgroundFetchResult())
     }
   }

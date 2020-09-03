@@ -23,11 +23,11 @@ extension UserDefaults : Configuration {
   }
 }
 extension Result  {
-  func backgroundFetchResult<ActualSuccess>() -> UIBackgroundFetchResult where Success == Optional<ActualSuccess>  {
-    switch self {
-    case .failure: return .failed
-    case .success(.none): return .noData
-    case .success(.some): return .newData
+  func backgroundFetchResult<Key, Value>() -> UIBackgroundFetchResult where Success == Dictionary<Key,Value>   {
+    switch (self, try? self.get().isEmpty) {
+    case (.failure, _): return .failed
+    case (.success, false): return .newData
+    default: return .noData
     }
     
   }
