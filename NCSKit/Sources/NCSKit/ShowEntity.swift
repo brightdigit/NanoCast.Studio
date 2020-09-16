@@ -123,7 +123,7 @@ public class EpisodeEntity : CoreStoreObject, NamedObject, ImportableUniqueObjec
   public var mediaURL : URL?
   @Field.Stored("title")
   public var title : String = ""
-  @Field.Stored("id")
+  @Field.Stored("summary")
   public var summary : String?
   @Field.Stored("status")
   public var status: EpisodeStatus = .draft
