@@ -10,20 +10,24 @@ import CloudKit
 import NCSKit
 import UserNotifications
 
-extension UserDefaults : Configuration {
-  public var encryptionKey: Data {
-    guard let encryptionKeyString = self.string(forKey: "encryptionKeyString") else {
-      
-      fatalError("No encryptionKeyString set.")
+
+struct BundledConfiguration : Configuration {
+  
+  let bundle : Bundle
+  
+  var encryptionKey: Data {
+    
+    guard let url = bundle.url(forResource: "encriptionkey", withExtension: nil) else {
+      preconditionFailure("Missing encriptionkey file")
     }
     
-    guard let encryptionKey = encryptionKeyString.data(using: .utf8) else {
-      fatalError("Could not get data from encryptionKeyString")
-    }
     
-    return encryptionKey
+    return try! Data(contentsOf: url)
   }
+  
+  
 }
+
 extension Result  {
   func backgroundFetchResult<Key, Value>() -> WKBackgroundFetchResult where Success == Dictionary<Key,Value>   {
     switch (self, try? self.get().isEmpty) {
@@ -74,7 +78,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate, UNUserNotificationCenter
         debugPrint(granted)
         dump(error)
       }
-      self.object = NCSObject(configuration: UserDefaults.standard)
+      self.object = NCSObject(configuration: BundledConfiguration(bundle: .main))
       WKExtension.shared().registerForRemoteNotifications()
       self.object.beginSubscription()
       print("finishing launch")

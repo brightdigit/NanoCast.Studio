@@ -21,6 +21,8 @@
 		B3480E8924ECB42500A51B13 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3480E8824ECB42500A51B13 /* ExtensionDelegate.swift */; };
 		B3480E8B24ECB42500A51B13 /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3480E8A24ECB42500A51B13 /* ComplicationController.swift */; };
 		B3480E9024ECB42700A51B13 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B3480E8F24ECB42700A51B13 /* Preview Assets.xcassets */; };
+		B36205112513A04800B24CB8 /* encryptionkey in Resources */ = {isa = PBXBuildFile; fileRef = B36205102513A04800B24CB8 /* encryptionkey */; };
+		B36205192513A0A000B24CB8 /* encryptionkey in Resources */ = {isa = PBXBuildFile; fileRef = B36205102513A04800B24CB8 /* encryptionkey */; };
 		B365F6F424ECB9490041DDD1 /* RecordingSessionObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = B365F6F324ECB9490041DDD1 /* RecordingSessionObject.swift */; };
 		B365F6F624ECBFD10041DDD1 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B365F6F524ECBFD10041DDD1 /* Media.xcassets */; };
 		B365F6F724ECBFD10041DDD1 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B365F6F524ECBFD10041DDD1 /* Media.xcassets */; };
@@ -109,6 +111,7 @@
 		B3480E8A24ECB42500A51B13 /* ComplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
 		B3480E8F24ECB42700A51B13 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B3480E9124ECB42700A51B13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B36205102513A04800B24CB8 /* encryptionkey */ = {isa = PBXFileReference; lastKnownFileType = text; path = encryptionkey; sourceTree = "<group>"; };
 		B365F6ED24ECB6490041DDD1 /* NanoCastStudio.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NanoCastStudio.entitlements; sourceTree = "<group>"; };
 		B365F6EE24ECB6770041DDD1 /* NanoCastStudio WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "NanoCastStudio WatchKit Extension.entitlements"; sourceTree = "<group>"; };
 		B365F6F324ECB9490041DDD1 /* RecordingSessionObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordingSessionObject.swift; sourceTree = "<group>"; };
@@ -155,6 +158,7 @@
 		B3480E5324ECB42000A51B13 = {
 			isa = PBXGroup;
 			children = (
+				B36205102513A04800B24CB8 /* encryptionkey */,
 				B365F6F524ECBFD10041DDD1 /* Media.xcassets */,
 				B374229B24EF268E00D02258 /* NCSKit */,
 				B3480E5E24ECB42000A51B13 /* NanoCastStudio */,
@@ -357,6 +361,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B36205112513A04800B24CB8 /* encryptionkey in Resources */,
 				B3480E6C24ECB42300A51B13 /* LaunchScreen.storyboard in Resources */,
 				B3480E6924ECB42300A51B13 /* Preview Assets.xcassets in Resources */,
 				B365F6F624ECBFD10041DDD1 /* Media.xcassets in Resources */,
@@ -378,6 +383,7 @@
 			files = (
 				B3480E9024ECB42700A51B13 /* Preview Assets.xcassets in Resources */,
 				B365F6F824ECBFD10041DDD1 /* Media.xcassets in Resources */,
+				B36205192513A0A000B24CB8 /* encryptionkey in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

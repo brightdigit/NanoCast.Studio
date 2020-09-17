@@ -9,19 +9,36 @@ import UIKit
 import NCSKit
 import CloudKit
 
-extension UserDefaults : Configuration {
-  public var encryptionKey: Data {
-    guard let encryptionKeyString = self.string(forKey: "encryptionKeyString") else {
-      fatalError("No encryptionKeyString set.")
+struct BundledConfiguration : Configuration {
+  
+  let bundle : Bundle
+  
+  var encryptionKey: Data {
+    
+    guard let url = bundle.url(forResource: "encryptionkey", withExtension: nil) else {
+      preconditionFailure("Missing encriptionkey file")
     }
     
-    guard let encryptionKey = encryptionKeyString.data(using: .utf8) else {
-      fatalError("Could not get data from encryptionKeyString")
-    }
     
-    return encryptionKey
+    return try! Data(contentsOf: url)
   }
+  
+  
 }
+
+//extension UserDefaults : Configuration {
+//  public var encryptionKey: Data {
+//    guard let encryptionKeyString = self.string(forKey: "encryptionKeyString") else {
+//      fatalError("No encryptionKeyString set.")
+//    }
+//
+//    guard let encryptionKey = encryptionKeyString.data(using: .utf8) else {
+//      fatalError("Could not get data from encryptionKeyString")
+//    }
+//
+//    return encryptionKey
+//  }
+//}
 extension Result  {
   func backgroundFetchResult<Key, Value>() -> UIBackgroundFetchResult where Success == Dictionary<Key,Value>   {
     switch (self, try? self.get().isEmpty) {
@@ -77,7 +94,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //    }
     application.registerForRemoteNotifications()
     print("finishing launch")
-    self.object = NCSObject(configuration: UserDefaults.standard)
+    self.object = NCSObject(configuration: BundledConfiguration(bundle: .main))
     self.object.beginSubscription()
     return true
   }
