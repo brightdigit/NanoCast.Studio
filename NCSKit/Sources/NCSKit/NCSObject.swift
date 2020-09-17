@@ -98,6 +98,7 @@ public class Database  {
     
     let monitor = dataStack.monitorList( list)
     
+    monitor.addObserver(Observer())
     //monitor.addObserver(self)
     //let stack = DataStack()
     //stack.addStorage(<#T##storage: StorageInterface##StorageInterface#>, completion: <#T##(Result<StorageInterface, CoreStoreError>) -> Void#>)
