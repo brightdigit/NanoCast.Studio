@@ -92,8 +92,12 @@ public class Database  {
 //    }
     self.storage = SQLiteStore(fileName: "NCS.sqlite")
     self.dataStack = stack
+    try! stack.addStorageAndWait()
     
-    let monitor = dataStack.monitorList(From<ShowEntity>())
+    let list = From<ShowEntity>().orderBy(.init(NSSortDescriptor(key: "title", ascending: true)))
+    
+    let monitor = dataStack.monitorList( list)
+    
     //monitor.addObserver(self)
     //let stack = DataStack()
     //stack.addStorage(<#T##storage: StorageInterface##StorageInterface#>, completion: <#T##(Result<StorageInterface, CoreStoreError>) -> Void#>)
@@ -111,13 +115,6 @@ public class Database  {
 
   }
   
-  public func listMonitorDidChange(_ monitor: ListMonitor<ShowEntity>) {
-    
-  }
-  
-  public func listMonitorDidChange(_ monitor: ListMonitor<EpisodeEntity>) {
-    
-  }
   
 }
 
