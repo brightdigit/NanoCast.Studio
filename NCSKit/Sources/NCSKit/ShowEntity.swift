@@ -66,7 +66,7 @@ public class ShowEntity : CoreStoreObject, NamedObject, ImportableUniqueObject {
   public func update(from source: [String : Any], in transaction: BaseDataTransaction) throws {
     self.id = try source.required(Int.self, key: "id")
     self.title = try source.required(String.self, key: "title")
-    self.imageURL = try source.required(URL.self, key: "imageURL")
+    self.imageURL = try source.get(URL.self, key: "imageURL")
     //        self.exchanges = try! NSSet(array: transaction.importUniqueObjects(Into<Exchange>(), sourceArray: source["exchanges"].array!))
     let episodesProp  = try source.required([EpisodeEntity.ImportSource].self, key: "episodes")
     let episodeArray = try transaction.importUniqueObjects(Into<EpisodeEntity>(), sourceArray: episodesProp)

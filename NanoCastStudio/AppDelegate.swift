@@ -26,19 +26,6 @@ struct BundledConfiguration : Configuration {
   
 }
 
-//extension UserDefaults : Configuration {
-//  public var encryptionKey: Data {
-//    guard let encryptionKeyString = self.string(forKey: "encryptionKeyString") else {
-//      fatalError("No encryptionKeyString set.")
-//    }
-//
-//    guard let encryptionKey = encryptionKeyString.data(using: .utf8) else {
-//      fatalError("Could not get data from encryptionKeyString")
-//    }
-//
-//    return encryptionKey
-//  }
-//}
 extension Result  {
   func backgroundFetchResult<Key, Value>() -> UIBackgroundFetchResult where Success == Dictionary<Key,Value>   {
     switch (self, try? self.get().isEmpty) {
