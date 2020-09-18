@@ -11,6 +11,13 @@ import S3
 import NIO
 import CoreStore
 
+
+extension Optional {
+  func flatValue<ValueType, FailureType>() -> ValueType? where Wrapped == (Result<ValueType, FailureType>)  {
+    self.flatMap{ try? $0.get() }
+  }
+}
+
 extension Result {
   var error : Error? {
     switch self {
@@ -161,6 +168,7 @@ public class NCSObject : ObservableObject {
   
   @Published public var userResult: Result<UserInfo, Error>?
   @Published public var showsResult: Result<[Show], Never>?
+  @Published public var requireLogin: Bool = true
   
   @Published public private(set) var keychainError : Error?
   @Published public private(set) var apiError : Error?
@@ -227,6 +235,8 @@ public class NCSObject : ObservableObject {
     self.localDB.showPublisher.receive(on: DispatchQueue.main).sink {
       self.showsResult = .success($0)
     }.store(in: &self.cancellables)
+    
+    self.$userResult.map{ $0.flatValue() == nil }.assign(to: &self.$requireLogin)
 //    localDB.initialize { (error) in
 //      
 //      DispatchQueue.main.async {
