@@ -42,3 +42,12 @@ extension Show {
   }
 }
 
+
+extension Show {
+  public init (entity: ShowEntity) {
+    self.id = entity.id
+    self.title = entity.title
+    self.imageURL = entity.imageURL
+    self.episodes = entity.episodes.map(Episode.init)
+  }
+}

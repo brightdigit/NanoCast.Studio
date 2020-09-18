@@ -55,22 +55,37 @@ extension UserDefaults {
 }
 
 public class Observer : ListObserver {
+  var items = PassthroughSubject<[ShowEntity], Never>()
+  let monitor : ListMonitor<ShowEntity>
+  
+  init (stack: DataStack) {
+    self.monitor = stack.monitorList(From<ShowEntity>().orderBy(.init(NSSortDescriptor(key: "title", ascending: true))))
+    monitor.addObserver(self)
+  }
+  
   public func listMonitorDidRefetch(_ monitor: ListMonitor<ShowEntity>) {
-    
+    self.items.send(monitor.objectsInAllSections())
   }
   
   
   public typealias ListEntityType = ShowEntity
   
   public func listMonitorDidChange(_ monitor: ListMonitor<ShowEntity>) {
-    
+    self.items.send(monitor.objectsInAllSections())
   }
 }
 
 public class Database  {
   
   let dataStack : DataStack
-  let storage : StorageInterface
+  let storage : SQLiteStore
+  var showObserver : Observer
+  
+  
+  var showPublisher : AnyPublisher<[Show],Never> {
+    self.showObserver.items.map{ $0.map(Show.init) }.eraseToAnyPublisher()
+  }
+  
   
   init () {
     let schema = CoreStoreSchema(modelVersion: "1", entities: [
@@ -91,14 +106,19 @@ public class Database  {
 //      <#code#>
 //    }
     self.storage = SQLiteStore(fileName: "NCS.sqlite")
+    
     self.dataStack = stack
     try! stack.addStorageAndWait()
     
-    let list = From<ShowEntity>().orderBy(.init(NSSortDescriptor(key: "title", ascending: true)))
     
-    let monitor = dataStack.monitorList( list)
+    //let monitor = dataStack.monitorList( list)
     
-    monitor.addObserver(Observer())
+
+    let observer = Observer(stack: stack)
+    
+    self.showObserver = observer
+    
+    
     //monitor.addObserver(self)
     //let stack = DataStack()
     //stack.addStorage(<#T##storage: StorageInterface##StorageInterface#>, completion: <#T##(Result<StorageInterface, CoreStoreError>) -> Void#>)
@@ -117,6 +137,12 @@ public class Database  {
   }
   
   
+  
+//  func initialize (_ completion: @escaping (Error?) -> Void) {
+//    self.dataStack.addStorage(storage) {
+//      completion($0.error)
+//    }
+//  }
 }
 
 
@@ -134,7 +160,7 @@ public class NCSObject : ObservableObject {
   @Published public var loginApiKey = ProcessInfo.processInfo.environment["TRANSISTORFM_API_KEY"] ?? ""
   
   @Published public var userResult: Result<UserInfo, Error>?
-  //@Published public var showsResult: Result<[Show], Error>?
+  @Published public var showsResult: Result<[Show], Never>?
   
   @Published public private(set) var keychainError : Error?
   @Published public private(set) var apiError : Error?
@@ -146,7 +172,6 @@ public class NCSObject : ObservableObject {
   public init (configuration: Configuration) {
     self.keychainService  = AccountService(encryptionKey:  configuration.encryptionKey)
     let userResultApiKeyPublisher = self.$userResult.compactMap{ $0 }.compactMap{ try? $0.get().apiKey }
-    
     
     
     let transistorEpisodesPublisher =  userResultApiKeyPublisher.flatMap { (apiKey) in
@@ -197,6 +222,18 @@ public class NCSObject : ObservableObject {
     if let apiKey = ProcessInfo.processInfo.environment["TRANSISTORFM_API_KEY"] {
       self.loginApiKey = apiKey
     }
+    
+    
+    self.localDB.showPublisher.receive(on: DispatchQueue.main).sink {
+      self.showsResult = .success($0)
+    }.store(in: &self.cancellables)
+//    localDB.initialize { (error) in
+//      
+//      DispatchQueue.main.async {
+//        self.dataError = error
+//      }
+//      
+//    }
   }
   
   public func signIn (withApiKey apiKey: String? = nil) {
