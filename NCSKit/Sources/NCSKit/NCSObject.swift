@@ -62,11 +62,14 @@ extension UserDefaults {
 }
 
 public class Observer : ListObserver {
+  
+    let fetch = From<ShowEntity>().orderBy(.init(NSSortDescriptor(key: "title", ascending: true)))
   var items = PassthroughSubject<[ShowEntity], Never>()
   let monitor : ListMonitor<ShowEntity>
   
   init (stack: DataStack) {
-    self.monitor = stack.monitorList(From<ShowEntity>().orderBy(.init(NSSortDescriptor(key: "title", ascending: true))))
+    
+    self.monitor = stack.monitorList(fetch)
     monitor.addObserver(self)
   }
   
@@ -79,6 +82,10 @@ public class Observer : ListObserver {
   
   public func listMonitorDidChange(_ monitor: ListMonitor<ShowEntity>) {
     self.items.send(monitor.objectsInAllSections())
+  }
+  
+  public func refresh () {
+    self.monitor.refetch(self.fetch.fetchClauses)
   }
 }
 
@@ -139,6 +146,9 @@ public class Database  {
       try transaction.importUniqueObjects(Into<ShowEntity>(), sourceArray: showsImport)
     } completion: { (result) in
       completion(result.error)
+      if (try? result.get())?.isEmpty != true{
+        self.showObserver.refresh()
+      }
     }
 
   }
@@ -184,12 +194,13 @@ public class NCSObject : ObservableObject {
     
     let transistorEpisodesPublisher =  userResultApiKeyPublisher.flatMap { (apiKey) in
       Future{ (resolver) in
-        self.transistorService.fetchAllEpisodes(withAPIKey: apiKey, using: .shared, with: self.decoder, on: self.queue) {
-          resolver(.success($0))
+        self.transistorService.fetchAllEpisodes(withAPIKey: apiKey, using: .shared, with: self.decoder, on: self.queue) { (result) in
+          resolver(.success(result))
         }
       }
     }
     
+
     transistorEpisodesPublisher.compactMap{ $0.error }.receive(on: DispatchQueue.main).sink {
       self.apiError = $0
     }.store(in: &self.cancellables)
@@ -227,23 +238,25 @@ public class NCSObject : ObservableObject {
       }
     }
     
-    if let apiKey = ProcessInfo.processInfo.environment["TRANSISTORFM_API_KEY"] {
-      self.loginApiKey = apiKey
-    }
-    
     
     self.localDB.showPublisher.receive(on: DispatchQueue.main).sink {
       self.showsResult = .success($0)
     }.store(in: &self.cancellables)
     
     self.$userResult.map{ $0.flatValue() == nil }.assign(to: &self.$requireLogin)
-//    localDB.initialize { (error) in
-//      
-//      DispatchQueue.main.async {
-//        self.dataError = error
-//      }
-//      
-//    }
+    
+    
+    
+    
+    if let apiKey = ProcessInfo.processInfo.environment["TRANSISTORFM_API_KEY"] {
+      self.loginApiKey = apiKey
+    } else {
+      self.keychainService.fetchKey { (result) in
+        if let account = try? result.get().compactMapValues{try? TransistorProperties(fromDictionary: $0.propertyData)}.first?.value {
+          self.signIn(withApiKey: account.apiKey)
+        }
+      }
+    }
   }
   
   public func signIn (withApiKey apiKey: String? = nil) {

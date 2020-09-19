@@ -40,12 +40,11 @@ public struct TransistorService {
         dictionary.setKey(key, withValue: value)
       }
       let postString = dictionary.map{ [$0.key, $0.value].joined(separator: "=")}.joined(separator: "&")
-      print(postString)
       urlRequest.httpBody = postString.data(using: .utf8)
     }
     
     session.dataTask(with: urlRequest) { (data, _, error) in
-      print(String(data: data!, encoding: .utf8))
+      //print(String(data: data!, encoding: .utf8))
       let result = Result(failure: error, success: data, else: EmptyError.init).flatMap { (data) in
         Result {
           try decoder.decode(QueryResponse<AttributesType>.self, from: data)

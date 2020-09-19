@@ -138,7 +138,7 @@ public struct AccountService {
     self.database = container.privateCloudDatabase
   }
   
-  public func refresh(_ callback: @escaping ((Result<AccountCollection, Error>) -> Void)) {
+  func refresh(_ callback: @escaping ((Result<AccountCollection, Error>) -> Void)) {
     let query = CKQuery(recordType: "Account", predicate: .init(value: true))
     self.database.perform(query, inZoneWith: nil) { (records, error) in
       let result = Result(failure: error, success: records, else: EmptyError.init)
@@ -192,20 +192,27 @@ public struct AccountService {
   }
   
   func fetchKey(_ callback: @escaping ((Result<AccountCollection, Error>) -> Void)) {
-    if let key = defaults.object(forKey: "Accounts") as? AccountCollection {
+    let decoder = JSONDecoder()
+    if let key = defaults.data(forKey: "Accounts").flatMap{ try? decoder.decode(AccountCollection.self, from: $0) } {
+      if !key.isEmpty {
       callback(.success(key))
+        return
+      }
     }
     refresh(callback)
   }
   
   func save<PropertiesType>(_ account: Account<PropertiesType>, _ callback: @escaping ((Error?) -> Void) ) {
     let encoder = JSONEncoder()
+    let decoder = JSONDecoder()
     let anyAccount = AnyAccount(account: account)
     let id = UUID()
-    var accounts = defaults.value(forKey: "Accounts") as? AccountCollection ?? AccountCollection()
+    var accounts = defaults.data(forKey: "Accounts").flatMap{ try? decoder.decode(AccountCollection.self, from: $0) } ?? AccountCollection()
+    //var accounts = defaults.value(forKey: "Accounts") as? AccountCollection ?? AccountCollection()
     accounts[id] = anyAccount
-    
-    //defaults.setValue(value, forKey: "TRANSISTORFM_API_KEY")
+    if let data = try? encoder.encode(accounts) {
+      defaults.set(data, forKey: "Accounts")
+    }
     let actualData : Data
     do {
       actualData = try encoder.encode(anyAccount).base64EncodedData()
