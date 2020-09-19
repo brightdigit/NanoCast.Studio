@@ -25,6 +25,8 @@ struct ShowListView: View {
         }
         
         Text(show.title)
+      }.onAppear{
+        debugPrint(show.imageURL)
       }
     }
   }

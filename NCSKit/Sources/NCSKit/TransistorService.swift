@@ -50,7 +50,7 @@ public struct TransistorService {
           try decoder.decode(QueryResponse<AttributesType>.self, from: data)
         }
       }
-      debugPrint("completed", urlRequest.url, (try? result.get()) != nil)
+      //debugPrint("completed", urlRequest.url, (try? result.get()) != nil)
       callback(result)
     }.resume()
   }
